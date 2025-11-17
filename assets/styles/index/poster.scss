@@ -1,0 +1,184 @@
+@import "./def";
+
+#poster-container {
+  height: 100%;
+  padding-top: $menu-height;
+}
+
+#poster-list {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  gap: 1.5rem;
+
+
+  > .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.625rem;
+    border-radius: 0.875rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0.375rem 1.125rem #0000004d;
+
+      .card {
+        transform: scale(1.03);
+        box-shadow: 0 1.5rem 3.75rem rgba(15, 23, 42, 0.24);
+      }
+    }
+  }
+
+  .card {
+    position: relative;
+    --badge-bg: #022c22;
+    --badge-border: #16a34a;
+    background: #ffffff;
+    border-radius: 0.875rem;
+    overflow: hidden;
+    box-shadow: 0 1.125rem 2.5rem rgba(15, 23, 42, 0.16);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+    &_description {
+      position: absolute;
+      top: 80%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0.75rem;
+      background: #ffffffa0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition-property: top, opacity;
+      transition-duration: 200ms;
+      transition-timing-function: ease;
+    }
+
+    &_poster {
+      position: relative;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    &_like-label {
+      position: absolute;
+      top: 0.625rem;
+      right: 0.625rem;
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 0.375rem 1.125rem rgba(15, 23, 42, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+
+      > .like-checkbox {
+        display: none;
+
+        &:checked + .like-icon {
+          color: #f87171;
+        }
+      }
+
+      > .like-icon {
+        font-size: 1.5rem;
+        color: #aeaeae;
+      }
+
+    }
+    &_bottom {
+      position: relative;
+      padding: 1.125rem 1rem 0.875rem;
+      background: #ffffff;
+    }
+
+    &_bottom:hover ~ .card_description {
+      top: 0;
+      opacity: 1;
+    }
+
+    &_score {
+      position: absolute;
+      left: 1rem;
+      top: -1.25rem;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 0.1875rem solid var(--badge-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0.375rem 1.125rem rgba(15, 23, 42, 0.35);
+      color: #e5f9ef;
+      font-weight: 700;
+      font-size: 0.8125rem;
+
+      &-num {
+        margin-right: 0.0625rem;
+      }
+
+      &-unit {
+        font-size: 0.6875rem;
+        opacity: 0.9;
+      }
+    }
+
+    &_meta {
+      margin-left: 3.5rem;
+    }
+
+    &_title {
+      margin: 0 0 0.25rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #111827;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &_subtitle {
+      margin: 0;
+      font-size: 0.8125rem;
+      color: #6b7280;
+    }
+  }
+
+  .card--movie {
+    // 위에 설정한 기본 값
+  }
+
+  .card--book {
+    --badge-bg: #1d3557;
+    --badge-border: #457b9d;
+  }
+
+  .card--music {
+    --badge-bg: #111827;
+    --badge-border: #6366f1;
+  }
+
+}
