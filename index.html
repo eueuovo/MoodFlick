@@ -1,14 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoodFlick: 기분에 따라 흐르는 문화 여행</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/styles/index.css">
+    <link rel="stylesheet" href="assets/styles/common.css">
     <script defer src="assets/scripts/index.js"></script>
 </head>
 <body>
+<div id="menu-container">
+    메뉴자리
+</div>
+<div id="main-container">
+    <div id="filter-container">
+        <!-- 정렬 -->
+        <div class="filter-section">
+            <h3 class="filter-title">정렬</h3>
+            <select id="sort-select">
+                <option value="screening-desc">출시일 ↓ (최신)</option>
+                <option value="screening-asc">출시일 ↑ (오래된)</option>
+                <option value="review">리뷰 많은 순</option>
+                <option value="release">개봉일 순</option>
+                <option value="popular">인기순</option>
+            </select>
+        </div>
+        <!-- 볼 수 있는 곳(필터) -->
+        <div class="filter-section">
+            <h3 class="filter-title">필터</h3>
+            <!-- 시청 유무 -->
+            <div class="filter-block">
+                <p class="label">보기옵션</p>
+                <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+            </div>
+            <!-- 개봉일 선택 -->
+            <div class="filter-block">
+                <p class="label">출시일</p>
+                <label><input type="checkbox" id="use-date-range"> 날짜 범위 사용</label>
+                <div class="date-range">
+                    <label>부터 <input type="date" id="date-from"></label>
+                    <label>까지 <input type="date" id="date-to"></label>
+                </div>
+            </div>
+            <div class="filter-block">
+                <p class="label">장르</p>
+                <ul class="genre">
+                    <li>SF</li>
+                    <li>가족</li>
+                    <li>공포</li>
+                    <li>로맨스</li>
+                    <li>모헙</li>
+                    <li>미스터리</li>
+                    <li>범죄</li>
+                    <li>스릴러</li>
+                    <li>액션</li>
+                    <li>역사</li>
+                    <li>음악</li>
+                    <li>전쟁</li>
+                    <li>코미디</li>
+                    <li>판타지</li>
+                </ul>
+            </div>
+        </div>
+        <div class="filter-block">
+            <p class="label event">행사, 전시</p>
+            <!-- 행사 유형 -->
+            <div class="sub-label">유형 </div>
+            <ul class="event-type">
+                <li>전시</li>
+                <li>사진전</li>
+                <li>팝업스토어</li>
+                <li>공연</li>
+                <li>페스티벌</li>
+                <li>체험형</li>
+            </ul>
+            <div class="sub-label">진행 상태</div>
+            <label><input type="checkbox" name="event-status" value="ongoing"> 진행 중</label>
+            <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
+            <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
+            <!-- 검색 버튼 -->
+            <button class="filter-search-btn">검색</button>
+        </div>
+    </div>
 
+    <div id="poster-container" class="-stretch">
+        메인 자리
+        <div class="category-container">
+            <div class="movie"></div>
+            <div class="book"></div>
+            <div class="music"></div>
+        </div>
+        <ul class="list">
+            <li class="item"></li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
