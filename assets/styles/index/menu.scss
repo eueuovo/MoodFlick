@@ -1,0 +1,26 @@
+@import "./def";
+@import "../def";
+
+#menu-container {
+  @include flex (row, center, flex-start);
+  position: fixed;
+  width: 100%;
+  height: $menu-height;
+  background-color: #000000e0;
+  color: #ffffff;
+  z-index: 1;
+}
+
+#menu-container > .category {
+  @include flex (row, stretch, center, 2rem);
+  padding-left: 5rem;
+  font-size: 1.5rem;
+}
+
+#menu-container > .button {
+  margin-right: 5rem;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 0.8rem;
+}

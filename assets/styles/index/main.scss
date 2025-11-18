@@ -1,0 +1,9 @@
+@Import "./def";
+
+#main-container {
+  @include flex (row, center, flex-start);
+  width: 100%;
+  height: 100%;
+  padding: 0 7rem;
+  background-color: #ffffff;
+}
