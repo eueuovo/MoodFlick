@@ -79,12 +79,17 @@
       }
     }
 
+<<<<<<< HEAD
     &_like {
+=======
+    &_like-label {
+>>>>>>> origin/sh
       position: absolute;
       top: 0.625rem;
       right: 0.625rem;
       width: 1.875rem;
       height: 1.875rem;
+<<<<<<< HEAD
       border-radius: 999rem;
       border: none;
       background: rgba(255, 255, 255, 0.96);
@@ -102,6 +107,31 @@
       }
     }
 
+=======
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 0.375rem 1.125rem rgba(15, 23, 42, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+
+      > .like-checkbox {
+        display: none;
+
+        &:checked + .like-icon {
+          color: #f87171;
+        }
+      }
+
+      > .like-icon {
+        font-size: 1.5rem;
+        color: #aeaeae;
+      }
+
+    }
+>>>>>>> origin/sh
     &_bottom {
       position: relative;
       padding: 1.125rem 1rem 0.875rem;

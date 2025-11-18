@@ -1,9 +1,35 @@
+<<<<<<< HEAD
+=======
+// 영화 API 연결
+// ===== TMDB 설정 (v4 Read Access Token만 넣으세요) =====
+>>>>>>> origin/sh
 const TMDB = {
     BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
     LANG: 'ko-KR',
     REGION: 'KR',
 };
 
+<<<<<<< HEAD
+=======
+// 탭 input 모두 가져오기
+const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
+
+// 탭 변경 시 render 함수 호출
+categoryInputs.forEach(input => {
+    input.addEventListener('change', () => {
+        const category = input.value;   // movie | book | music
+
+        if (category === '영화') {
+            loadMovies();
+        } else if (category === '도서') {
+            loadBooks();  // 행님이 알라딘 API 호출하는 함수
+        } else if (category === '음악') {
+            loadTracks(); // 음악 API 호출 함수
+        }
+    });
+});
+
+>>>>>>> origin/sh
 
 // 화면에 영화 불러오기
 function loadMovies() {
@@ -35,6 +61,7 @@ function renderMovies(results) {
     // frag라는 변수에 모든 dom 요소들을 추가 가능
     const frag = document.createDocumentFragment();
 
+<<<<<<< HEAD
     console.log(results);
 
     results.forEach(m => {
@@ -42,6 +69,13 @@ function renderMovies(results) {
             description: m.overview
                 ? m.overview.substring(0,70) + '...'
                 : '영화 설명이 없습니다',
+=======
+    results.forEach(m => {
+        const cardData = {
+            description: m.overview
+                        ? m.overview.substring(0,70) + '...'
+                        : '영화 설명이 없습니다',
+>>>>>>> origin/sh
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
                 : 'assets/images/no-poster.png',
@@ -124,11 +158,20 @@ function createCardElement(data, type) {
     // 포스터 안에 즐겨찾기 ★
     const like = document.createElement('input');
     like.type = 'checkbox';
+<<<<<<< HEAD
     like.classList.add('card_like');
 
     // 포스터 안에 즐겨찾기 ★2
     const likeIcon = document.createElement('span');
     likeIcon.classList.add('card_like-icon');
+=======
+    like.classList.add('like-checkbox');
+
+    // 포스터 안에 즐겨찾기 ★2
+    const likeIcon = document.createElement('span');
+    likeIcon.classList.add('like-icon');
+    likeIcon.innerText = '★';
+>>>>>>> origin/sh
 
     likeLabel.appendChild(like);
     likeLabel.appendChild(likeIcon);
@@ -187,6 +230,10 @@ function createCardElement(data, type) {
     li.appendChild(card);
 
     return li;
+<<<<<<< HEAD
 }
 
 loadMovies();
+=======
+}
+>>>>>>> origin/sh
