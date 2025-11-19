@@ -1,0 +1,21 @@
+* [33mc2ef067[m[33m ([m[1;31morigin/sh[m[33m)[m 화면 켜지자마자 영화 로딩
+* [33mc078da1[m 영화 목록 띄우기
+[31m|[m * [33mf01932c[m[33m ([m[1;31morigin/dh[m[33m)[m login&signup page
+[31m|[m [32m|[m * [33m52b2a0d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mhj[m[33m, [m[1;31morigin/hj[m[33m)[m Fix merge conflicts and update styles/scripts
+[31m|[m [32m|[m *   [33m7350c11[m fix merge conflict in filter scss
+[31m|[m [32m|[m [34m|[m[31m\[m  
+[31m|[m [32m|[m[31m_[m[34m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m [34m|[m   
+* [32m|[m [34m|[m [33m9559269[m sh
+ [32m/[m [34m/[m  
+[32m|[m * [33m14de373[m 작업 정리
+[32m|[m * [33mb2dd642[m filter scss
+[32m|[m *   [33m0f5f61b[m fliter html save
+[32m|[m [36m|[m[1;31m\[m  
+[32m|[m [36m|[m * [33mc572a71[m Untrack moodflick2 folder
+[32m|[m [36m|[m * [33m89c1859[m 내 브랜치에서 작업 시작
+[32m|[m [36m|[m[32m/[m  
+[32m|[m[32m/[m[36m|[m   
+[32m|[m * [33mcfb0fb4[m 초기커밋
+[32m|[m[32m/[m  
+* [33mc79a167[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m 251114

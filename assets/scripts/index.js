@@ -130,10 +130,10 @@ function createCardElement(data, type) {
     // HEAD 스타일 유지
     const like = document.createElement('input');
     like.type = 'checkbox';
-    like.classList.add('card_like');
+    like.classList.add('like-checkbox');
 
     const likeIcon = document.createElement('span');
-    likeIcon.classList.add('card_like-icon');
+    likeIcon.classList.add('like-icon');
     likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
 
     likeLabel.appendChild(like);
@@ -188,5 +188,5 @@ function createCardElement(data, type) {
     return li;
 }
 
-// 기본 로딩
 loadMovies();
+
