@@ -1,3 +1,250 @@
+#login-container {
+  height: 100%; }
+  #login-container > .login-page {
+    height: 100%;
+    display: none;
+    grid-template-rows: repeat(3, 1fr);
+    position: relative; }
+    #login-container > .login-page.visible {
+      display: grid; }
+    #login-container > .login-page > .dsc {
+      background-color: #212121; }
+      #login-container > .login-page > .dsc > .image-wrapper {
+        grid-row: 1/2; }
+        #login-container > .login-page > .dsc > .image-wrapper > .book1 {
+          top: 11%;
+          left: 1.5%;
+          height: 10rem;
+          width: 10rem;
+          position: absolute; }
+        #login-container > .login-page > .dsc > .image-wrapper > .book2 {
+          top: 14%;
+          left: 89.5%;
+          height: 10rem;
+          width: 10rem;
+          position: absolute; }
+        #login-container > .login-page > .dsc > .image-wrapper > .movie1 {
+          top: 13%;
+          left: 23%;
+          height: 11rem;
+          width: 9rem;
+          position: absolute; }
+        #login-container > .login-page > .dsc > .image-wrapper > .movie2 {
+          top: -1%;
+          left: 74.6%;
+          height: 13rem;
+          width: 15rem;
+          position: absolute; }
+        #login-container > .login-page > .dsc > .image-wrapper > .culture1 {
+          top: -2%;
+          left: 10.5%;
+          height: 13rem;
+          width: 15rem;
+          position: absolute; }
+        #login-container > .login-page > .dsc > .image-wrapper > .culture2 {
+          top: 13%;
+          left: 66%;
+          height: 13rem;
+          width: 13rem;
+          position: absolute; }
+      #login-container > .login-page > .dsc > .content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; }
+        #login-container > .login-page > .dsc > .content > .main-text {
+          font-size: 3rem;
+          font-weight: 700; }
+        #login-container > .login-page > .dsc > .content > .ect-text {
+          font-size: 1.5rem;
+          font-weight: 500; }
+    #login-container > .login-page > .login-warrap {
+      grid-row: 2/4;
+      background-color: #25272C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative; }
+      #login-container > .login-page > .login-warrap > .caption {
+        top: 8.5%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 500;
+        padding-bottom: 2rem;
+        position: absolute; }
+      #login-container > .login-page > .login-warrap > .login-form {
+        background-color: rgba(128, 128, 128, 0.3);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 2rem 6rem;
+        border-radius: 0.3rem; }
+        #login-container > .login-page > .login-warrap > .login-form > .input-wrapper {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem; }
+          #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 1rem; }
+            #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label > .login-title {
+              font-size: 1.3rem;
+              padding-bottom: 0.7rem;
+              font-weight: 500; }
+            #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label > .input {
+              border: 0.0625rem solid #ffffff;
+              border-radius: 0.1rem;
+              padding: 0.7rem 1rem;
+              width: 15rem;
+              transition: border 0.1s ease; }
+              #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label > .input::placeholder {
+                font-size: 1rem; }
+              #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label > .input:focus {
+                border: 0.0625rem solid #FF5C5C;
+                outline: none; }
+          #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .login-button {
+            display: flex;
+            align-self: center;
+            justify-content: center;
+            margin: 0.3rem 0 2rem 0;
+            background-color: #FF5C5C;
+            padding: 0.5rem 1rem;
+            width: 17.2rem;
+            height: 2.5rem;
+            border-radius: 0.2rem;
+            cursor: pointer;
+            align-items: center;
+            font-weight: 500; }
+            #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .login-button:hover {
+              background-color: #E64E4E; }
+        #login-container > .login-page > .login-warrap > .login-form > .signup-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          gap: 0.5rem;
+          z-index: 999; }
+          #login-container > .login-page > .login-warrap > .login-form > .signup-wrapper > .caption {
+            color: #a0a0a0; }
+          #login-container > .login-page > .login-warrap > .login-form > .signup-wrapper > .signup-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: 0.5rem;
+            cursor: pointer; }
+  #login-container > .signup-page {
+    display: none;
+    height: 100%;
+    background-color: #212121;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; }
+    #login-container > .signup-page.visible {
+      display: flex; }
+    #login-container > .signup-page > .signup-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: rgba(128, 128, 128, 0.3);
+      border-radius: 0.3rem;
+      width: 40rem;
+      height: 32rem; }
+      #login-container > .signup-page > .signup-form > .input-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        flex-direction: column; }
+        #login-container > .signup-page > .signup-form > .input-wrapper > .caption {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          font-weight: 500;
+          padding-bottom: 4rem; }
+        #login-container > .signup-page > .signup-form > .input-wrapper > .label {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: column;
+          padding-bottom: 1.5rem; }
+          #login-container > .signup-page > .signup-form > .input-wrapper > .label > .input {
+            border: 0.0625rem solid #ffffff;
+            border-radius: 0.1rem;
+            padding: 0.7rem 1rem;
+            width: 15rem;
+            transition: border 0.1s ease; }
+            #login-container > .signup-page > .signup-form > .input-wrapper > .label > .input::placeholder {
+              font-size: 1rem; }
+            #login-container > .signup-page > .signup-form > .input-wrapper > .label > .input:focus {
+              border: 0.0625rem solid #FF5C5C;
+              outline: none; }
+        #login-container > .signup-page > .signup-form > .input-wrapper > .signup-submit-button {
+          display: flex;
+          align-self: center;
+          justify-content: center;
+          margin: 0.3rem 0 2rem 0;
+          background-color: #FF5C5C;
+          padding: 0.5rem 1rem;
+          width: 17.2rem;
+          height: 2.5rem;
+          border-radius: 0.2rem;
+          cursor: pointer;
+          align-items: center;
+          font-weight: 500; }
+          #login-container > .signup-page > .signup-form > .input-wrapper > .signup-submit-button:hover {
+            background-color: #E64E4E; }
+        #login-container > .signup-page > .signup-form > .input-wrapper > .close-button {
+          display: flex;
+          align-self: center;
+          justify-content: center;
+          margin: -1rem 0 2rem 0;
+          background-color: #9da1a4;
+          padding: 0.5rem 1rem;
+          width: 17.2rem;
+          height: 2.5rem;
+          border-radius: 0.2rem;
+          cursor: pointer;
+          align-items: center;
+          font-weight: 500; }
+          #login-container > .signup-page > .signup-form > .input-wrapper > .close-button:hover {
+            background-color: #747474; }
 
+@media (max-width: 1400px) {
+  .login-page .dsc .image-wrapper .book1 {
+    transform: scale(0.5); }
+
+  .login-page .dsc .image-wrapper .book2 {
+    transform: scale(0.7); }
+
+  .login-page .dsc .image-wrapper .movie1 {
+    transform: scale(0.5); }
+
+  .login-page .dsc .image-wrapper .movie2 {
+    transform: scale(0.6); }
+
+  .login-page .dsc .image-wrapper .culture1 {
+    transform: scale(0.5); }
+
+  .login-page .dsc .image-wrapper .culture2 {
+    transform: scale(0.6); } }
+@media (max-width: 800px) {
+  .image-wrapper {
+    display: none; } }
+@media (max-width: 800px) {
+  .login-page .dsc .content .main-text {
+    font-size: 2.5rem; } }
 
 /*# sourceMappingURL=login.css.map */
