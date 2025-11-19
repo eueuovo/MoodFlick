@@ -207,3 +207,5 @@ function createCardElement(data, type) {
 
     return li;
 }
+
+loadMovies();
