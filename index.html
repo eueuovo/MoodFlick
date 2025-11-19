@@ -9,6 +9,22 @@
 </head>
 <body>
 <div id="menu-container">
+    <div class="category">
+        <label class="tab">
+            <input checked hidden class="input" name="categoryTab" type="radio" value="영화">
+            <span class="caption">영화</span>
+        </label>
+        <label class="tab">
+            <input hidden class="input" name="categoryTab" type="radio" value="도서">
+            <span class="caption">도서</span>
+        </label>
+        <label class="tab">
+            <input hidden class="input" name="categoryTab" type="radio" value="음악">
+            <span class="caption">음악</span>
+        </label>
+    </div>
+    <div class="-stretch"></div>
+    <button class="button" type="button">MY PAGE</button>
 </div>
 <div id="main-container">
     <div id="filter-container">
@@ -33,10 +49,9 @@
             <!-- 개봉일 선택 -->
             <div class="filter-block">
                 <p class="label">출시일</p>
-                <label><input type="checkbox" id="use-date-range"> 날짜 범위 사용</label>
                 <div class="date-range">
-                    <label>부터 <input type="date" id="date-from"></label>
-                    <label>까지 <input type="date" id="date-to"></label>
+                    <label><input type="date" id="date-from"></label>
+                    <label><input type="date" id="date-to"></label>
                 </div>
             </div>
             <div class="filter-block">

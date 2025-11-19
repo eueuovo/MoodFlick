@@ -53,10 +53,10 @@
 
 @Import "./def";
 #main-container {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
-  gap: 0;
+  gap: 2;
   justify-content: flex-start;
 }
 #main-container > * {
@@ -76,6 +76,7 @@
 
 #filter-container {
   width: 15rem;
+  margin-top: 6rem;
 }
 #filter-container .filter-section {
   padding: 1.5rem;
@@ -90,6 +91,12 @@
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 1rem;
+}
+#filter-container .filter-section select {
+  margin-top: 1.4rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.7rem;
+  font-size: 1.2rem;
 }
 #filter-container .filter-section .filter-block {
   display: flex;
@@ -119,6 +126,9 @@
   display: flex;
   gap: 1.5rem;
   margin-top: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 #filter-container .filter-section .filter-block .date-range label {
   font-size: 1.1rem;
@@ -219,16 +229,10 @@
 #filter-container .filter-block .filter-search-btn:hover {
   background: #3c6bd0;
 }
-#filter-container {
-  /* 반응형 */
-}
 @media (max-width: 48rem) {
-  #filter-container .filter-section,
-  #filter-container .filter-block {
-    padding: 1.2rem;
-  }
-  #filter-container .date-range {
-    flex-direction: column;
+  #filter-container #filter-container .filter-section .filter-block .date-range {
+    flex-direction: column !important;
+    display: flex !important;
     gap: 0.8rem;
   }
 }

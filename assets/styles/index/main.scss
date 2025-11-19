@@ -1,7 +1,8 @@
 @Import "./def";
 
 #main-container {
-  @include flex (row, center, flex-start);
+
+  @include flex(row, flex-start, flex-start,2);
   width: 100%;
   height: 100%;
   padding: 0 7rem;

@@ -3,6 +3,7 @@
 
 #filter-container {
   width: $filter-container-width;
+  margin-top: 6rem;
 
   .filter-section {
     padding: 1.5rem;
@@ -19,6 +20,12 @@
       margin-bottom: 1rem;
     }
 
+    select{
+      margin-top: 1.4rem;
+      padding: 0.7rem 1.0rem;
+      border-radius: 0.7rem;
+      font-size: 1.2rem;
+    }
     .filter-block {
       display: flex;
       flex-direction: column;
@@ -48,6 +55,9 @@
         display: flex;
         gap: 1.5rem;
         margin-top: 0.5rem;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
 
         label {
           font-size: 1.1rem;
@@ -159,17 +169,13 @@
       }
     }
   }
-
-  /* 반응형 */
   @media (max-width: 48rem) {
-    .filter-section,
-    .filter-block {
-      padding: 1.2rem;
-    }
-
-    .date-range {
-      flex-direction: column;
+    #filter-container .filter-section .filter-block .date-range {
+      flex-direction: column !important;
+      display: flex !important;
       gap: 0.8rem;
     }
   }
 }
+
+
