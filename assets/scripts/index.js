@@ -1,29 +1,142 @@
+// 알라딘 API 연결
+const fetchBook = () => {
+    const proxy = "https://cors-anywhere.herokuapp.com/";
+    const url = "https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbehgml10730857001&QueryType=Bestseller&MaxResults=3&start=1&SearchTarget=Book&output=js&Version=20131101";
+
+    fetch(proxy + url)
+        .then(res => res.text()) // JSON 대신 텍스트로 받기
+        .then(txt => console.log("응답", txt))
+        .catch(err => console.error("오류", err));
+}
+
+/*const fetchMusic = (query) => {
+    const apiKey = "4f438fd7a7cfa2dfae9f08f0b51095bb";
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(query)}&api_key=${apiKey}&format=json`;
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            console.log("검색 결과:", data.results.artistmatches.artist);
+        })
+        .catch(err => console.error(err));
+};*/
+
 // 영화 API 연결
-// ===== TMDB 설정 (v4 Read Access Token만 넣으세요) =====
 const TMDB = {
     BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
     LANG: 'ko-KR',
     REGION: 'KR',
 };
 
-// 탭 input 모두 가져오기
+// ===== sh 브랜치: 카테고리 탭 기능 추가 =====
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-
-// 탭 변경 시 render 함수 호출
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
-        const category = input.value;   // movie | book | music
-
+        const category = input.value;
         if (category === '영화') {
             loadMovies();
-        } else if (category === '도서') {
-            loadBooks();  // 행님이 알라딘 API 호출하는 함수
-        } else if (category === '음악') {
-            loadTracks(); // 음악 API 호출 함수
         }
     });
 });
 
+const fetchCultural = () => {
+    const xhr = new XMLHttpRequest();
+    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
+    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
+    url.searchParams.set(numOfRows, '50');
+    url.searchParams.set('pageNo', '1');
+    url.searchParams.set('resultType', 'json');
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState !== XMLHttpRequest.DONE){
+            return;
+        }
+        if(xhr.status < 200 || xhr.status >= 400){
+            console.log('공연정보 불러오기 실패');
+            return;
+        }
+        console.log('성공');
+    };
+    xhr.open('GET', url);
+    xhr.send();
+}
+
+//모달
+const dialogHandler = {
+    $dialog: document.getElementById('dialog'),
+    $modals: [],
+
+    //모달 숨기기
+    hide: ($modal) => {
+        const index = dialogHandler.$modals.indexOf($modal);
+        if (index > -1) dialogHandler.$modals.splice(index, 1);
+        $modal.classList.remove('visible');
+        if (dialogHandler.$modals.length === 0)
+            dialogHandler.$dialog.classList.remove('visible');
+        else dialogHandler.$modals.at(-1).classList.remove('collapsed');
+
+        setTimeout(() => $modal.remove(), 0);
+    },
+
+    //모달 보여주기
+    show: (args) => {
+        for (const $m of dialogHandler.$modals) $m.classList.add('collapsed');
+        const $modal = document.createElement('div');
+        $modal.classList.add('modal');
+
+        const $title = document.createElement('div');
+        $title.classList.add('title');
+        $title.innerText = args.title;
+        $modal.append($title);
+
+        const $content = document.createElement('div');
+        $content.classList.add('content');
+        if (args.isContentHtml) $content.innerHTML = args.content;
+        else $content.innerText = args.content;
+        $modal.append($content);
+
+        if (args.buttons?.length){
+            const $btnContainer = document.createElement('div');
+            $btnContainer.classList.add('button-container');
+            args.buttons.forEach((btn) => {
+                const $b = document.createElement('button');
+                $b.classList.add('button');
+                $b.type = 'button';
+                $b.innerText = btn.caption;
+                if (typeof btn.onclick === 'function')
+                    $b.addEventListener('click', () => btn.onclick($modal));
+                $btnContainer.append($b);
+            });
+            $modal.append($btnContainer);
+        }
+
+        dialogHandler.$dialog.append($modal);
+        dialogHandler.$dialog.classList.add('visible');
+        dialogHandler.$modals.push($modal);
+
+        setTimeout(() => $modal.classList.add('visible'), 50);
+        if (typeof args.onshow === 'function') args.onshow($modal);
+
+        return $modal;
+    },
+
+    //간단한 확인 모달
+    showSimpleOk: (title, content, args = {}) =>
+        dialogHandler.show({
+            title,
+            content,
+            isContentHtml: args.isContentHtml,
+            buttons: [
+                {
+                    caption: args.okCaption ?? '확인',
+                    onclick: ($modal) => {
+                        dialogHandler.hide($modal);
+                        if (typeof args.onclick === 'function')
+                            args.onclick($modal);
+                    },
+                },
+            ],
+        }),
+};
 
 // 화면에 영화 불러오기
 function loadMovies() {
@@ -32,34 +145,34 @@ function loadMovies() {
 
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
+
     xhr.onreadystatechange = function () {
-        if (xhr.readyState !== XMLHttpRequest.DONE) {
-            return
-        }
-        if (xhr.status < 200 || xhr.status >= 400) {           // 정상 응답
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status < 200 || xhr.status >= 400) {
             console.error("TMDB 오류:", xhr.responseText);
             return;
         }
-        const data = JSON.parse(xhr.responseText);
 
-        // 화면에 출력
+        const data = JSON.parse(xhr.responseText);
         renderMovies(data.results);
     };
+
     xhr.send();
 }
 
-// 영화
+// 영화 렌더링
 function renderMovies(results) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
-    // frag라는 변수에 모든 dom 요소들을 추가 가능
+
     const frag = document.createDocumentFragment();
 
     results.forEach(m => {
         const cardData = {
             description: m.overview
-                        ? m.overview.substring(0,70) + '...'
-                        : '영화 설명이 없습니다',
+                ? m.overview.substring(0, 70) + '...'
+                : '영화 설명이 없습니다',
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
                 : 'assets/images/no-poster.png',
@@ -68,14 +181,13 @@ function renderMovies(results) {
             score: Math.round(m.vote_average * 10),
             scoreUnit: '%',
         };
-        // createCard로 만든 dom 요소들을 frag에 추가
         frag.appendChild(createCardElement(cardData, 'movie'));
     });
-    // 그 frag를 list (HTML ul태그)에 추가
+
     list.appendChild(frag);
 }
 
-// 도서 (알라딘 결과 예시)
+// 도서 렌더링
 function renderBooks(items) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
@@ -86,15 +198,16 @@ function renderBooks(items) {
             image: b.cover || 'assets/images/no-poster.png',
             title: b.title,
             subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',  // 평점 없으면 다른 표시로
+            score: b.userRating ?? '★',
             scoreUnit: '',
         };
         frag.appendChild(createCardElement(cardData, 'book'));
     });
+
     list.appendChild(frag);
 }
 
-// 음악 (iTunes 예시)
+// 음악 렌더링
 function renderTracks(items) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
@@ -114,40 +227,32 @@ function renderTracks(items) {
     list.appendChild(frag);
 }
 
-// 영화, 도서, 음악 카드 li 태그로 생성하기
-// type: 'movie' | 'book' | 'music'
+// 카드 요소 만들기
 function createCardElement(data, type) {
-
-    // 아이템 하나
     const li = document.createElement('li');
     li.classList.add('item');
 
-    // 아이템 안에 박스
     const card = document.createElement('article');
     card.classList.add('card', `card--${type}`);
 
-    // 박스 안에 포스터
     const posterWrap = document.createElement('div');
     posterWrap.classList.add('card_poster');
 
-    // 포스터 안에 이미지(포스터랑 크기 같음)
     const img = document.createElement('img');
     img.src = data.image;
     img.alt = data.title || '';
 
-    // 포스터 안에 즐겨찾기 ★ 라벨
     const likeLabel = document.createElement('label');
     likeLabel.classList.add('card_like-label');
 
-    // 포스터 안에 즐겨찾기 ★
+    // HEAD 스타일 유지
     const like = document.createElement('input');
     like.type = 'checkbox';
     like.classList.add('like-checkbox');
 
-    // 포스터 안에 즐겨찾기 ★2
     const likeIcon = document.createElement('span');
     likeIcon.classList.add('like-icon');
-    likeIcon.innerText = '★';
+    likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
 
     likeLabel.appendChild(like);
     likeLabel.appendChild(likeIcon);
@@ -155,19 +260,16 @@ function createCardElement(data, type) {
     posterWrap.appendChild(img);
     posterWrap.appendChild(likeLabel);
 
-    // 하단 흰색 부분
     const bottom = document.createElement('div');
     bottom.classList.add('card_bottom');
 
-    // 점수부분
     const score = document.createElement('div');
     score.classList.add('card_score');
 
-    // 점수 숫자
     const scoreNum = document.createElement('span');
     scoreNum.classList.add('card_score-num');
     scoreNum.textContent = data.score ?? '–';
-    // % 표시
+
     const scoreUnit = document.createElement('span');
     scoreUnit.classList.add('card_score-unit');
     scoreUnit.textContent = data.scoreUnit ?? '%';
@@ -175,21 +277,17 @@ function createCardElement(data, type) {
     score.appendChild(scoreNum);
     score.appendChild(scoreUnit);
 
-    // 글자 박스
     const meta = document.createElement('div');
     meta.classList.add('card_meta');
 
-    // 제목
     const title = document.createElement('p');
     title.classList.add('card_title');
     title.textContent = data.title;
 
-    // 개봉일자
     const subtitle = document.createElement('p');
     subtitle.classList.add('card_subtitle');
     subtitle.textContent = data.subtitle ?? '';
 
-    // HOVER시 간략한 설명 글
     const description = document.createElement('div');
     description.classList.add('card_description');
     description.textContent = data.description ?? '';
@@ -209,3 +307,4 @@ function createCardElement(data, type) {
 }
 
 loadMovies();
+
