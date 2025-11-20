@@ -23,12 +23,15 @@
             <span class="caption">도서</span>
         </label>
         <label class="tab">
-            <input hidden class="input" name="categoryTab" type="radio" value="음악">
-            <span class="caption">음악</span>
+            <input hidden class="input" name="categoryTab" type="radio" value="전시/공연">
+            <span class="caption">전시/공연</span>
         </label>
     </div>
     <div class="-stretch"></div>
-    <button class="button" type="button">MY PAGE</button>
+    <div class="my-nav">
+        <button class="button" type="button">로그아웃</button>
+        <button class="button" type="button">MY PAGE</button>
+    </div>
 </div>
 <div id="main-container">
     <div id="filter-container">
@@ -154,7 +157,7 @@
                 <label class="label">
                     <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50" placeholder="닉네임을 입력해 주세요.">
                 </label>
-                <button type="button" class="signup-submit-button">회원 가입</button>
+                <button type="submit" class="signup-submit-button">회원 가입</button>
                 <button type="button" class="close-button">닫기</button>
             </div>
         </form>
