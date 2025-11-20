@@ -235,6 +235,7 @@ function createCardElement(data, type) {
     const card = document.createElement('article');
     card.classList.add('card', `card--${type}`);
 
+    //포스터
     const posterWrap = document.createElement('div');
     posterWrap.classList.add('card_poster');
 
@@ -242,6 +243,7 @@ function createCardElement(data, type) {
     img.src = data.image;
     img.alt = data.title || '';
 
+    //즐겨찾기
     const likeLabel = document.createElement('label');
     likeLabel.classList.add('card_like-label');
 

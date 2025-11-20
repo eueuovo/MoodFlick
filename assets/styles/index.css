@@ -17,28 +17,38 @@
   #menu-container > .-stretch {
     flex-grow: 1;
     flex-shrink: 1; }
-
-#menu-container > .category {
-  align-items: stretch;
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  justify-content: center;
-  padding-left: 5rem;
-  font-size: 1.5rem; }
-  #menu-container > .category > * {
-    flex-grow: 0;
-    flex-shrink: 0; }
-  #menu-container > .category > .-stretch {
-    flex-grow: 1;
-    flex-shrink: 1; }
-
-#menu-container > .button {
-  margin-right: 5rem;
-  border: none;
-  background-color: #ffffff;
-  cursor: pointer;
-  font-size: 0.8rem; }
+  #menu-container > .category {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    padding-left: 5rem; }
+    #menu-container > .category > * {
+      flex-grow: 0;
+      flex-shrink: 0; }
+    #menu-container > .category > .-stretch {
+      flex-grow: 1;
+      flex-shrink: 1; }
+    #menu-container > .category > .tab {
+      font-size: 1.5rem;
+      font-weight: 500; }
+  #menu-container > .my-nav {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    gap: 0.7rem;
+    justify-content: center;
+    margin-right: 1.5rem; }
+    #menu-container > .my-nav > * {
+      flex-grow: 0;
+      flex-shrink: 0; }
+    #menu-container > .my-nav > .-stretch {
+      flex-grow: 1;
+      flex-shrink: 1; }
+    #menu-container > .my-nav > .button {
+      cursor: pointer;
+      padding: 0.5rem; }
 
 @Import "./def";
 #main-container {
@@ -412,7 +422,7 @@
         justify-content: center;
         flex-direction: column;
         padding: 2rem 6rem;
-        border-radius: 0.3rem; }
+        border-radius: 0.5rem; }
         #login-container > .login-page > .login-warrap > .login-form > .input-wrapper {
           width: 100%;
           display: flex;
@@ -489,7 +499,7 @@
       align-items: center;
       flex-direction: column;
       background-color: rgba(128, 128, 128, 0.3);
-      border-radius: 0.3rem;
+      border-radius: 0.5rem;
       width: 40rem;
       height: 32rem; }
       #login-container > .signup-page > .signup-form > .input-wrapper {
@@ -555,7 +565,36 @@
 
 @media (max-width: 1400px) {
   #login-container .login-page .dsc .image-wrapper .book1 {
+    transform: scale(0.9);
+    top: 8%;
+    left: 2%; }
+
+  #login-container .login-page .dsc .image-wrapper .book2 {
+    transform: scale(0.9);
+    top: 10%;
+    right: 2%; }
+
+  #login-container .login-page .dsc .image-wrapper .movie1 {
+    transform: scale(0.8);
+    top: 16%;
+    left: 13%; }
+
+  #login-container .login-page .dsc .image-wrapper .movie2 {
     transform: scale(0.7);
+    top: -4.5%; }
+
+  #login-container .login-page .dsc .image-wrapper .culture1 {
+    transform: scale(0.8);
+    top: -5%;
+    left: 13%; }
+
+  #login-container .login-page .dsc .image-wrapper .culture2 {
+    transform: scale(0.8);
+    top: 15%;
+    right: 13%; } }
+@media (max-width: 1100px) {
+  #login-container .login-page .dsc .image-wrapper .book1 {
+    transform: scale(0.6);
     top: 8%;
     left: -1%; }
 

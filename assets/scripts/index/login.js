@@ -4,6 +4,7 @@ const $loginForm = $loginContainer.querySelector('.login-form');
 const $loginBtn = $loginContainer.querySelector('.login-button');
 const $signupBtn = $loginContainer.querySelector('.signup-button');
 const $signupPage = $loginContainer.querySelector('.signup-page');
+const $signupForm = $loginContainer.querySelector('.signup-form');
 const $signupSubmitBtn = $loginContainer.querySelector('.signup-submit-button');
 const $closeButton = $loginContainer.querySelector('.close-button');
 
@@ -41,7 +42,9 @@ $loginForm.addEventListener('submit', (e) => {
         dialogHandler.showSimpleOk('알림', ` 로그인 되었습니다.`);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', email);
+        $loginContainer.classList.remove('visible');
         $loginPage.classList.remove('visible');
+        loadMovies();
     } else{
         dialogHandler.showSimpleOk('경고', '이메일 및 비밀번호를 잘못 입력하셨습니다.');
     }
@@ -50,6 +53,11 @@ $loginForm.addEventListener('submit', (e) => {
 //회원가입 버튼 클릭 시 회원가입 모달 띄우기
 $signupBtn.addEventListener('click', (e) => {
     e.preventDefault();
+
+    $signupPage.querySelector('#signup-email').value = "";
+    $signupPage.querySelector('#signup-password').value = "";
+    $signupPage.querySelector('#signup-nickname').value = "";
+
     $loginPage.classList.remove('visible');
     $signupPage.classList.add('visible');
 });
@@ -61,7 +69,7 @@ $closeButton.addEventListener('click', () => {
 });
 
 // 회원가입 모달에서 회원가입 클릭 시
-$signupSubmitBtn.addEventListener('click', (e) => {
+$signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const email = $signupPage.querySelector('#signup-email').value.trim();

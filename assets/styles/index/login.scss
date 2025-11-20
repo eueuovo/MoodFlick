@@ -125,7 +125,7 @@
         justify-content: center;
         flex-direction: column;
         padding: 2rem 6rem;
-        border-radius: 0.3rem;
+        border-radius: 0.5rem;
 
         > .input-wrapper {
           width: 100%;
@@ -232,7 +232,7 @@
       align-items: center;
       flex-direction: column;
       background-color: rgba(128, 128, 128, 0.3);
-      border-radius: 0.3rem;
+      border-radius: 0.5rem;
       width: 40rem;
       height: 32rem;
 
@@ -323,7 +323,39 @@
 
 @media (max-width: 1400px) {
   #login-container .login-page .dsc .image-wrapper .book1 {
+    transform: scale(0.9);
+    top: 8%;
+    left: 2%;
+  }
+  #login-container .login-page .dsc .image-wrapper .book2 {
+    transform: scale(0.9);
+    top: 10%;
+    right: 2%;
+  }
+  #login-container .login-page .dsc .image-wrapper .movie1 {
+    transform: scale(0.8);
+    top: 16%;
+    left: 13%;
+  }
+  #login-container .login-page .dsc .image-wrapper .movie2 {
     transform: scale(0.7);
+    top: -4.5%;
+  }
+  #login-container .login-page .dsc .image-wrapper .culture1 {
+    transform: scale(0.8);
+    top: -5%;
+    left: 13%;
+  }
+  #login-container .login-page .dsc .image-wrapper .culture2 {
+    transform: scale(0.8);
+    top: 15%;
+    right: 13%;
+  }
+}
+
+@media (max-width: 1100px) {
+  #login-container .login-page .dsc .image-wrapper .book1 {
+    transform: scale(0.6);
     top: 8%;
     left: -1%;
   }
