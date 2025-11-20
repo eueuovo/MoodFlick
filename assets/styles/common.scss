@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html{
+  height: 100%;
+}
+
 body {
   min-height: 100%;
   background-color: #f3f4f6;
@@ -13,11 +17,6 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
   margin: 0;
-  user-select: none;
-}
-
-html {
-  height: 100%;
 }
 
 img {
@@ -28,6 +27,99 @@ ol, ul {
   list-style: none;
   margin-block: 0;
   margin-inline: 0;
+  padding-inline: 0;
+  font-size: 1rem;
+}
+
+button, input, select, textarea{
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  margin-block: 0;
+  margin-inside: 0;
+  outline: none;
+  padding: 0;
   padding-block: 0;
   padding-inline: 0;
+}
+
+a{
+  all: unset;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+#dialog {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #21212190;
+  backdrop-filter: blur(0.3rem);
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  > .modal {
+    position: relative;
+    min-width: 20rem;
+    background-color: #ffffff;
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+
+    &.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    > .title {
+      background-color: #268fff;
+      color: #ffffff;
+      padding: 0.75rem;
+      font-weight: 600;
+    }
+
+    > .content {
+      padding: 1rem;
+      line-height: 1.5;
+      color: #212121;
+    }
+
+    > .button-container {
+      display: flex;
+      border-top: 0.0625rem solid #eaeaea;
+
+      > .button {
+        flex: 1;
+        padding: 0.625rem;
+        text-align: center;
+        cursor: pointer;
+
+        + .button {
+          border-left: 0.0625rem solid #eaeaea;
+        }
+
+        &:hover {
+          color: #3498db;
+        }
+      }
+    }
+  }
 }
