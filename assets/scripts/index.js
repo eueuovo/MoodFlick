@@ -9,17 +9,6 @@ const fetchBook = () => {
         .catch(err => console.error("오류", err));
 }
 
-/*const fetchMusic = (query) => {
-    const apiKey = "4f438fd7a7cfa2dfae9f08f0b51095bb";
-    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(query)}&api_key=${apiKey}&format=json`;
-
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            console.log("검색 결과:", data.results.artistmatches.artist);
-        })
-        .catch(err => console.error(err));
-};*/
 
 // 영화 API 연결
 const TMDB = {
@@ -43,7 +32,7 @@ const fetchCultural = () => {
     const xhr = new XMLHttpRequest();
     const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
     url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set(numOfRows, '50');
+    url.searchParams.set('numOfRows', '50');
     url.searchParams.set('pageNo', '1');
     url.searchParams.set('resultType', 'json');
     xhr.onreadystatechange = () => {
@@ -163,6 +152,7 @@ function loadMovies() {
 
 // 영화 렌더링
 function renderMovies(results) {
+    console.log(results);
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
 
@@ -182,46 +172,6 @@ function renderMovies(results) {
             scoreUnit: '%',
         };
         frag.appendChild(createCardElement(cardData, 'movie'));
-    });
-
-    list.appendChild(frag);
-}
-
-// 도서 렌더링
-function renderBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const cardData = {
-            image: b.cover || 'assets/images/no-poster.png',
-            title: b.title,
-            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-
-    list.appendChild(frag);
-}
-
-// 음악 렌더링
-function renderTracks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(t => {
-        const cardData = {
-            image: t.cover || 'assets/images/no-poster.png',
-            title: t.title,
-            subtitle: `${t.artist} · ${t.album}`,
-            score: t.popularity ?? '♪',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'music'));
     });
 
     list.appendChild(frag);
