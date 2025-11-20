@@ -1,11 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="assets/styles/index.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MoodFlick: 기분에 따라 흐르는 문화 여행</title>
     <link rel="stylesheet" href="assets/styles/common.css">
+    <link rel="stylesheet" href="assets/styles/index.css">
     <script defer src="assets/scripts/index.js"></script>
+    <script defer src="assets/scripts/index/login.js"></script>
 </head>
 <body>
 <div id="menu-container">
@@ -100,5 +104,64 @@
         </ul>
     </div>
 </div>
+
+<div id="login-container">
+    <div class="modal login-page">
+        <div class="dsc">
+            <div class="image-wrapper">
+                <img class="book1" src="assets/images/index/login/book1.png" alt="background">
+                <img class="book2" src="assets/images/index/login/book2.png" alt="background">
+                <img class="movie1" src="assets/images/index/login/movie1.png" alt="background">
+                <img class="movie2" src="assets/images/index/login/movie2.png" alt="background">
+                <img class="culture1" src="assets/images/index/login/culture1.png" alt="background">
+                <img class="culture2" src="assets/images/index/login/culture2.png" alt="background">
+            </div>
+            <div class="content">
+                <div class="main-text">영화, 도서, 공연 정보를 한번에</div>
+                <div class="ect-text">그날 기분에 따른 문화를 추천받아 보세요.</div>
+            </div>
+        </div>
+        <div class="login-warrap">
+            <div class="caption">로그인 하고 MoodFlick을 즐겨보세요.</div>
+            <form class="login-form">
+                <div class="input-wrapper">
+                    <label class="label">
+                        <span class="login-title">로그인</span>
+                        <input autofocus required class="input" id="email" type="email" minlength="5" maxlength="50" placeholder="아이디를 입력해 주세요.">
+                    </label>
+                    <label class="label">
+                        <input required class="input" id="password" type="password" minlength="5" maxlength="50" placeholder="비밀번호를 입력해 주세요.">
+                    </label>
+                    <button class="login-button">로그인</button>
+                </div>
+                <div class="signup-wrapper">
+                    <div class="caption">MoodFleck 회원이 아닌가요?</div>
+                    <button type="button" class="signup-button">지금 가입하세요.</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal signup-page">
+        <form class="signup-form">
+            <div class="input-wrapper">
+                <div class="caption">회원가입 후 MoodFlick을 즐겨보세요.</div>
+                <label class="label">
+                    <input autofocus required class="input" id="signup-email" type="email" minlength="5" maxlength="50" placeholder="아이디를 입력해 주세요.">
+                </label>
+                <label class="label">
+                    <input required class="input" id="signup-password" type="password" minlength="5" maxlength="50" placeholder="비밀번호를 입력해 주세요.">
+                </label>
+                <label class="label">
+                    <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50" placeholder="닉네임을 입력해 주세요.">
+                </label>
+                <button type="button" class="signup-submit-button">회원 가입</button>
+                <button type="button" class="close-button">닫기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="dialog"></div>
+
 </body>
 </html>
