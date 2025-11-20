@@ -1,9 +1,9 @@
 const $loginContainer = document.getElementById("login-container");
-const $loginPage = document.querySelector('.login-page');
-const $loginForm = document.querySelector('.login-form');
+const $loginPage = $loginContainer.querySelector('.login-page');
+const $loginForm = $loginContainer.querySelector('.login-form');
 const $loginBtn = $loginContainer.querySelector('.login-button');
 const $signupBtn = $loginContainer.querySelector('.signup-button');
-const $signupPage = document.querySelector('.signup-page');
+const $signupPage = $loginContainer.querySelector('.signup-page');
 const $signupSubmitBtn = $loginContainer.querySelector('.signup-submit-button');
 const $closeButton = $loginContainer.querySelector('.close-button');
 
@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isLoggedIn){
         //이미 로그인 된 상태
+        $loginContainer.classList.remove('visible');
         $loginPage.classList.remove('visible');
     } else{
+        $loginContainer.classList.add('visible');
         $loginPage.classList.add('visible');
     }
 });
