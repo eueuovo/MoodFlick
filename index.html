@@ -12,6 +12,7 @@
     <script defer src="assets/scripts/index/login.js"></script>
 </head>
 <body>
+<!-- 메뉴 -->
 <div id="menu-container">
     <div class="category">
         <label class="tab">
@@ -33,6 +34,7 @@
         <button class="button" type="button">MY PAGE</button>
     </div>
 </div>
+<!-- 메인 -->
 <div id="main-container">
     <div id="filter-container">
         <!-- 정렬 -->
@@ -105,9 +107,19 @@
         <ul id="poster-list" class="list">
             <li>포스터 들어갈 예정</li>
         </ul>
+        <div id="page-container">
+            <button class="page-btn first" disabled>&laquo;</button>
+            <button class="page-btn prev" disabled>&lt;</button>
+
+            <div class="page-numbers"></div>
+
+            <button class="page-btn next">&gt;</button>
+            <button class="page-btn last">&raquo;</button>
+
+        </div>
     </div>
 </div>
-
+<!-- 로그인 페이지 -->
 <div id="login-container">
     <div class="modal login-page">
         <div class="dsc">

@@ -1,55 +1,4 @@
-// 알라딘 API 연결
-const fetchBook = () => {
-    const proxy = "https://cors-anywhere.herokuapp.com/";
-    const url = "https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbehgml10730857001&QueryType=Bestseller&MaxResults=3&start=1&SearchTarget=Book&output=js&Version=20131101";
-
-    fetch(proxy + url)
-        .then(res => res.text()) // JSON 대신 텍스트로 받기
-        .then(txt => console.log("응답", txt))
-        .catch(err => console.error("오류", err));
-}
-
-
-// 영화 API 연결
-const TMDB = {
-    BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
-    LANG: 'ko-KR',
-    REGION: 'KR',
-};
-
-// ===== sh 브랜치: 카테고리 탭 기능 추가 =====
-const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-categoryInputs.forEach(input => {
-    input.addEventListener('change', () => {
-        const category = input.value;
-        if (category === '영화') {
-            loadMovies();
-        }
-    });
-});
-
-const fetchCultural = () => {
-    const xhr = new XMLHttpRequest();
-    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
-    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set('numOfRows', '50');
-    url.searchParams.set('pageNo', '1');
-    url.searchParams.set('resultType', 'json');
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
-            return;
-        }
-        if(xhr.status < 200 || xhr.status >= 400){
-            console.log('공연정보 불러오기 실패');
-            return;
-        }
-        console.log('성공');
-    };
-    xhr.open('GET', url);
-    xhr.send();
-}
-
-//모달
+// 로그인 모달
 const dialogHandler = {
     $dialog: document.getElementById('dialog'),
     $modals: [],
@@ -127,10 +76,31 @@ const dialogHandler = {
         }),
 };
 
+
+// ===== sh 브랜치: 카테고리 탭 기능 추가 =====
+const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
+categoryInputs.forEach(input => {
+    input.addEventListener('change', () => {
+        const category = input.value;
+        if (category === '영화') {
+            loadMovies();
+        }
+    });
+});
+
+// 영화 API 연결
+const TMDB = {
+    BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
+    LANG: 'ko-KR',
+    REGION: 'KR',
+    PAGE: 1
+};
+
+
 // 화면에 영화 불러오기
 function loadMovies() {
     const xhr = new XMLHttpRequest();
-    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc`;
+    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc&page=${TMDB.PAGE}`;
 
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
@@ -144,7 +114,9 @@ function loadMovies() {
         }
 
         const data = JSON.parse(xhr.responseText);
+        totalPages = data.total_pages;
         renderMovies(data.results);
+        renderPage();
     };
 
     xhr.send();
@@ -152,7 +124,6 @@ function loadMovies() {
 
 // 영화 렌더링
 function renderMovies(results) {
-    console.log(results);
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
 
@@ -258,5 +229,75 @@ function createCardElement(data, type) {
     return li;
 }
 
+
+let currentPage = 1;
+let totalPages = 1;
+const numbersBox = document.querySelector(':scope #page-container > .page-numbers');
+const firstBtn = document.querySelector(':scope #page-container > .first');
+const prevBtn = document.querySelector(':scope #page-container > .prev');
+const nextBtn = document.querySelector(':scope #page-container > .next');
+const lastBtn = document.querySelector(':scope #page-container > .last');
+// 번호 생성해서 화면에 보여주기
+function renderPage() {
+    numbersBox.innerHTML = '';
+
+    const maxVisible = 5; // 현재 페이지 기준 5개
+    let start = currentPage - Math.floor(maxVisible / 2);
+    let end = currentPage + Math.floor(maxVisible / 2);
+
+    if (start < 1) { // start 최소값 보정
+        end += (1 - start);
+        start = 1;
+    }
+    if (end > totalPages) { // end 최대값 보정
+        start -= (end - totalPages);
+        end = totalPages;
+    }
+    if (start < 1) start = 1; // 페이지가 5개 미만일 경우 대비
+
+    for (let i = start; i <= end; i++) { // start부터 end까지 for문 돌려서 button생성
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.add('page-number');
+        if(i === currentPage) { // 현재 페이지는 active 표시하기
+            btn.classList.add('active');
+        }
+        btn.addEventListener('click', () => {
+            currentPage = i;
+            loadMovies(TMDB.PAGE = currentPage);
+        });
+        numbersBox.appendChild(btn);
+    }
+
+    firstBtn.disabled = currentPage === 1;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+    lastBtn.disabled = currentPage === totalPages;
+}
+
+firstBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage = 1;
+        loadMovies(TMDB.PAGE = currentPage);
+    }
+});
+prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        loadMovies(TMDB.PAGE = currentPage);
+    }
+});
+nextBtn.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        loadMovies(TMDB.PAGE = currentPage);
+    }
+});
+lastBtn.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        currentPage = totalPages;
+    }
+    loadMovies(TMDB.PAGE = currentPage);
+})
 loadMovies();
 
