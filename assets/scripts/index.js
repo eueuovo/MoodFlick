@@ -62,13 +62,14 @@ categoryInputs.forEach(input => {
 const fetchCultural = () => {
     const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
     url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set('numOfRows', '50');
-    url.searchParams.set('pageNo', '5');
+    url.searchParams.set('numOfRows', '10');
+    url.searchParams.set('pageNo', '');
     /*url.searchParams.set('resultType', 'xml');*/
 
     return fetch(url)               // ★ return 추가
         .then(response => response.text())
         .then(xmlString => {
+            console.log(xmlString)
             const parser = new DOMParser();
             const xml = parser.parseFromString(xmlString, "application/xml");
             return xml;             // 다음 .then으로 xml 넘김
