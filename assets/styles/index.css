@@ -262,7 +262,7 @@
   margin: 0;
   padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
   gap: 1.5rem;
 }
 #poster-list > .item {
@@ -479,7 +479,8 @@
   font-size: 1.1rem;
   color: #6b7280;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition-property: color;
+  transition-duration: 0.2s;
 }
 #poster-container > #page-container .page-numbers .page-number:hover {
   color: #374151;
@@ -487,10 +488,6 @@
 #poster-container > #page-container .page-numbers .page-number.active {
   color: #111827;
   font-weight: 700;
-}
-#poster-container > #page-container .page-numbers .dots {
-  color: #9ca3af;
-  pointer-events: none;
 }
 
 #login-container {

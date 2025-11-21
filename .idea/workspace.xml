@@ -5,21 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10ba1f1d-4477-4673-bbf9-6cecc4104de5" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/scripts/index/movie.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scripts/index/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/login.scssc" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/login.scssc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/menu.scssc" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/menu.scssc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/menu.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/index/poster.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/poster.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,37 +37,43 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/eueuovo/MoodFlick.git&quot;,
-    &quot;accountId&quot;: &quot;14f251d2-87f0-45a5-84c3-5091fe56d6b4&quot;
+    &quot;accountId&quot;: &quot;0d74b19e-9e0e-4fa6-91bb-afc54caf85b3&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="35ibv5pufza4E5q2XdoSK9tFTfP" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sh&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/qkrtp/OneDrive/바탕 화면/PSH/국비 팀프로젝트/moodflick&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;watcher.settings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
-        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -76,6 +86,7 @@
       <updated>1763596068670</updated>
       <workItem from="1763596071028" duration="626000" />
       <workItem from="1763597533045" duration="9369000" />
+      <workItem from="1763710625929" duration="740000" />
     </task>
     <servers />
   </component>
@@ -92,5 +103,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
