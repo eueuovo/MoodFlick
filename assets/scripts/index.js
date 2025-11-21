@@ -33,32 +33,128 @@ const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+        const list = document.querySelector('#poster-container .list')
+        list.innerHTML= ''
+
+        const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';
+        const poster = document.getElementById('poster-container');
+        const expo = document.getElementById('expo-container');
+        poster.style.display = 'none';
+        expo.style.display = 'none';
+
         if (category === '영화') {
+            poster.style.display = 'block';
             loadMovies();
+
+        }if(category === '전시/공연'){
+            expo.style.display = 'block';
+            fetchCultural()
+                .then(renderExpo)   // XML 파싱
+                .then(loadExpo)     // 화면에 렌더
+                .catch(err => console.error(err));
+
         }
+
     });
 });
-
+// 관람 전시 api api 가져오기
 const fetchCultural = () => {
-    const xhr = new XMLHttpRequest();
     const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
     url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set(numOfRows, '50');
-    url.searchParams.set('pageNo', '1');
-    url.searchParams.set('resultType', 'json');
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
-            return;
-        }
-        if(xhr.status < 200 || xhr.status >= 400){
-            console.log('공연정보 불러오기 실패');
-            return;
-        }
-        console.log('성공');
-    };
-    xhr.open('GET', url);
-    xhr.send();
+    url.searchParams.set('numOfRows', '50');
+    url.searchParams.set('pageNo', '5');
+    /*url.searchParams.set('resultType', 'xml');*/
+
+    return fetch(url)               // ★ return 추가
+        .then(response => response.text())
+        .then(xmlString => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlString, "application/xml");
+            return xml;             // 다음 .then으로 xml 넘김
+        });
+
+};
+// 2. XML 파싱 + 데이터 가공
+function renderExpo(xml) {
+    const items = xml.querySelectorAll("item");
+
+    return [...items].map(item => ({
+        title: item.querySelector("title")?.textContent,
+        place: item.querySelector("place")?.textContent,
+        area: item.querySelector("area")?.textContent,
+        thumbnail: item.querySelector("thumbnail")?.textContent,
+        startDate: item.querySelector("startDate")?.textContent,
+        endDate: item.querySelector("endDate")?.textContent,
+        realName: item.querySelector("realName")?.textContent,
+    }));
+    const list = document.getElementById("poster-list");
+    list.style.padding = "1.5rem 0";
 }
+function loadExpo(list) {
+    const ul = document.querySelector("#expo-list");
+    ul.innerHTML = '';
+
+    if (!Array.isArray(list)) return;
+
+    list.forEach(data => {
+        const card = createExpoCard(data);
+        ul.appendChild(card);
+    });
+}
+
+/*// 3. 화면에 표시하기 (load 역할)
+function loadExpo(list) {
+    const ul = document.querySelector("#expo-list");
+    ul.innerHTML = '';
+
+    // list가 없거나 배열이 아니면 그냥 비우고 종료
+    if (!Array.isArray(list)) return;
+
+    list.forEach(data => {
+        const li = document.createElement("li");
+        li.classList.add("expo-item");
+
+        li.innerHTML = `
+            <div class="expo-thumb">
+                <img src="${data.thumbnail}" alt="">
+                <span class="expo-badge">${data.realName}</span>
+            </div>
+            <div class="expo-info">
+                <p class="expo-title">${data.title}</p>
+                <p class="expo-place">${data.place}</p>
+                <p class="expo-date">${data.startDate} ~ ${data.endDate}</p>
+            </div>
+        `;
+
+        ul.appendChild(li);
+    });
+}*/
+
+function createExpoCard(data) {
+    const li = document.createElement("li");
+    li.classList.add("item","expo-item");
+    li.innerHTML = `
+        <div class="card card--expo">
+            <div class="card_poster">
+                <img src="${data.thumbnail}" alt="${data.title}">
+                 <label class="card_like-label">
+                  <input type="checkbox" class="like-checkbox">
+                  <span class="like-icon">★</span>
+                </label>
+            </div>
+            <div class="card_bottom">
+                <p class="card_title">${data.title}</p>
+                <p class="card_subtitle">${data.place}</p>
+                <p class="card_subtitle">${data.startDate} ~ ${data.endDate}</p>
+            </div>
+        </div>
+    `;
+
+    return li;
+}
+
+
 
 //모달
 const dialogHandler = {
@@ -186,48 +282,6 @@ function renderMovies(results) {
 
     list.appendChild(frag);
 }
-
-// 도서 렌더링
-function renderBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const cardData = {
-            image: b.cover || 'assets/images/no-poster.png',
-            title: b.title,
-            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-
-    list.appendChild(frag);
-}
-
-// 음악 렌더링
-function renderTracks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(t => {
-        const cardData = {
-            image: t.cover || 'assets/images/no-poster.png',
-            title: t.title,
-            subtitle: `${t.artist} · ${t.album}`,
-            score: t.popularity ?? '♪',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'music'));
-    });
-
-    list.appendChild(frag);
-}
-
-// 카드 요소 만들기
 function createCardElement(data, type) {
     const li = document.createElement('li');
     li.classList.add('item');
@@ -306,5 +360,52 @@ function createCardElement(data, type) {
     return li;
 }
 
+// 도서 렌더링
+function renderBooks(items) {
+    const list = document.querySelector('#poster-container .list');
+    list.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    items.forEach(b => {
+        const cardData = {
+            image: b.cover || 'assets/images/no-poster.png',
+            title: b.title,
+            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
+            score: b.userRating ?? '★',
+            scoreUnit: '',
+        };
+        frag.appendChild(createCardElement(cardData, 'book'));
+    });
+
+    list.appendChild(frag);
+}
+//행사전시 출력 함수
+
+
+// 음악 렌더링
+function renderTracks(items) {
+    const list = document.querySelector('#poster-container .list');
+    list.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    items.forEach(t => {
+        const cardData = {
+            image: t.cover || 'assets/images/no-poster.png',
+            title: t.title,
+            subtitle: `${t.artist} · ${t.album}`,
+            score: t.popularity ?? '♪',
+            scoreUnit: '',
+        };
+        frag.appendChild(createCardElement(cardData, 'music'));
+    });
+
+    list.appendChild(frag);
+}
+
+
+
 loadMovies();
+loadExpo();
+
+
 

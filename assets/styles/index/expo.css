@@ -1,0 +1,20 @@
+#expo-container {
+  height: 100%;
+  padding-top: 4.5rem;
+}
+
+#expo-list {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  gap: 1.5rem;
+}
+#expo-list > .expo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/*# sourceMappingURL=expo.css.map */
