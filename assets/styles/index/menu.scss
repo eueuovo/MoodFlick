@@ -11,12 +11,25 @@
   z-index: 999;
 
   > .category{
-    @include flex (row, stretch, center, 2rem);
+    @include flex (row, stretch, center);
     padding-left: 5rem;
 
     > .tab{
       font-size: 1.5rem;
       font-weight: 500;
+
+      > .input{
+        &:checked + .caption{
+          background-color: #ffffff;
+          color: #212121;
+        }
+      }
+
+       > .caption{
+         padding: 1rem 2.5rem;
+         border-radius: 0.2rem;
+         overflow: hidden;
+       }
     }
   }
 

@@ -7,6 +7,9 @@ const $signupPage = $loginContainer.querySelector('.signup-page');
 const $signupForm = $loginContainer.querySelector('.signup-form');
 const $signupSubmitBtn = $loginContainer.querySelector('.signup-submit-button');
 const $closeButton = $loginContainer.querySelector('.close-button');
+const $menuContainer = document.getElementById("menu-container");
+const $logoutBtn = $menuContainer.querySelector('.button.logout');
+const $myPageBtn = $menuContainer.querySelector('.button.my-page');
 
 //로그인 모달 창 띄우기
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,6 +51,26 @@ $loginForm.addEventListener('submit', (e) => {
     } else{
         dialogHandler.showSimpleOk('경고', '이메일 및 비밀번호를 잘못 입력하셨습니다.');
     }
+    $loginPage.querySelector('#email').value = "";
+    $loginPage.querySelector('#password').value = "";
+});
+
+//로그아웃 기능
+function logout() {
+    const currentUser = localStorage.getItem('currentUser');
+
+    //로그인 상태 초기화
+    localStorage.setItem('isLoggedIn', 'false');
+    localStorage.removeItem('currentUser');
+
+    //로그인 페이지로 이동
+    $loginContainer.classList.add('visible');
+    $loginPage.classList.add('visible');
+}
+
+$logoutBtn.addEventListener('click', () => {
+    logout();
+    dialogHandler.showSimpleOk('알림', '로그아웃 되었습니다.');
 });
 
 //회원가입 버튼 클릭 시 회원가입 모달 띄우기
@@ -66,6 +89,9 @@ $signupBtn.addEventListener('click', (e) => {
 $closeButton.addEventListener('click', () => {
    $signupPage.classList.remove('visible');
    $loginPage.classList.add('visible');
+
+   $loginPage.querySelector('#email').value = "";
+   $loginPage.querySelector('#password').value = "";
 });
 
 // 회원가입 모달에서 회원가입 클릭 시
@@ -96,4 +122,8 @@ $signupForm.addEventListener('submit', (e) => {
     $loginPage.classList.add('visible');
 });
 
+//마이페이지 클릭
+$myPageBtn.addEventListener('click', () =>{
+
+});
 
