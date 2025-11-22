@@ -12,7 +12,6 @@
   grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
   gap: 1.5rem;
 
-
   > .item {
     position: relative;
     display: flex;
@@ -181,4 +180,53 @@
     --badge-border: #6366f1;
   }
 
+}
+
+////////////////////// PAGE ////////////////////////
+#poster-container > #page-container {
+  margin: 1rem 0 3rem 0;
+  @include flex(row, center, center, 1.2rem);
+  user-select: none;
+
+  .page-btn {
+    @include flex(row, center, center, 1.2rem);
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+
+    &:hover:not([disabled]) {
+      background: #80808080;
+    }
+
+    &[disabled] {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  .page-numbers {
+    @include flex(row, center, center, 1rem);
+
+    .page-number {
+      font-size: 1.1rem;
+      color: #6b7280;
+      cursor: pointer;
+      transition-property: color;
+      transition-duration: 0.2s;
+
+      &:hover {
+        color: #374151;
+      }
+
+      &.active {
+        color: #111827;
+        font-weight: 700;
+      }
+    }
+  }
 }

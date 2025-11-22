@@ -51,9 +51,13 @@ a {
   cursor: pointer;
 }
 
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 10rem #414245 inset;
+  -webkit-text-fill-color: #ffffff;
+}
+
 #dialog {
   position: fixed;
-  inset: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -87,7 +91,7 @@ a {
   pointer-events: auto;
 }
 #dialog > .modal > .title {
-  background-color: #268fff;
+  background-color: #212121;
   color: #ffffff;
   padding: 0.75rem;
   font-weight: 600;

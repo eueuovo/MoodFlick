@@ -8,9 +8,7 @@
     <title>MoodFlick: 기분에 따라 흐르는 문화 여행</title>
     <link rel="stylesheet" href="assets/styles/common.css">
     <link rel="stylesheet" href="assets/styles/index.css">
-    <script type="module" src="assets/scripts/index.js"></script>
-    <script defer src="assets/scripts/index/login.js"></script>
-  <!--<script defer src="assets/scripts/index/culture.js"></script>-->
+    <script defer type="module" src="assets/scripts/index.js"></script>
 </head>
 <body>
 <div id="menu-container">
@@ -29,7 +27,9 @@
         </label>
     </div>
     <div class="-stretch"></div>
-    <button class="button" type="button">MY PAGE</button>
+    <div class="my-nav">
+        <button class="button logout" type="button">로그아웃</button>
+    </div>
 </div>
 <div id="main-container">
     <div id="filter-container">
@@ -103,11 +103,21 @@
         <ul id="poster-list" class="list">
             <li>포스터 들어갈 예정</li>
         </ul>
+        <div id="page-container">
+            <button class="page-btn first" disabled>&laquo;</button>
+            <button class="page-btn prev" disabled>&lt;</button>
+
+            <div class="page-numbers"></div>
+
+            <button class="page-btn next">&gt;</button>
+            <button class="page-btn last">&raquo;</button>
+
+        </div>
     </div>
     <div id="expo-container" class="tab-content -stretch" data-type="전시/공연">
-        <ul id="expo-list" class="expo-list"></ul>
-        <div id="expo-pagination" class="pagination"></div>
-
+        <ul id="expo-list" class="expo-list">
+          <!--  <li class="expo-item"></li>-->
+        </ul>
     </div>
 </div>
 
@@ -160,7 +170,7 @@
                 <label class="label">
                     <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50" placeholder="닉네임을 입력해 주세요.">
                 </label>
-                <button type="button" class="signup-submit-button">회원 가입</button>
+                <button type="submit" class="signup-submit-button">회원 가입</button>
                 <button type="button" class="close-button">닫기</button>
             </div>
         </form>

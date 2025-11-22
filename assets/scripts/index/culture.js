@@ -1,4 +1,3 @@
-
 export const fetchCultural = () => {
 // API 기본 주소 생성
     const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
