@@ -1,3 +1,5 @@
+import { createCardElement, dialogHandler } from '../index.js';
+
 // 도서 렌더링
 function renderBooks(items) {
     const list = document.querySelector('#poster-container .list');
@@ -28,8 +30,7 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let totalItems = 0;
 
-//페이지네이션
-function  loadGoogleBooksPage(page = 1){
+export function  loadGoogleBooksPage(page = 1){
     currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
     const url = `https://www.googleapis.com/books/v1/volumes?q=베스트셀러&key=AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4&maxResults=${itemsPerPage}&startIndex=${startIndex}&langRestrict=ko`;

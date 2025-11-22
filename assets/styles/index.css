@@ -333,6 +333,69 @@
     --badge-bg: #111827;
     --badge-border: #6366f1; }
 
+#poster-container > #page-container {
+  margin: 1rem 0 3rem 0;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1.2rem;
+  justify-content: center;
+  user-select: none; }
+  #poster-container > #page-container > * {
+    flex-grow: 0;
+    flex-shrink: 0; }
+  #poster-container > #page-container > .-stretch {
+    flex-grow: 1;
+    flex-shrink: 1; }
+  #poster-container > #page-container .page-btn {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+    transition-property: background-color;
+    transition-duration: 0.2s; }
+    #poster-container > #page-container .page-btn > * {
+      flex-grow: 0;
+      flex-shrink: 0; }
+    #poster-container > #page-container .page-btn > .-stretch {
+      flex-grow: 1;
+      flex-shrink: 1; }
+    #poster-container > #page-container .page-btn:hover:not([disabled]) {
+      background: #80808080; }
+    #poster-container > #page-container .page-btn[disabled] {
+      opacity: 0.4;
+      cursor: default; }
+  #poster-container > #page-container .page-numbers {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center; }
+    #poster-container > #page-container .page-numbers > * {
+      flex-grow: 0;
+      flex-shrink: 0; }
+    #poster-container > #page-container .page-numbers > .-stretch {
+      flex-grow: 1;
+      flex-shrink: 1; }
+    #poster-container > #page-container .page-numbers .page-number {
+      font-size: 1.1rem;
+      color: #6b7280;
+      cursor: pointer;
+      transition-property: color;
+      transition-duration: 0.2s; }
+      #poster-container > #page-container .page-numbers .page-number:hover {
+        color: #374151; }
+      #poster-container > #page-container .page-numbers .page-number.active {
+        color: #111827;
+        font-weight: 700; }
+
 #login-container {
   position: fixed;
   top: 0;

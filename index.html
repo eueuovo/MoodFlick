@@ -8,9 +8,7 @@
     <title>MoodFlick: 기분에 따라 흐르는 문화 여행</title>
     <link rel="stylesheet" href="assets/styles/common.css">
     <link rel="stylesheet" href="assets/styles/index.css">
-    <script defer src="assets/scripts/index.js"></script>
-    <script defer src="assets/scripts/index/login.js"></script>
-    <script defer src="assets/scripts/index/book.js"></script>
+    <script defer type="module" src="assets/scripts/index.js"></script>
 </head>
 <body>
 <div id="menu-container">
@@ -32,9 +30,6 @@
     <div class="my-nav">
         <button class="button logout" type="button">로그아웃</button>
     </div>
-</div>
-<div id="my-page">
-
 </div>
 <div id="main-container">
     <div id="filter-container">
@@ -108,6 +103,16 @@
         <ul id="poster-list" class="list">
             <li>포스터 들어갈 예정</li>
         </ul>
+        <div id="page-container">
+            <button class="page-btn first" disabled>&laquo;</button>
+            <button class="page-btn prev" disabled>&lt;</button>
+
+            <div class="page-numbers"></div>
+
+            <button class="page-btn next">&gt;</button>
+            <button class="page-btn last">&raquo;</button>
+
+        </div>
     </div>
 </div>
 

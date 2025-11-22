@@ -1,3 +1,6 @@
+import { dialogHandler } from '../index.js';
+import { loadMovies } from './movie.js';
+
 const $loginContainer = document.getElementById("login-container");
 const $loginPage = $loginContainer.querySelector('.login-page');
 const $loginForm = $loginContainer.querySelector('.login-form');
@@ -121,9 +124,3 @@ $signupForm.addEventListener('submit', (e) => {
     $signupPage.classList.remove('visible');
     $loginPage.classList.add('visible');
 });
-
-//마이페이지 클릭
-$myPageBtn.addEventListener('click', () =>{
-
-});
-

@@ -1,5 +1,8 @@
-//모달
-const dialogHandler = {
+import { loadMovies } from "./index/movie.js";
+import "./index/login.js";
+import { loadGoogleBooksPage } from "./index/book.js";
+// 모달
+export const dialogHandler = {
     $dialog: document.getElementById('dialog'),
     $modals: [],
 
@@ -92,7 +95,7 @@ categoryInputs.forEach(input => {
 });
 
 // 카드 요소 만들기
-function createCardElement(data, type) {
+export function createCardElement(data, type) {
     const li = document.createElement('li');
     li.classList.add('item');
 
@@ -171,5 +174,3 @@ function createCardElement(data, type) {
 
     return li;
 }
-
-

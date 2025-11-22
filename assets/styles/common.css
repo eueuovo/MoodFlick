@@ -1,9 +1,15 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-std.min.css");
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 html {
+<<<<<<< HEAD
   height: 100%; }
+=======
+  height: 100%;
+}
+>>>>>>> sh
 
 body {
   min-height: 100%;
@@ -13,17 +19,27 @@ body {
   font-family: "Pretendard Std Variable", "Pretendard Std", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
+<<<<<<< HEAD
   margin: 0; }
 
 img {
   -webkit-user-drag: none; }
+=======
+  margin: 0;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+>>>>>>> sh
 
 ol, ul {
   list-style: none;
   margin-block: 0;
   margin-inline: 0;
   padding-inline: 0;
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 button, input, select, textarea {
   background-color: transparent;
@@ -36,13 +52,15 @@ button, input, select, textarea {
   outline: none;
   padding: 0;
   padding-block: 0;
-  padding-inline: 0; }
+  padding-inline: 0;
+}
 
 a {
   all: unset;
   text-decoration: none;
   color: inherit;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 10rem #414245 inset;
@@ -55,11 +73,12 @@ input:-webkit-autofill {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #21212190;
+  background-color: rgba(33, 33, 33, 0.5647058824);
   backdrop-filter: blur(0.3rem);
   z-index: 999;
   pointer-events: none;
   opacity: 0;
+<<<<<<< HEAD
   transition: opacity 0.25s ease; }
   #dialog.visible {
     opacity: 1;
@@ -99,5 +118,56 @@ input:-webkit-autofill {
           border-left: 0.0625rem solid #eaeaea; }
         #dialog > .modal > .button-container > .button:hover {
           color: #3498db; }
+=======
+  transition: opacity 0.25s ease;
+}
+#dialog.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#dialog > .modal {
+  position: relative;
+  min-width: 20rem;
+  background-color: #ffffff;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#dialog > .modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#dialog > .modal > .title {
+  background-color: #268fff;
+  color: #ffffff;
+  padding: 0.75rem;
+  font-weight: 600;
+}
+#dialog > .modal > .content {
+  padding: 1rem;
+  line-height: 1.5;
+  color: #212121;
+}
+#dialog > .modal > .button-container {
+  display: flex;
+  border-top: 0.0625rem solid #eaeaea;
+}
+#dialog > .modal > .button-container > .button {
+  flex: 1;
+  padding: 0.625rem;
+  text-align: center;
+  cursor: pointer;
+}
+#dialog > .modal > .button-container > .button + .button {
+  border-left: 0.0625rem solid #eaeaea;
+}
+#dialog > .modal > .button-container > .button:hover {
+  color: #3498db;
+}
+>>>>>>> sh
 
 /*# sourceMappingURL=common.css.map */
