@@ -1,6 +1,13 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-std.min.css");
 * {
   box-sizing: border-box;
+<<<<<<< HEAD
+=======
+}
+
+html {
+  height: 100%;
+>>>>>>> hj
 }
 
 html {
@@ -20,18 +27,24 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
 <<<<<<< HEAD
+<<<<<<< HEAD
   margin: 0; }
 
 img {
   -webkit-user-drag: none; }
 =======
+=======
+>>>>>>> hj
   margin: 0;
 }
 
 img {
   -webkit-user-drag: none;
 }
+<<<<<<< HEAD
 >>>>>>> sh
+=======
+>>>>>>> hj
 
 ol, ul {
   list-style: none;
@@ -61,10 +74,13 @@ a {
   color: inherit;
   cursor: pointer;
 }
+<<<<<<< HEAD
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 10rem #414245 inset;
   -webkit-text-fill-color: #ffffff; }
+=======
+>>>>>>> hj
 
 #dialog {
   position: fixed;
@@ -78,6 +94,7 @@ input:-webkit-autofill {
   z-index: 999;
   pointer-events: none;
   opacity: 0;
+<<<<<<< HEAD
 <<<<<<< HEAD
   transition: opacity 0.25s ease; }
   #dialog.visible {
@@ -119,6 +136,8 @@ input:-webkit-autofill {
         #dialog > .modal > .button-container > .button:hover {
           color: #3498db; }
 =======
+=======
+>>>>>>> hj
   transition: opacity 0.25s ease;
 }
 #dialog.visible {
@@ -168,6 +187,9 @@ input:-webkit-autofill {
 #dialog > .modal > .button-container > .button:hover {
   color: #3498db;
 }
+<<<<<<< HEAD
 >>>>>>> sh
+=======
+>>>>>>> hj
 
 /*# sourceMappingURL=common.css.map */

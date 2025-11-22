@@ -4,6 +4,7 @@
 #filter-container {
   width: $filter-container-width;
   margin-top: 6rem;
+  overflow: scroll;
 
   .filter-section {
     padding: 1.5rem;

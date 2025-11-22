@@ -1,6 +1,7 @@
 import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
 import { loadGoogleBooksPage } from "./index/book.js";
+
 // 모달
 export const dialogHandler = {
     $dialog: document.getElementById('dialog'),
@@ -84,12 +85,28 @@ const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
-        const list = document.querySelector('#poster-container .list');
-        list.innerHTML = ''
+        const list = document.querySelector('#poster-container .list')
+        list.innerHTML= ''
+
+        const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';
+        const poster = document.getElementById('poster-container');
+        const expo = document.getElementById('expo-container');
+        poster.style.display = 'none';
+        expo.style.display = 'none';
+
         if (category === '영화') {
+            poster.style.display = 'block';
             loadMovies();
-        } if (category === '도서') {
+        } if (category === '도서'){
+            poster.style.display = 'block';
             loadGoogleBooksPage();
+        }if(category === '전시/공연'){
+            expo.style.display = 'block';
+            fetchCultural()
+                .then(renderExpo)   // XML 파싱
+                .then(loadExpo)     // 화면에 렌더
+                .catch(err => console.error(err));
         }
     });
 });
@@ -171,6 +188,103 @@ export function createCardElement(data, type) {
     card.appendChild(bottom);
     card.appendChild(description);
     li.appendChild(card);
+
+    return li;
+}
+
+// 관람 전시 api api 가져오기
+const fetchCultural = () => {
+    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
+    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
+    url.searchParams.set('numOfRows', '10');
+    url.searchParams.set('pageNo', '');
+    /*url.searchParams.set('resultType', 'xml');*/
+
+    return fetch(url)               // ★ return 추가
+        .then(response => response.text())
+        .then(xmlString => {
+            console.log(xmlString)
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlString, "application/xml");
+            return xml;             // 다음 .then으로 xml 넘김
+        });
+
+};
+// 2. XML 파싱 + 데이터 가공
+function renderExpo(xml) {
+    const items = xml.querySelectorAll("item");
+
+    return [...items].map(item => ({
+        title: item.querySelector("title")?.textContent,
+        place: item.querySelector("place")?.textContent,
+        area: item.querySelector("area")?.textContent,
+        thumbnail: item.querySelector("thumbnail")?.textContent,
+        startDate: item.querySelector("startDate")?.textContent,
+        endDate: item.querySelector("endDate")?.textContent,
+        realName: item.querySelector("realName")?.textContent,
+    }));
+    const list = document.getElementById("poster-list");
+    list.style.padding = "1.5rem 0";
+}
+function loadExpo(list) {
+    const ul = document.querySelector("#expo-list");
+    ul.innerHTML = '';
+
+    if (!Array.isArray(list)) return;
+
+    list.forEach(data => {
+        const card = createExpoCard(data);
+        ul.appendChild(card);
+    });
+}
+
+/*// 3. 화면에 표시하기 (load 역할)
+function loadExpo(list) {
+    const ul = document.querySelector("#expo-list");
+    ul.innerHTML = '';
+
+    // list가 없거나 배열이 아니면 그냥 비우고 종료
+    if (!Array.isArray(list)) return;
+
+    list.forEach(data => {
+        const li = document.createElement("li");
+        li.classList.add("expo-item");
+
+        li.innerHTML = `
+            <div class="expo-thumb">
+                <img src="${data.thumbnail}" alt="">
+                <span class="expo-badge">${data.realName}</span>
+            </div>
+            <div class="expo-info">
+                <p class="expo-title">${data.title}</p>
+                <p class="expo-place">${data.place}</p>
+                <p class="expo-date">${data.startDate} ~ ${data.endDate}</p>
+            </div>
+        `;
+
+        ul.appendChild(li);
+    });
+}*/
+
+function createExpoCard(data) {
+    const li = document.createElement("li");
+    li.classList.add("item","expo-item");
+    li.innerHTML = `
+        <div class="card card--expo">
+            <div class="card_poster">
+                <img src="${data.thumbnail}" alt="${data.title}">
+                 <label class="card_like-label">
+                  <input type="checkbox" class="like-checkbox">
+                  <span class="like-icon">★</span>
+                </label>
+            </div>
+            <div class="card_bottom">
+                <p class="card_title">${data.title}</p>
+                <p class="card_subtitle">${data.place}</p>
+                <p class="card_subtitle">${data.startDate} ~ ${data.endDate}</p>
+            </div>
+        </div>
+    `;
 
     return li;
 }
