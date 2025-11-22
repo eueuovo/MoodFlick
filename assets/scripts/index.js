@@ -1,46 +1,3 @@
-// 영화 API 연결
-const TMDB = {
-    BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
-    LANG: 'ko-KR',
-    REGION: 'KR',
-};
-
-// ===== sh 브랜치: 카테고리 탭 기능 추가 =====
-const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-categoryInputs.forEach(input => {
-    input.addEventListener('change', () => {
-        const category = input.value;
-        const list = document.querySelector('#poster-container .list');
-        list.innerHTML = ''
-        if (category === '영화') {
-            loadMovies();
-        } if (category === '도서') {
-            loadGoogleBooksPage();
-        }
-    });
-});
-
-const fetchCultural = () => {
-    const xhr = new XMLHttpRequest();
-    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
-    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set(numOfRows, '50');
-    url.searchParams.set('pageNo', '1');
-    url.searchParams.set('resultType', 'json');
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState !== XMLHttpRequest.DONE){
-            return;
-        }
-        if(xhr.status < 200 || xhr.status >= 400){
-            console.log('공연정보 불러오기 실패');
-            return;
-        }
-        console.log('성공');
-    };
-    xhr.open('GET', url);
-    xhr.send();
-}
-
 //모달
 const dialogHandler = {
     $dialog: document.getElementById('dialog'),
@@ -119,94 +76,20 @@ const dialogHandler = {
         }),
 };
 
-// 화면에 영화 불러오기
-function loadMovies() {
-    const xhr = new XMLHttpRequest();
-    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc`;
-
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        if (xhr.status < 200 || xhr.status >= 400) {
-            console.error("TMDB 오류:", xhr.responseText);
-            return;
+// 메뉴 카테고리
+const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
+categoryInputs.forEach(input => {
+    input.addEventListener('change', () => {
+        const category = input.value;
+        const list = document.querySelector('#poster-container .list');
+        list.innerHTML = ''
+        if (category === '영화') {
+            loadMovies();
+        } if (category === '도서') {
+            loadGoogleBooksPage();
         }
-
-        const data = JSON.parse(xhr.responseText);
-        renderMovies(data.results);
-    };
-
-    xhr.send();
-}
-
-// 영화 렌더링
-function renderMovies(results) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-
-    const frag = document.createDocumentFragment();
-
-    results.forEach(m => {
-        const cardData = {
-            description: m.overview
-                ? m.overview.substring(0, 70) + '...'
-                : '영화 설명이 없습니다',
-            image: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/no-poster.png',
-            title: m.title || m.name,
-            subtitle: m.release_date || '',
-            score: Math.round(m.vote_average * 10),
-            scoreUnit: '%',
-        };
-        frag.appendChild(createCardElement(cardData, 'movie'));
     });
-
-    list.appendChild(frag);
-}
-
-// 도서 렌더링
-function renderBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const cardData = {
-            image: b.cover || 'assets/images/no-poster.png',
-            title: b.title,
-            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-
-    list.appendChild(frag);
-}
-
-// 음악 렌더링
-function renderTracks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(t => {
-        const cardData = {
-            image: t.cover || 'assets/images/no-poster.png',
-            title: t.title,
-            subtitle: `${t.artist} · ${t.album}`,
-            score: t.popularity ?? '♪',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'music'));
-    });
-
-    list.appendChild(frag);
-}
+});
 
 // 카드 요소 만들기
 function createCardElement(data, type) {
@@ -288,77 +171,5 @@ function createCardElement(data, type) {
 
     return li;
 }
-
-loadMovies();
-
-// googleBook API 연결
-const googleBook = {
-    API_KEY: "AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4",
-    BASE_URL: 'https://www.googleapis.com/books/v1/volumes'
-};
-
-let currentPage = 1;
-const itemsPerPage = 10;
-let totalItems = 0;
-
-//페이지네이션
-function  loadGoogleBooksPage(page = 1){
-    currentPage = page;
-    const startIndex = (page - 1) * itemsPerPage;
-    const url = `https://www.googleapis.com/books/v1/volumes?q=베스트셀러&key=AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4&maxResults=${itemsPerPage}&startIndex=${startIndex}&langRestrict=ko`;
-
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            totalItems = data.totalItems || 0;
-            if (!data.items || data.items.length === 0){
-                console.log("데이터 없음");
-                return;
-            }
-            renderGoogleBooks(data.items);
-/*
-            renderPagination();
-*/
-        })
-        .catch(err => console.error("구글 북스 api 오류", err));
-}
-
-//도서 랜더링
-function renderGoogleBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const volumeInfo = b.volumeInfo;
-        const cardData = {
-            image: volumeInfo.imageLinks?.thumbnail || 'assets/images/index/main/no-poster.png',
-            title: volumeInfo.title,
-            subtitle: `${volumeInfo.authors?.join(", ") || ""} · ${volumeInfo.publishedDate || ""}`,
-            score: volumeInfo.averageRating ?? '★',
-            scoreUnit: '',
-            description: volumeInfo.description?.substring(0, 70) + '...' || ''
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-    list.appendChild(frag);
-}
-
-//페이지 버튼 렌더링
-/*function renderPagination() {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = '';
-
-    for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i;
-        if (i === currentPage) btn.disabled = true;
-        btn.addEventListener('click', () => loadGoogleBooksPage(i));
-        paginationContainer.appendChild(btn);
-    }
-}*/
-
-
 
 
