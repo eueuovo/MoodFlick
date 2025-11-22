@@ -285,6 +285,5 @@ function createExpoCard(data) {
             </div>
         </div>
     `;
-
     return li;
 }
