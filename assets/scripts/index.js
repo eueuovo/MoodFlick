@@ -1,4 +1,4 @@
-import { fetchCultural, renderExpo, loadExpo } from './index/culture.js'
+import { fetchCultural,renderExpo,loadExpo } from "./index/culture.js";
 
 
 // 알라딘 API 연결
@@ -50,13 +50,12 @@ categoryInputs.forEach(input => {
             poster.style.display = 'block';
             loadMovies();
 
-        }if(category === '전시/공연'){
+        }if (category === '전시/공연') {
             expo.style.display = 'block';
             fetchCultural()
                 .then(renderExpo)   // XML 파싱
                 .then(loadExpo)     // 화면에 렌더
                 .catch(err => console.error(err));
-
         }
 
     });

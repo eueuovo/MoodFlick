@@ -8,11 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scripts/index/culture.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index/culture.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/expo.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/expo.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/filter.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/filter.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/poster.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/poster.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +82,7 @@
       <workItem from="1763615381936" duration="12948000" />
       <workItem from="1763645498682" duration="4417000" />
       <workItem from="1763682833141" duration="18924000" />
-      <workItem from="1763784505588" duration="9669000" />
+      <workItem from="1763784505588" duration="16181000" />
     </task>
     <servers />
   </component>
@@ -110,18 +105,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>257</line>
+          <line>249</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>280</line>
+          <line>272</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>304</line>
+          <line>296</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/assets/scripts/index/culture.js</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
