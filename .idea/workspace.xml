@@ -7,9 +7,13 @@
     <list default="true" id="10ba1f1d-4477-4673-bbf9-6cecc4104de5" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scripts/index/culture.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index/culture.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index/expo.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/expo.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/index/filter.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/filter.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/index/poster.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/poster.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="SCSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -81,7 +86,8 @@
       <workItem from="1763597533045" duration="2018000" />
       <workItem from="1763615381936" duration="12948000" />
       <workItem from="1763645498682" duration="4417000" />
-      <workItem from="1763682833141" duration="15469000" />
+      <workItem from="1763682833141" duration="18924000" />
+      <workItem from="1763784505588" duration="9669000" />
     </task>
     <servers />
   </component>
@@ -104,24 +110,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>311</line>
+          <line>257</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>334</line>
+          <line>280</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>358</line>
+          <line>304</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/assets/scripts/index.js</url>
-          <line>134</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

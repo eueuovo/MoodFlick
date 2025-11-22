@@ -1,3 +1,6 @@
+import { fetchCultural, renderExpo, loadExpo } from './index/culture.js'
+
+
 // 알라딘 API 연결
 const fetchBook = () => {
     const proxy = "https://cors-anywhere.herokuapp.com/";
@@ -58,51 +61,8 @@ categoryInputs.forEach(input => {
 
     });
 });
-// 관람 전시 api api 가져오기
-const fetchCultural = () => {
-    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
-    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set('numOfRows', '10');
-    url.searchParams.set('pageNo', '');
-    /*url.searchParams.set('resultType', 'xml');*/
 
-    return fetch(url)               // ★ return 추가
-        .then(response => response.text())
-        .then(xmlString => {
-            console.log(xmlString)
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(xmlString, "application/xml");
-            return xml;             // 다음 .then으로 xml 넘김
-        });
 
-};
-// 2. XML 파싱 + 데이터 가공
-function renderExpo(xml) {
-    const items = xml.querySelectorAll("item");
-
-    return [...items].map(item => ({
-        title: item.querySelector("title")?.textContent,
-        place: item.querySelector("place")?.textContent,
-        area: item.querySelector("area")?.textContent,
-        thumbnail: item.querySelector("thumbnail")?.textContent,
-        startDate: item.querySelector("startDate")?.textContent,
-        endDate: item.querySelector("endDate")?.textContent,
-        realName: item.querySelector("realName")?.textContent,
-    }));
-    const list = document.getElementById("poster-list");
-    list.style.padding = "1.5rem 0";
-}
-function loadExpo(list) {
-    const ul = document.querySelector("#expo-list");
-    ul.innerHTML = '';
-
-    if (!Array.isArray(list)) return;
-
-    list.forEach(data => {
-        const card = createExpoCard(data);
-        ul.appendChild(card);
-    });
-}
 
 /*// 3. 화면에 표시하기 (load 역할)
 function loadExpo(list) {
@@ -132,28 +92,7 @@ function loadExpo(list) {
     });
 }*/
 
-function createExpoCard(data) {
-    const li = document.createElement("li");
-    li.classList.add("item","expo-item");
-    li.innerHTML = `
-        <div class="card card--expo">
-            <div class="card_poster">
-                <img src="${data.thumbnail}" alt="${data.title}">
-                 <label class="card_like-label">
-                  <input type="checkbox" class="like-checkbox">
-                  <span class="like-icon">★</span>
-                </label>
-            </div>
-            <div class="card_bottom">
-                <p class="card_title">${data.title}</p>
-                <p class="card_subtitle">${data.place}</p>
-                <p class="card_subtitle">${data.startDate} ~ ${data.endDate}</p>
-            </div>
-        </div>
-    `;
 
-    return li;
-}
 
 
 
@@ -406,7 +345,7 @@ function renderTracks(items) {
 
 
 loadMovies();
-loadExpo();
+
 
 
 
