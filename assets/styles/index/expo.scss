@@ -8,7 +8,7 @@
 
 
 #expo-list {
-  margin:0;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
   gap: 1.5rem;
@@ -27,8 +27,8 @@
       box-shadow: 0 1.125rem 2.5rem rgba(15, 23, 42, 0.16);
       display: flex;
       flex-direction: column;
-      transition: transform 0.18s
-      ease, box-shadow 0.18s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+
       &:hover {
         transform: translateY(-4px);
         box-shadow: 0 0.375rem 1.125rem #0000004d;
@@ -48,6 +48,7 @@
         object-fit: cover;
         display: block;
       }
+
       .card_like-label {
         position: absolute;
         top: 0.625rem;
@@ -84,6 +85,7 @@
       background: #ffffff;
       margin-top: auto;
     }
+
     .card_title {
       display: -webkit-box;
       overflow: hidden;
@@ -104,4 +106,61 @@
     }
   }
 }
+#expo-container > #expo-page-container {
+  display: none;
+  margin: 1rem 0 3rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  user-select: none;
+}
+#expo-container.active > #expo-page-container {
+  display: flex;
+}
+
+  #expo-container > #expo-page-container .page-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  #expo-container > #expo-page-container .page-btn:hover:not([disabled]) {
+    background: #80808080;
+  }
+
+  #expo-container > #expo-page-container .page-btn[disabled] {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  #expo-container > #expo-page-container .page-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #expo-container > #expo-page-container .page-number {
+    font-size: 1.1rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  #expo-container > #expo-page-container .page-number:hover {
+    color: #374151;
+  }
+
+  #expo-container > #expo-page-container .page-number.active {
+    color: #111827;
+    font-weight: 700;
+  }
+
 

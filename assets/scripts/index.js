@@ -1,7 +1,7 @@
 import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
 import { loadGoogleBooksPage } from "./index/book.js";
-import { fetchCultural,renderExpo,loadExpo} from "./index/culture.js";
+import {loadExpo} from "./index/culture.js";
 
 // 모달
 export const dialogHandler = {
@@ -80,14 +80,14 @@ export const dialogHandler = {
             ],
         }),
 };
-
+let expoLoaded = false;
 // 메뉴 카테고리
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
         const list = document.querySelector('#poster-container .list')
-        list.innerHTML= ''
+        list.innerHTML = ''
 
         const expoList = document.querySelector('#expo-list');
         if (expoList) expoList.innerHTML = '';
@@ -95,275 +95,108 @@ categoryInputs.forEach(input => {
         const expo = document.getElementById('expo-container');
         poster.style.display = 'none';
         expo.style.display = 'none';
+        expo.classList.remove('active');
 
         if (category === '영화') {
             poster.style.display = 'block';
             loadMovies();
-        } if (category === '도서'){
+        }
+        if (category === '도서') {
             poster.style.display = 'block';
             loadGoogleBooksPage();
-        }if(category === '전시/공연'){
-            expo.style.display = 'block';
-            fetchCultural()
-                .then(renderExpo)   // XML 파싱
-                .then(loadExpo)     // 화면에 렌더
-                .catch(err => console.error(err));
+
+        }  if (category === "전시/공연") {
+            expo.style.display = "block";
+            expo.classList.add("active");
+            loadExpo();
+
         }
-    });
+    });   // ← ★ 여기 빠졌던 괄호
 });
 
+
 // 카드 요소 만들기
-export function createCardElement(data, type) {
-    const li = document.createElement('li');
-    li.classList.add('item');
+        export function createCardElement(data, type) {
+            const li = document.createElement('li');
+            li.classList.add('item');
 
-    const card = document.createElement('article');
-    card.classList.add('card', `card--${type}`);
+            const card = document.createElement('article');
+            card.classList.add('card', `card--${type}`);
 
-    //포스터
-    const posterWrap = document.createElement('div');
-    posterWrap.classList.add('card_poster');
+            //포스터
+            const posterWrap = document.createElement('div');
+            posterWrap.classList.add('card_poster');
 
-    const img = document.createElement('img');
-    img.src = data.image;
-    img.alt = data.title || '';
+            const img = document.createElement('img');
+            img.src = data.image;
+            img.alt = data.title || '';
 
-    //즐겨찾기
-    const likeLabel = document.createElement('label');
-    likeLabel.classList.add('card_like-label');
+            //즐겨찾기
+            const likeLabel = document.createElement('label');
+            likeLabel.classList.add('card_like-label');
 
-    // HEAD 스타일 유지
-    const like = document.createElement('input');
-    like.type = 'checkbox';
-    like.classList.add('like-checkbox');
+            // HEAD 스타일 유지
+            const like = document.createElement('input');
+            like.type = 'checkbox';
+            like.classList.add('like-checkbox');
 
-    const likeIcon = document.createElement('span');
-    likeIcon.classList.add('like-icon');
-    likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
+            const likeIcon = document.createElement('span');
+            likeIcon.classList.add('like-icon');
+            likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
 
-    likeLabel.appendChild(like);
-    likeLabel.appendChild(likeIcon);
+            likeLabel.appendChild(like);
+            likeLabel.appendChild(likeIcon);
 
-    posterWrap.appendChild(img);
-    posterWrap.appendChild(likeLabel);
+            posterWrap.appendChild(img);
+            posterWrap.appendChild(likeLabel);
 
-    const bottom = document.createElement('div');
-    bottom.classList.add('card_bottom');
+            const bottom = document.createElement('div');
+            bottom.classList.add('card_bottom');
 
-    const score = document.createElement('div');
-    score.classList.add('card_score');
+            const score = document.createElement('div');
+            score.classList.add('card_score');
 
-    const scoreNum = document.createElement('span');
-    scoreNum.classList.add('card_score-num');
-    scoreNum.textContent = data.score ?? '–';
+            const scoreNum = document.createElement('span');
+            scoreNum.classList.add('card_score-num');
+            scoreNum.textContent = data.score ?? '–';
 
-    const scoreUnit = document.createElement('span');
-    scoreUnit.classList.add('card_score-unit');
-    scoreUnit.textContent = data.scoreUnit ?? '%';
+            const scoreUnit = document.createElement('span');
+            scoreUnit.classList.add('card_score-unit');
+            scoreUnit.textContent = data.scoreUnit ?? '%';
 
-    score.appendChild(scoreNum);
-    score.appendChild(scoreUnit);
+            score.appendChild(scoreNum);
+            score.appendChild(scoreUnit);
 
-    const meta = document.createElement('div');
-    meta.classList.add('card_meta');
+            const meta = document.createElement('div');
+            meta.classList.add('card_meta');
 
-    const title = document.createElement('p');
-    title.classList.add('card_title');
-    title.textContent = data.title;
+            const title = document.createElement('p');
+            title.classList.add('card_title');
+            title.textContent = data.title;
 
-    const subtitle = document.createElement('p');
-    subtitle.classList.add('card_subtitle');
-    subtitle.textContent = data.subtitle ?? '';
+            const subtitle = document.createElement('p');
+            subtitle.classList.add('card_subtitle');
+            subtitle.textContent = data.subtitle ?? '';
 
-    const description = document.createElement('div');
-    description.classList.add('card_description');
-    description.textContent = data.description ?? '';
+            const description = document.createElement('div');
+            description.classList.add('card_description');
+            description.textContent = data.description ?? '';
 
-    meta.appendChild(title);
-    meta.appendChild(subtitle);
+            meta.appendChild(title);
+            meta.appendChild(subtitle);
 
-    bottom.appendChild(score);
-    bottom.appendChild(meta);
+            bottom.appendChild(score);
+            bottom.appendChild(meta);
 
-    card.appendChild(posterWrap);
-    card.appendChild(bottom);
-    card.appendChild(description);
-    li.appendChild(card);
+            card.appendChild(posterWrap);
+            card.appendChild(bottom);
+            card.appendChild(description);
+            li.appendChild(card);
 
-    return li;
-}
-/*// 화면에 영화 불러오기
-function loadMovies() {
-    const xhr = new XMLHttpRequest();
-    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc`;
-
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        if (xhr.status < 200 || xhr.status >= 400) {
-            console.error("TMDB 오류:", xhr.responseText);
-            return;
+            return li;
         }
 
-        const data = JSON.parse(xhr.responseText);
-        renderMovies(data.results);
-    };
 
-    xhr.send();
-}
-
-// 영화 렌더링
-function renderMovies(results) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-
-    const frag = document.createDocumentFragment();
-
-    results.forEach(m => {
-        const cardData = {
-            description: m.overview
-                ? m.overview.substring(0, 70) + '...'
-                : '영화 설명이 없습니다',
-            image: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/no-poster.png',
-            title: m.title || m.name,
-            subtitle: m.release_date || '',
-            score: Math.round(m.vote_average * 10),
-            scoreUnit: '%',
-        };
-        frag.appendChild(createCardElement(cardData, 'movie'));
-    });
-
-    list.appendChild(frag);
-}
-function createCardElement(data, type) {
-    const li = document.createElement('li');
-    li.classList.add('item');
-
-    const card = document.createElement('article');
-    card.classList.add('card', `card--${type}`);
-
-    const posterWrap = document.createElement('div');
-    posterWrap.classList.add('card_poster');
-
-    const img = document.createElement('img');
-    img.src = data.image;
-    img.alt = data.title || '';
-
-    const likeLabel = document.createElement('label');
-    likeLabel.classList.add('card_like-label');
-
-    // HEAD 스타일 유지
-    const like = document.createElement('input');
-    like.type = 'checkbox';
-    like.classList.add('like-checkbox');
-
-    const likeIcon = document.createElement('span');
-    likeIcon.classList.add('like-icon');
-    likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
-
-    likeLabel.appendChild(like);
-    likeLabel.appendChild(likeIcon);
-
-    posterWrap.appendChild(img);
-    posterWrap.appendChild(likeLabel);
-
-    const bottom = document.createElement('div');
-    bottom.classList.add('card_bottom');
-
-    const score = document.createElement('div');
-    score.classList.add('card_score');
-
-    const scoreNum = document.createElement('span');
-    scoreNum.classList.add('card_score-num');
-    scoreNum.textContent = data.score ?? '–';
-
-    const scoreUnit = document.createElement('span');
-    scoreUnit.classList.add('card_score-unit');
-    scoreUnit.textContent = data.scoreUnit ?? '%';
-
-    score.appendChild(scoreNum);
-    score.appendChild(scoreUnit);
-
-    const meta = document.createElement('div');
-    meta.classList.add('card_meta');
-
-    const title = document.createElement('p');
-    title.classList.add('card_title');
-    title.textContent = data.title;
-
-    const subtitle = document.createElement('p');
-    subtitle.classList.add('card_subtitle');
-    subtitle.textContent = data.subtitle ?? '';
-
-    const description = document.createElement('div');
-    description.classList.add('card_description');
-    description.textContent = data.description ?? '';
-
-    meta.appendChild(title);
-    meta.appendChild(subtitle);
-
-    bottom.appendChild(score);
-    bottom.appendChild(meta);
-
-    card.appendChild(posterWrap);
-    card.appendChild(bottom);
-    card.appendChild(description);
-    li.appendChild(card);
-
-    return li;
-}
-
-// 도서 렌더링
-function renderBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const cardData = {
-            image: b.cover || 'assets/images/no-poster.png',
-            title: b.title,
-            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-
-    list.appendChild(frag);
-}
-//행사전시 출력 함수
-
-
-// 음악 렌더링
-function renderTracks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(t => {
-        const cardData = {
-            image: t.cover || 'assets/images/no-poster.png',
-            title: t.title,
-            subtitle: `${t.artist} · ${t.album}`,
-            score: t.popularity ?? '♪',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'music'));
-    });
-
-    list.appendChild(frag);
-}
-
-
-
-loadMovies();
-loadExpo();*/
 
 
 
