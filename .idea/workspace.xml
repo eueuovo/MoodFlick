@@ -5,35 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10ba1f1d-4477-4673-bbf9-6cecc4104de5" name="변경" comment="">
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/assets/scripts/index/book.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index.js" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/poster.scssc" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/poster.scssc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/filter.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/filter.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/filter.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/filter.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/poster.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/poster.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/poster.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/poster.css.map" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/assets/scripts/index/movie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scripts/index/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scripts/index/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/login.scssc" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/login.scssc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/menu.scssc" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/.sass-cache/80f15571caf649548247f0efb908a96389fdc568/menu.scssc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/login.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/index/menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/menu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/index/expo.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/index/expo.scss" afterDir="false" />
->>>>>>> hj
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +21,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-<<<<<<< HEAD
         <option value="JavaScript File" />
-=======
-        <option value="SCSS File" />
->>>>>>> hj
       </list>
     </option>
   </component>
@@ -73,47 +47,6 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-<<<<<<< HEAD
-<<<<<<< HEAD
-    &quot;git-widget-placeholder&quot;: &quot;dh&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-=======
-    &quot;git-widget-placeholder&quot;: &quot;sh&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/qkrtp/OneDrive/바탕 화면/PSH/국비 팀프로젝트/moodflick&quot;,
->>>>>>> sh
-=======
-    &quot;git-widget-placeholder&quot;: &quot;hj&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
->>>>>>> hj
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-<<<<<<< HEAD
-<<<<<<< HEAD
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/assets/images/index/main" />
-    </key>
-  </component>
-=======
-    &quot;settings.editor.selected.configurable&quot;: &quot;watcher.settings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -130,25 +63,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-}</component>
->>>>>>> sh
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
         <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
         <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
-        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
-=======
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
->>>>>>> hj
       </set>
     </attachedChunks>
   </component>
@@ -160,20 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1763596068670</updated>
       <workItem from="1763596071028" duration="626000" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <workItem from="1763597533045" duration="17723000" />
-      <workItem from="1763683297445" duration="6896000" />
-=======
       <workItem from="1763597533045" duration="9369000" />
-      <workItem from="1763710625929" duration="740000" />
->>>>>>> sh
-=======
-      <workItem from="1763597533045" duration="2018000" />
-      <workItem from="1763615381936" duration="12948000" />
-      <workItem from="1763645498682" duration="4417000" />
-      <workItem from="1763682833141" duration="15469000" />
->>>>>>> hj
     </task>
     <servers />
   </component>
