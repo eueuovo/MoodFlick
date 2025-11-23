@@ -9,7 +9,7 @@
   margin: 0;
   padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
   gap: 1.5rem;
 
   > .item {
@@ -42,7 +42,7 @@
     box-shadow: 0 1.125rem 2.5rem rgba(15, 23, 42, 0.16);
     display: flex;
     flex-direction: column;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &_description {
       position: absolute;
@@ -120,7 +120,7 @@
 
     &_score {
       position: absolute;
-      left: 1rem;
+      left: 0.5rem;
       top: -1.25rem;
       width: 2.75rem;
       height: 2.75rem;
@@ -146,7 +146,7 @@
     }
 
     &_meta {
-      margin-left: 3.5rem;
+      margin-left: 2rem;
     }
 
     &_title {
@@ -160,6 +160,9 @@
     }
 
     &_subtitle {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      overflow: hidden;
       margin: 0;
       font-size: 0.8125rem;
       color: #6b7280;

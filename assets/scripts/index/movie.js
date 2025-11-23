@@ -1,3 +1,43 @@
+import { createCardElement } from '../index.js';
+
+// 영화 API 연결
+const TMDB = {
+    BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
+    LANG: 'ko-KR',
+    REGION: 'KR',
+    PAGE: 1
+};
+
+
+// 화면에 영화 불러오기
+export function loadMovies() {
+    const xhr = new XMLHttpRequest();
+    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc&page=${TMDB.PAGE}`;
+
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status < 200 || xhr.status >= 400) {
+            console.error("TMDB 오류:", xhr.responseText);
+            return;
+        }
+
+        const data = JSON.parse(xhr.responseText);
+        totalPages = data.total_pages;
+        renderMovies(data.results);
+        renderPage();
+    };
+
+    xhr.send();
+}
+
+// 영화 렌더링
+function renderMovies(results) {
+    const list = document.querySelector('#poster-container .list');
+    list.innerHTML = '';
 
     const frag = document.createDocumentFragment();
 
@@ -19,6 +59,7 @@
 
     list.appendChild(frag);
 }
+
 
 let currentPage = 1;
 let totalPages = 1;
@@ -64,7 +105,7 @@ function renderPage() {
     nextBtn.disabled = currentPage === totalPages;
     lastBtn.disabled = currentPage === totalPages;
 }
-// 버튼 동작
+
 firstBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage = 1;
@@ -89,5 +130,4 @@ lastBtn.addEventListener('click', () => {
     }
     loadMovies(TMDB.PAGE = currentPage);
 })
-
 loadMovies();
