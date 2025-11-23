@@ -94,7 +94,7 @@ categoryInputs.forEach(input => {
         const expo = document.getElementById('expo-container');
         poster.style.display = 'none';
         expo.style.display = 'none';
-
+d
         if (category === '영화') {
             poster.style.display = 'block';
             loadMovies();
