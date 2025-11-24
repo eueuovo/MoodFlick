@@ -43,7 +43,7 @@ function renderMovies(results) {
 
     const frag = document.createDocumentFragment();
 
-    results.forEach(m => {
+    results.slice(0,10).forEach(m => {
         const cardData = {
             description: m.overview
                 ? m.overview.substring(0, 70) + '...'

@@ -1,3 +1,4 @@
+/*
 @import "./def";
 
 #expo-container.-stretch {
@@ -36,6 +37,7 @@
     }
 
     .card_poster {
+      height: 25rem;
       width: 100%;
       aspect-ratio: 2/3;
       overflow: hidden;
@@ -93,7 +95,7 @@
       font-weight: 600;
       line-height: 1.3;
       margin-top: 0.3rem;
-      -webkit-line-clamp: 1; /* ← 이게 핵심: 최대 2줄 */
+      -webkit-line-clamp: 1; !* ← 이게 핵심: 최대 2줄 *!
       -webkit-box-orient: vertical;
     }
 
@@ -101,7 +103,7 @@
       font-size: 0.8125rem;
       color: rgb(107, 114, 128);
       display: -webkit-box;
-      -webkit-line-clamp: 1; /* ← 이게 핵심: 최대 2줄 */
+      -webkit-line-clamp: 1; !* ← 이게 핵심: 최대 2줄 *!
       -webkit-box-orient: vertical;
     }
   }
@@ -164,3 +166,4 @@
   }
 
 
+*/

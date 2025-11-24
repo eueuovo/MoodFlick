@@ -1,7 +1,8 @@
 import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
 import { loadGoogleBooksPage } from "./index/book.js";
-import {loadExpo} from "./index/culture.js";
+import { loadExpo } from './index/culture.js';
+
 
 // 모달
 export const dialogHandler = {
@@ -89,27 +90,25 @@ categoryInputs.forEach(input => {
         const list = document.querySelector('#poster-container .list')
         list.innerHTML = ''
 
-        const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';
+        /*const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';*/
         const poster = document.getElementById('poster-container');
-        const expo = document.getElementById('expo-container');
-        poster.style.display = 'none';
-        expo.style.display = 'none';
-        expo.classList.remove('active');
+        /*const expo = document.getElementById('expo-container');*/
+        /*poster.style.display = 'none';*/
+     /*   expo.style.display = 'none';
+        expo.classList.remove('active');*/
 
         if (category === '영화') {
-            poster.style.display = 'block';
+           poster.style.display = 'block';
             loadMovies();
         }
         if (category === '도서') {
             poster.style.display = 'block';
             loadGoogleBooksPage();
 
-        }  if (category === "전시/공연") {
-            expo.style.display = "block";
-            expo.classList.add("active");
-            loadExpo();
-
+        } if (category === "전시/공연") {
+            poster.style.display = "block";  // 영화/도서랑 동일하게 사용
+            loadExpo();                     // ★ 반드시 실행됨
         }
     });   // ← ★ 여기 빠졌던 괄호
 });
