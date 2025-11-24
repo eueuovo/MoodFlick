@@ -193,25 +193,25 @@
 #filter-container {
   /* 행사/전시 영역 */
 }
-#filter-container .filter-block {
+#filter-container .filter-block.expo {
   margin-top: 2rem;
 }
-#filter-container .filter-block .event {
+#filter-container .filter-block.expo .event {
   font-size: 1.3rem;
   font-weight: 700;
 }
-#filter-container .filter-block .sub-label {
+#filter-container .filter-block.expo .sub-label {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0.4rem 0;
 }
-#filter-container .filter-block .event-type {
+#filter-container .filter-block.expo .event-type {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-bottom: 1rem;
 }
-#filter-container .filter-block .event-type li {
+#filter-container .filter-block.expo .event-type li {
   padding: 0.5rem 1.1rem;
   background: #f2f3f5;
   border-radius: 0.7rem;
@@ -219,30 +219,30 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-#filter-container .filter-block .event-type li:hover {
+#filter-container .filter-block.expo .event-type li:hover {
   background: #e3e4e8;
 }
-#filter-container .filter-block .event-type li.active {
+#filter-container .filter-block.expo .event-type li.active {
   background: #4b7bec;
   color: #fff;
 }
-#filter-container .filter-block {
+#filter-container .filter-block.expo {
   /* 체크박스 라벨 */
 }
-#filter-container .filter-block label {
+#filter-container .filter-block.expo label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-right: 0.8rem;
   cursor: pointer;
 }
-#filter-container .filter-block label input {
+#filter-container .filter-block.expo label input {
   transform: scale(1.2);
 }
-#filter-container .filter-block {
+#filter-container .filter-block.expo {
   /* 검색 버튼 */
 }
-#filter-container .filter-block .filter-search-btn {
+#filter-container .filter-block.expo .filter-search-btn {
   margin-top: 1.4rem;
   padding: 0.7rem 1.4rem;
   background: #4b7bec;
@@ -254,7 +254,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-#filter-container .filter-block .filter-search-btn:hover {
+#filter-container .filter-block.expo .filter-search-btn:hover {
   background: #3c6bd0;
 }
 @media (max-width: 48rem) {

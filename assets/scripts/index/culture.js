@@ -2,11 +2,8 @@ import { createCardElement } from '../index.js';
 
 /* ===========================================================
    1. 전시 / 공연 API 요청(fetchCultural)
-   -----------------------------------------------------------
-   - page 값을 정상적으로 반영하도록 pageNo = page 로 수정
-   - 서비스 키, 기간 설정 OK
    =========================================================== */
-export const fetchCultural = (page = 1) => {
+export const fetchCultural = (page = 1, options = {}) => {
     const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
 
     url.searchParams.set('serviceKey',
@@ -14,12 +11,17 @@ export const fetchCultural = (page = 1) => {
     );
 
     url.searchParams.set('numOfrows', '10');   // 한 페이지 10개
-    url.searchParams.set('PageNo', page);      // ⬅ 페이지 넘버 반영됨
-/*  url.searchParams.set('from', '20000101');
-    url.searchParams.set('to', '20301231');*/
+    url.searchParams.set('PageNo', page);// ⬅ 페이지 넘버 반영됨
 
-    console.log("요청 페이지:", page);
-    console.log("요청 URL:", url.toString());
+    // 🔥 keyword 필터 적용
+    if (options.keyword) {
+        url.searchParams.set("keyword", options.keyword);
+    }
+
+    // 🔥 serviceTp 필터 적용
+    if (options.serviceTp) {
+        url.searchParams.set("serviceTp", options.serviceTp);
+    }
 
     return fetch(url)
         .then(res => res.text())
@@ -32,7 +34,6 @@ export const fetchCultural = (page = 1) => {
 
 };
 
-
 /* ===========================================================
    2. XML → JS 데이터 변환 (parseExpo)
    ---------------------------------------------------------- */
@@ -41,6 +42,7 @@ export function parseExpo(xml) {
         title: item.querySelector("title")?.textContent ?? "",
         place: item.querySelector("place")?.textContent ?? "",
         area: item.querySelector("area")?.textContent ?? "",
+        serviceName : item.querySelector("serviceName")?.textContent ?? "",
         thumbnail: item.querySelector("thumbnail")?.textContent ?? "",
         startDate: item.querySelector("startDate")?.textContent ?? "",
         endDate: item.querySelector("endDate")?.textContent ?? "",
@@ -51,12 +53,6 @@ export function parseExpo(xml) {
     const numOfrows = Number(xml.querySelector("numOfrows")?.textContent ?? 10);
     const totalPages = Math.ceil(totalCount / numOfrows);
 
-
-    console.log("XML totalCount:", xml.querySelector("totalCount")?.textContent);
-    console.log("XML numOfRows:", xml.querySelector("numOfrows")?.textContent);
-    console.log("결과 totalPages:", totalPages);
-    console.log("받은 item 개수:", items.length);
-
     return { items, totalPages };
 
 }
@@ -64,10 +60,6 @@ export function parseExpo(xml) {
 
 /* ===========================================================
    3. 카드 UI에 넣을 데이터 변환 (mapExpoToCardData)
-   -----------------------------------------------------------
-   - 원본 썸네일이 절대경로가 아니라 `/upload/...` 로 오기 때문에
-     앞에 culture.go.kr 도메인을 붙여서 정상 출력되게 함.
-   - 이미지가 없으면 기본 이미지 사용
    =========================================================== */
 export function mapExpoToCardData(expo) {
     const base = "https://www.culture.go.kr";   // 실제 이미지 도메인
@@ -75,10 +67,11 @@ export function mapExpoToCardData(expo) {
     return {
         image:expo.thumbnail,                   // 기본 이미지
         title: expo.title,
+        area:expo.area,
+        serviceName:expo.serviceName,
         subtitle: `${expo.place} · ${expo.startDate} ~ ${expo.endDate}`,
         description: expo.realName,
-        score: null,
-        scoreUnit: ""
+        realName:expo.realName
     };
 }
 
@@ -144,8 +137,48 @@ export function loadExpo(page = 1) {
         renderExpoPage();
     });
 }
+/*---------------------------------------------------------------------------------*/
+//필터 함수//
 
+function loadExpoWithApiFilter(options = {}) {
+    const ul = document.querySelector("#expo-list");
+    ul.innerHTML = "";
 
+    fetchCultural(1, options).then(xml => {
+        const { items } = parseExpo(xml);
+
+        items.forEach(expo => {
+            const cardData = mapExpoToCardData(expo);
+            const card = createCardElement(cardData, "expo");
+            ul.appendChild(card);
+        });
+    });
+}
+const searchBtn = document.querySelector(".filter-search-btn");
+const keywordInput = document.getElementById("filter-place");
+const typeItems = document.querySelectorAll(".event-type li");
+
+let selectedType = ""; // serviceTp 저장
+
+// 유형 클릭 이벤트
+typeItems.forEach(li => {
+    li.addEventListener("click", () => {
+        typeItems.forEach(x => x.classList.remove("active"));
+        li.classList.add("active");
+        selectedType = li.dataset.value; // 🔥 serviceTp 코드
+    });
+});
+
+// 검색 버튼
+searchBtn.addEventListener("click", () => {
+    const keyword = keywordInput.value;
+
+    loadExpoWithApiFilter({
+        keyword,
+        serviceTp: selectedType
+    });
+});
+/*--------------------------------------------------------------------------*/
 /* ===========================================================
    7. 페이지 번호 UI 생성(renderExpoPage)
    =========================================================== */
@@ -212,3 +245,4 @@ function updateExpoPagination(totalPages) {
     expoTotalPages = totalPages;
     renderExpoPage();
 }
+

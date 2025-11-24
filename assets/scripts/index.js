@@ -116,85 +116,114 @@ categoryInputs.forEach(input => {
 
 
 // 카드 요소 만들기
-        export function createCardElement(data, type) {
-            const li = document.createElement('li');
-            li.classList.add('item');
+export function createCardElement(data, type) {
 
-            const card = document.createElement('article');
-            card.classList.add('card', `card--${type}`);
+    const li = document.createElement('li');
+    li.classList.add('item');
 
-            //포스터
-            const posterWrap = document.createElement('div');
-            posterWrap.classList.add('card_poster');
+    const card = document.createElement('article');
+    card.classList.add('card', `card--${type}`);
 
-            const img = document.createElement('img');
-            img.src = data.image;
-            img.alt = data.title || '';
+    // 포스터
+    const posterWrap = document.createElement('div');
+    posterWrap.classList.add('card_poster');
 
-            //즐겨찾기
-            const likeLabel = document.createElement('label');
-            likeLabel.classList.add('card_like-label');
+    const img = document.createElement('img');
+    img.src = data.image;
+    img.alt = data.title || '';
 
-            // HEAD 스타일 유지
-            const like = document.createElement('input');
-            like.type = 'checkbox';
-            like.classList.add('like-checkbox');
+    // 즐겨찾기
+    const likeLabel = document.createElement('label');
+    likeLabel.classList.add('card_like-label');
 
-            const likeIcon = document.createElement('span');
-            likeIcon.classList.add('like-icon');
-            likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
+    const like = document.createElement('input');
+    like.type = 'checkbox';
+    like.classList.add('like-checkbox');
 
-            likeLabel.appendChild(like);
-            likeLabel.appendChild(likeIcon);
+    const likeIcon = document.createElement('span');
+    likeIcon.classList.add('like-icon');
+    likeIcon.innerText = '★';
 
-            posterWrap.appendChild(img);
-            posterWrap.appendChild(likeLabel);
+    likeLabel.appendChild(like);
+    likeLabel.appendChild(likeIcon);
 
-            const bottom = document.createElement('div');
-            bottom.classList.add('card_bottom');
+    posterWrap.appendChild(img);
+    posterWrap.appendChild(likeLabel);
 
-            const score = document.createElement('div');
-            score.classList.add('card_score');
+    const bottom = document.createElement('div');
+    bottom.classList.add('card_bottom');
 
-            const scoreNum = document.createElement('span');
-            scoreNum.classList.add('card_score-num');
-            scoreNum.textContent = data.score ?? '–';
+    /* ============================
+       SCORE - 영화(movie)일 때만
+    ============================= */
+    if ((type === "movie" || type === "book") && data.score != null) {
+        const score = document.createElement('div');
+        score.classList.add('card_score');
 
-            const scoreUnit = document.createElement('span');
-            scoreUnit.classList.add('card_score-unit');
-            scoreUnit.textContent = data.scoreUnit ?? '%';
+        const scoreNum = document.createElement('span');
+        scoreNum.classList.add('card_score-num');
+        scoreNum.textContent = data.score;
 
-            score.appendChild(scoreNum);
-            score.appendChild(scoreUnit);
+        const scoreUnit = document.createElement('span');
+        scoreUnit.classList.add('card_score-unit');
+        scoreUnit.textContent = data.scoreUnit ?? '%';
 
-            const meta = document.createElement('div');
-            meta.classList.add('card_meta');
+        score.appendChild(scoreNum);
+        score.appendChild(scoreUnit);
 
-            const title = document.createElement('p');
-            title.classList.add('card_title');
-            title.textContent = data.title;
+        bottom.appendChild(score);
+    }
+    /* ============================
+        EXPO 전용: 지역 / serviceName
+     ============================ */
+    if (type === "expo") {
+        const expoMeta = document.createElement('div');
+        expoMeta.classList.add('expo_meta');
 
-            const subtitle = document.createElement('p');
-            subtitle.classList.add('card_subtitle');
-            subtitle.textContent = data.subtitle ?? '';
-
-            const description = document.createElement('div');
-            description.classList.add('card_description');
-            description.textContent = data.description ?? '';
-
-            meta.appendChild(title);
-            meta.appendChild(subtitle);
-
-            bottom.appendChild(score);
-            bottom.appendChild(meta);
-
-            card.appendChild(posterWrap);
-            card.appendChild(bottom);
-            card.appendChild(description);
-            li.appendChild(card);
-
-            return li;
+        if (data.area) {
+            const area = document.createElement('p');
+            area.classList.add('expo_area');
+            area.textContent = data.area;
+            expoMeta.appendChild(area);
         }
+
+        if (data.serviceName) {
+            const service = document.createElement('p');
+            service.classList.add('expo_service');
+            service.textContent = data.serviceName;
+            expoMeta.appendChild(service);
+        }
+
+        bottom.appendChild(expoMeta);
+    }
+    // 메타데이터
+    const meta = document.createElement('div');
+    meta.classList.add('card_meta');
+
+    const title = document.createElement('p');
+    title.classList.add('card_title');
+    title.textContent = data.title;
+
+    const subtitle = document.createElement('p');
+    subtitle.classList.add('card_subtitle');
+    subtitle.textContent = data.subtitle ?? '';
+
+    const description = document.createElement('div');
+    description.classList.add('card_description');
+    description.textContent = data.description ?? '';
+
+    meta.appendChild(title);
+    meta.appendChild(subtitle);
+
+    bottom.appendChild(meta);
+
+    card.appendChild(posterWrap);
+    card.appendChild(bottom);
+    card.appendChild(description);
+    li.appendChild(card);
+
+    return li;
+}
 
 
 
