@@ -2,9 +2,11 @@
 @import "../def";
 
 #filter-container {
+  height: 50rem;
   width: $filter-container-width;
   margin-top: 6rem;
-  overflow: auto;
+  overflow: scroll;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
 
   .filter-section {
     padding: 1.5rem;

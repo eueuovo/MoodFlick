@@ -1,11 +1,9 @@
+import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
-import "./index/movie.js";
-import "./index/book.js";
+import { loadGoogleBooksPage } from "./index/book.js";
+import { fetchCultural,renderExpo,loadExpo} from "./index/culture.js";
 
-import {loadMovies} from "./index/movie.js";
-import {loadGoogleBooksPage} from "./index/book.js";
-
-// 로그인 모달
+// 모달
 export const dialogHandler = {
     $dialog: document.getElementById('dialog'),
     $modals: [],
@@ -15,6 +13,12 @@ export const dialogHandler = {
         const index = dialogHandler.$modals.indexOf($modal);
         if (index > -1) dialogHandler.$modals.splice(index, 1);
         $modal.classList.remove('visible');
+
+        const $backdrops = dialogHandler.$dialog.querySelectorAll('.modal-backdrop');
+        if ($backdrops.length > 0) {
+            $backdrops[$backdrops.length - 1].remove();
+        }
+
         if (dialogHandler.$modals.length === 0)
             dialogHandler.$dialog.classList.remove('visible');
         else dialogHandler.$modals.at(-1).classList.remove('collapsed');
@@ -25,13 +29,30 @@ export const dialogHandler = {
     //모달 보여주기
     show: (args) => {
         for (const $m of dialogHandler.$modals) $m.classList.add('collapsed');
+
+        // 배경 레이어 추가 (모달이 2개 이상일 때만)
+        if (dialogHandler.$modals.length > 0) {
+            const $backdrop = document.createElement('div');
+            $backdrop.classList.add('modal-backdrop');
+            $backdrop.style.position = 'absolute';
+            $backdrop.style.top = '0';
+            $backdrop.style.left = '0';
+            $backdrop.style.width = '100%';
+            $backdrop.style.height = '100%';
+            $backdrop.style.backgroundColor = '#21212190';
+            $backdrop.style.backdropFilter = 'blur(0.3rem)';
+            $backdrop.style.zIndex = 10 + dialogHandler.$modals.length;
+            dialogHandler.$dialog.append($backdrop);
+        }
+
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-
+/*
         const $title = document.createElement('div');
         $title.classList.add('title');
         $title.innerText = args.title;
         $modal.append($title);
+*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -54,6 +75,8 @@ export const dialogHandler = {
             $modal.append($btnContainer);
         }
 
+        $modal.style.zIndex = 10 + dialogHandler.$modals.length;
+
         dialogHandler.$dialog.append($modal);
         dialogHandler.$dialog.classList.add('visible');
         dialogHandler.$modals.push($modal);
@@ -65,9 +88,9 @@ export const dialogHandler = {
     },
 
     //간단한 확인 모달
-    showSimpleOk: (title, content, args = {}) =>
+    showSimpleOk: (/*title,*/ content, args = {}) =>
         dialogHandler.show({
-            title,
+            /*title,*/
             content,
             isContentHtml: args.isContentHtml,
             buttons: [
@@ -83,18 +106,33 @@ export const dialogHandler = {
         }),
 };
 
+// 메뉴 카테고리
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+        const list = document.querySelector('#poster-container .list')
+        list.innerHTML= ''
+
+        const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';
+        const poster = document.getElementById('poster-container');
+        const expo = document.getElementById('expo-container');
+        poster.style.display = 'none';
+        expo.style.display = 'none';
+
         if (category === '영화') {
+            poster.style.display = 'block';
             loadMovies();
-        }
-        else if (category === '도서') {
+        } if (category === '도서'){
+            poster.style.display = 'block';
             loadGoogleBooksPage();
-        }
-        else {
-            console.log('hello')
+        }if(category === '전시/공연'){
+            expo.style.display = 'block';
+            fetchCultural()
+                .then(renderExpo)   // XML 파싱
+                .then(loadExpo)     // 화면에 렌더
+                .catch(err => console.error(err));
         }
     });
 });
@@ -118,6 +156,11 @@ export function createCardElement(data, type) {
     //즐겨찾기
     const likeLabel = document.createElement('label');
     likeLabel.classList.add('card_like-label');
+
+    //즐찾 클릭 시 이벤트 막기
+    likeLabel.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 
     // HEAD 스타일 유지
     const like = document.createElement('input');
@@ -177,5 +220,139 @@ export function createCardElement(data, type) {
     card.appendChild(description);
     li.appendChild(card);
 
+    card.addEventListener('click', () => {
+        const currentUser = localStorage.getItem('currentUser');
+
+        if (!currentUser){
+            dialogHandler.showSimpleOk('로그인이 필요합니다.');
+            return;
+        }
+
+        const reviewKey = `review_${currentUser}_${data.title}`;
+        const reviewData = localStorage.getItem(reviewKey);
+        const existingReview = reviewData ? JSON.parse(reviewData) : null;
+
+        const reviewButtons = existingReview
+            ? `<button id="review-edit">수정</button>
+           <button id="review-delete">삭제</button>`
+            : `<button id="review-submit">등록</button>`;
+
+        const $modal = dialogHandler.show({
+            title: '',
+            content: `
+            <div class="modal-content">
+                <div class="modal-poster">
+                    <img src="${data.image}" alt="${data.title}">
+                </div>
+                <div class="modal-info">
+                    <div class="title-wrapper">
+                        <div class="title">${data.title}</div>
+                        <div class="subtitle">${data.subtitle ?? ''}</div>                    
+                    </div>
+                    <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
+                    <div class="description">${data.fullDescription ?? ''}</div>
+
+                    <div class="review-section">
+                        <label>
+                            <input id="review-input" class="review-input" type="text" 
+                                value="${existingReview?.text ?? ''}" 
+                                placeholder="리뷰를 입력하세요"
+                                ${existingReview ? 'readonly' : ''}
+                                style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}">
+                        </label>
+                        <div class="button-wrapper">
+                            ${reviewButtons}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            isContentHtml: true,
+            buttons: [
+                {
+                    caption: '닫기',
+                    onclick: ($m) => dialogHandler.hide($m)
+                }
+            ]
+        })
+        const reviewInput = $modal.querySelector('#review-input');
+
+        //리뷰 등록 (리뷰 없을때)
+        const submitBtn = $modal.querySelector('#review-submit');
+        if (submitBtn){
+            submitBtn.addEventListener('click', () => {
+                const reviewText = reviewInput.value.trim();
+                const reviewDate = {
+                    text: reviewText,
+                    author: currentUser,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem(reviewKey, JSON.stringify(reviewDate));
+                dialogHandler.showSimpleOk('리뷰가 등록되었습니다.', {
+                    onclick: () => {
+                        // 모달 닫고 다시 열기
+                        dialogHandler.hide($modal);
+                        setTimeout(() => card.click(), 100);
+                    }
+                });
+            });
+        }
+        //수정 버튼
+        const editBtn = $modal.querySelector('#review-edit');
+        if (editBtn) {
+            let isEditing = false;
+
+            editBtn.addEventListener('click', () => {
+                if (!isEditing) {
+                    // 수정 모드 활성화
+                    reviewInput.removeAttribute('readonly');
+                    reviewInput.style.backgroundColor = '';
+                    reviewInput.style.cursor = '';
+                    reviewInput.focus();
+                    editBtn.textContent = '완료';
+                    isEditing = true;
+                } else {
+                    // 수정 완료
+                    const reviewText = reviewInput.value.trim();
+
+                    if (!reviewText) {
+                        dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');
+                        return;
+                    }
+
+                    const reviewData = {
+                        text: reviewText,
+                        author: currentUser,
+                        timestamp: new Date().toISOString()
+                    };
+                    localStorage.setItem(reviewKey, JSON.stringify(reviewData));
+                    dialogHandler.showSimpleOk('리뷰가 수정되었습니다.', {
+                        onclick: () => {
+                            dialogHandler.hide($modal);
+                            setTimeout(() => card.click(), 100);
+                        }
+                    });
+                }
+            });
+        }
+        //리뷰 삭제 (리뷰 있을 때)
+        const deleteBtn = $modal.querySelector('#review-delete');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                if (existingReview.author !== currentUser) {
+                    dialogHandler.showSimpleOk('본인이 작성한 리뷰만 삭제 가능합니다.');
+                    return;
+                }
+
+                localStorage.removeItem(reviewKey);
+                dialogHandler.showSimpleOk('리뷰가 삭제되었습니다.', {
+                    onclick: () => {
+                        dialogHandler.hide($modal);
+                        setTimeout(() => card.click(), 100);
+                    }
+                });
+            });
+        }
+    });
     return li;
 }

@@ -30,7 +30,6 @@ export function loadMovies() {
         renderMovies(data.results);
         renderPage();
     };
-
     xhr.send();
 }
 
@@ -41,11 +40,10 @@ function renderMovies(results) {
 
     const frag = document.createDocumentFragment();
 
-    results.forEach(m => {
+    results.slice(0,10).forEach(m => {
         const cardData = {
-            description: m.overview
-                ? m.overview.substring(0, 70) + '...'
-                : '영화 설명이 없습니다',
+            description: '클릭하여 영화 상세 보기',
+            fullDescription: m.overview || '영화 설명이 없습니다.',
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
                 : 'assets/images/no-poster.png',
@@ -56,7 +54,6 @@ function renderMovies(results) {
         };
         frag.appendChild(createCardElement(cardData, 'movie'));
     });
-
     list.appendChild(frag);
 }
 
