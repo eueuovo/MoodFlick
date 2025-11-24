@@ -57,7 +57,6 @@
       cursor: pointer;
       padding: 0.5rem; }
 
-@Import "./def";
 #main-container {
   align-items: flex-start;
   display: flex;
@@ -65,7 +64,7 @@
   gap: 2;
   justify-content: flex-start;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 0 7rem;
   background-color: #ffffff; }
   #main-container > * {
@@ -75,133 +74,156 @@
     flex-grow: 1;
     flex-shrink: 1; }
 
-#filter-container {
-  height: 50rem;
+#filter-wrapper {
+  display: flex;
+  flex-direction: column;
   width: 15rem;
-  margin-top: 6rem;
-  overflow: scroll;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
-  /* 행사/전시 영역 */ }
-  #filter-container .filter-section {
-    padding: 1.5rem;
-    background: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem; }
-    #filter-container .filter-section .filter-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 1rem; }
-    #filter-container .filter-section select {
-      margin-top: 1.4rem;
-      padding: 0.7rem 1.0rem;
-      border-radius: 0.7rem;
-      font-size: 1.2rem; }
-    #filter-container .filter-section .filter-block {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      /* 날짜 범위 */
-      /* 장르 */ }
-      #filter-container .filter-section .filter-block .label {
+  position: relative;
+  /*검색 버튼*/ }
+  #filter-wrapper #filter-container {
+    height: calc(100vh - 4.5rem - 7.8rem);
+    width: 15rem;
+    margin-top: 6rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
+    /* 행사/전시 영역 */ }
+    #filter-wrapper #filter-container .filter-section {
+      height: 100%;
+      display: none;
+      padding: 0 1.5rem;
+      background: #fff;
+      box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.08);
+      flex-direction: column; }
+      #filter-wrapper #filter-container .filter-section[data-tab="영화"] {
+        display: block; }
+      #filter-wrapper #filter-container .filter-section .array-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 1rem 0; }
+      #filter-wrapper #filter-container .filter-section .filter-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding-top: 1rem; }
+      #filter-wrapper #filter-container .filter-section select {
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        font-size: 1rem;
+        border: 0.0625rem solid #21212130; }
+      #filter-wrapper #filter-container .filter-section .filter-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        /* 날짜 범위 */
+        /* 장르 */ }
+        #filter-wrapper #filter-container .filter-section .filter-block .label {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #333;
+          padding: 0.7rem 0; }
+        #filter-wrapper #filter-container .filter-section .filter-block label {
+          font-size: 1.1rem;
+          display: flex;
+          align-items: center;
+          cursor: pointer; }
+          #filter-wrapper #filter-container .filter-section .filter-block label input {
+            transform: scale(1.2); }
+        #filter-wrapper #filter-container .filter-section .filter-block .date-range {
+          display: flex;
+          gap: 0.8rem;
+          margin-top: 0.2rem;
+          align-items: flex-start;
+          align-self: flex-start;
+          justify-content: flex-start;
+          flex-direction: column;
+          padding: 0 0.95rem;
+          margin-bottom: 0.25rem; }
+          #filter-wrapper #filter-container .filter-section .filter-block .date-range label {
+            font-size: 1rem; }
+          #filter-wrapper #filter-container .filter-section .filter-block .date-range input[type="date"] {
+            width: 9.3rem;
+            height: 2rem;
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+            border: 0.0625px solid #21212130;
+            font-size: 0.85rem;
+            line-height: 2rem; }
+        #filter-wrapper #filter-container .filter-section .filter-block .genre {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          padding-bottom: 0.3rem; }
+          #filter-wrapper #filter-container .filter-section .filter-block .genre li {
+            padding: 0.2rem 0.5rem;
+            background: #f5f5f7;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s; }
+            #filter-wrapper #filter-container .filter-section .filter-block .genre li:hover {
+              background: #e7e7ea; }
+            #filter-wrapper #filter-container .filter-section .filter-block .genre li.active {
+              background: #4b7bec;
+              color: #fff; }
+    #filter-wrapper #filter-container .filter-block {
+      padding-bottom: 1rem;
+      /* 체크박스 라벨 */ }
+      #filter-wrapper #filter-container .filter-block .event {
+        font-size: 1.3rem;
+        font-weight: 700; }
+      #filter-wrapper #filter-container .filter-block > .sub-label {
         font-size: 1.2rem;
         font-weight: 600;
         color: #333;
-        margin-bottom: 0.5rem; }
-      #filter-container .filter-section .filter-block label {
-        font-size: 1.1rem;
+        padding: 0.7rem 0; }
+      #filter-wrapper #filter-container .filter-block .event-type {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem; }
+        #filter-wrapper #filter-container .filter-block .event-type li {
+          padding: 0.2rem 0.5rem;
+          background: #f5f5f7;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.2s; }
+          #filter-wrapper #filter-container .filter-block .event-type li:hover {
+            background: #e3e4e8; }
+          #filter-wrapper #filter-container .filter-block .event-type li.active {
+            background: #4b7bec;
+            color: #fff; }
+      #filter-wrapper #filter-container .filter-block label {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        margin-right: 0.8rem;
         cursor: pointer; }
-        #filter-container .filter-section .filter-block label input {
+        #filter-wrapper #filter-container .filter-block label input {
           transform: scale(1.2); }
-      #filter-container .filter-section .filter-block .date-range {
-        display: flex;
-        gap: 1.5rem;
-        margin-top: 0.5rem;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column; }
-        #filter-container .filter-section .filter-block .date-range label {
-          font-size: 1.1rem; }
-        #filter-container .filter-section .filter-block .date-range input[type="date"] {
-          padding: 0.4rem 0.7rem;
-          border-radius: 0.4rem;
-          border: 1px solid #ddd;
-          font-size: 1rem; }
-      #filter-container .filter-section .filter-block .genre {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem; }
-        #filter-container .filter-section .filter-block .genre li {
-          padding: 0.45rem 1rem;
-          background: #f5f5f7;
-          border-radius: 0.7rem;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: all 0.2s; }
-          #filter-container .filter-section .filter-block .genre li:hover {
-            background: #e7e7ea; }
-          #filter-container .filter-section .filter-block .genre li.active {
-            background: #4b7bec;
-            color: #fff; }
-  #filter-container .filter-block {
-    margin-top: 2rem;
-    /* 체크박스 라벨 */
-    /* 검색 버튼 */ }
-    #filter-container .filter-block .event {
-      font-size: 1.3rem;
-      font-weight: 700; }
-    #filter-container .filter-block .sub-label {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0.4rem 0; }
-    #filter-container .filter-block .event-type {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-bottom: 1rem; }
-      #filter-container .filter-block .event-type li {
-        padding: 0.5rem 1.1rem;
-        background: #f2f3f5;
-        border-radius: 0.7rem;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.2s; }
-        #filter-container .filter-block .event-type li:hover {
-          background: #e3e4e8; }
-        #filter-container .filter-block .event-type li.active {
-          background: #4b7bec;
-          color: #fff; }
-    #filter-container .filter-block label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-right: 0.8rem;
-      cursor: pointer; }
-      #filter-container .filter-block label input {
-        transform: scale(1.2); }
-    #filter-container .filter-block .filter-search-btn {
-      margin-top: 1.4rem;
-      padding: 0.7rem 1.4rem;
-      background: #4b7bec;
-      color: #fff;
-      border-radius: 0.7rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s; }
-      #filter-container .filter-block .filter-search-btn:hover {
-        background: #3c6bd0; }
-  @media (max-width: 48rem) {
-    #filter-container #filter-container .filter-section .filter-block .date-range {
-      flex-direction: column !important;
-      display: flex !important;
-      gap: 0.8rem; } }
+    @media (max-width: 48rem) {
+      #filter-wrapper #filter-container #filter-container .filter-section .filter-block .date-range {
+        flex-direction: column !important;
+        display: flex !important;
+        gap: 0.8rem; } }
+  #filter-wrapper .filter-search-btn {
+    left: 1rem;
+    z-index: 10;
+    position: sticky;
+    bottom: 0;
+    width: 15rem;
+    align-self: flex-start;
+    padding: 0.7rem 1.4rem;
+    background: #4b7bec;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s; }
+    #filter-wrapper .filter-search-btn:hover {
+      background: #3c6bd0; }
 
 #poster-container {
   height: 100%;
@@ -211,16 +233,18 @@
   margin: 0;
   padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8rem;
   justify-content: center;
   list-style: none; }
   #poster-list > .item {
+    height: 22rem;
+    width: 14rem;
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.625rem;
+    padding: 0.4rem;
     border-radius: 0.875rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer; }
@@ -232,7 +256,7 @@
     --badge-bg: #022c22;
     --badge-border: #16a34a;
     background: #ffffff;
-    border-radius: 0.875rem;
+    border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 1.125rem 2.5rem rgba(15, 23, 42, 0.16);
     display: flex;
@@ -253,7 +277,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 1rem;
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
@@ -539,7 +562,8 @@
             border-radius: 0.2rem;
             cursor: pointer;
             align-items: center;
-            font-weight: 500; }
+            font-weight: 500;
+            color: #ffffff; }
             #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .login-button:hover {
               background-color: #E64E4E; }
         #login-container > .login-page > .login-warrap > .login-form > .signup-wrapper {
@@ -620,7 +644,8 @@
           border-radius: 0.2rem;
           cursor: pointer;
           align-items: center;
-          font-weight: 500; }
+          font-weight: 500;
+          color: #ffffff; }
           #login-container > .signup-page > .signup-form > .input-wrapper > .signup-submit-button:hover {
             background-color: #E64E4E; }
         #login-container > .signup-page > .signup-form > .input-wrapper > .close-button {
@@ -635,7 +660,8 @@
           border-radius: 0.2rem;
           cursor: pointer;
           align-items: center;
-          font-weight: 500; }
+          font-weight: 500;
+          color: #ffffff; }
           #login-container > .signup-page > .signup-form > .input-wrapper > .close-button:hover {
             background-color: #747474; }
 
@@ -784,6 +810,39 @@
     -webkit-line-clamp: 1;
     /* ← 이게 핵심: 최대 2줄 */
     -webkit-box-orient: vertical; }
+
+#splash-container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden; }
+  #splash-container > .movie-main {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    width: 100%; }
+    #splash-container > .movie-main > .splash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0; }
+      #splash-container > .movie-main > .splash > .img {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 80%;
+        object-fit: cover;
+        transition: left 1s ease-in-out; }
+      #splash-container > .movie-main > .splash > .splashSide1 {
+        left: 0; }
+    #splash-container > .movie-main > .top-five {
+      position: relative;
+      z-index: 1; }
 
 body {
   align-items: center;

@@ -1,6 +1,6 @@
 import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
-import { loadGoogleBooksPage } from "./index/book.js";
+import {loadAllBooks, loadGoogleBooksPage} from "./index/book.js";
 import { fetchCultural,renderExpo,loadExpo} from "./index/culture.js";
 
 // 모달
@@ -106,16 +106,24 @@ export const dialogHandler = {
         }),
 };
 
-// 메뉴 카테고리
+// 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
+const filterSections = document.querySelectorAll('.filter-section');
+
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+
+        filterSections.forEach(section => section.style.display = 'none');
+        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
+        if (active) active.style.display = 'block';
+
+        //포스터 초기화
         const list = document.querySelector('#poster-container .list')
         list.innerHTML= ''
-
         const expoList = document.querySelector('#expo-list');
         if (expoList) expoList.innerHTML = '';
+
         const poster = document.getElementById('poster-container');
         const expo = document.getElementById('expo-container');
         poster.style.display = 'none';
@@ -126,7 +134,7 @@ categoryInputs.forEach(input => {
             loadMovies();
         } if (category === '도서'){
             poster.style.display = 'block';
-            loadGoogleBooksPage();
+            loadAllBooks();
         }if(category === '전시/공연'){
             expo.style.display = 'block';
             fetchCultural()
@@ -135,6 +143,56 @@ categoryInputs.forEach(input => {
                 .catch(err => console.error(err));
         }
     });
+});
+
+// 스플래시 전환
+function initSplashAutoSlide() {
+    const splashContainers = document.querySelectorAll('.splash');
+
+    splashContainers.forEach(container => {
+        const images = Array.from(container.querySelectorAll('.img'));
+        if (!images.length) return;
+
+        let currentIndex = 0;
+
+        images.forEach((img, idx) => {
+            img.style.transition = 'none';
+            img.style.left = idx === 0 ? '0' : '100%';
+        });
+
+        setInterval(() => {
+            const prevIndex = currentIndex;
+            const nextIndex = (currentIndex + 1) % images.length;
+
+            // 현재 이미지 왼쪽으로
+            images[prevIndex].style.transition = 'left 0.5s ease-in-out';
+            images[prevIndex].style.left = '-100%';
+
+            // 다음 이미지 중앙으로
+            images[nextIndex].style.transition = 'left 0.5s ease-in-out';
+            images[nextIndex].style.left = '0';
+
+            // 나머지 이미지들은 확실히 오른쪽에 고정
+            images.forEach((img, idx) => {
+                if (idx !== prevIndex && idx !== nextIndex) {
+                    img.style.transition = 'none';
+                    img.style.left = '100%';
+                }
+            });
+
+            // 애니메이션 끝나면 이전 이미지 리셋
+            setTimeout(() => {
+                images[prevIndex].style.transition = 'none';
+                images[prevIndex].style.left = '100%';
+            }, 1100);
+
+            currentIndex = nextIndex;
+        }, 3000);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSplashAutoSlide();
 });
 
 // 카드 요소 만들기

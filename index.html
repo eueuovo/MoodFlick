@@ -31,74 +31,202 @@
         <button class="button logout" type="button">로그아웃</button>
     </div>
 </div>
-<div id="main-container">
-    <div id="filter-container">
-        <!-- 정렬 -->
-        <div class="filter-section">
-            <h3 class="filter-title">정렬</h3>
-            <select id="sort-select">
-                <option value="screening-desc">출시일 ↓ (최신)</option>
-                <option value="screening-asc">출시일 ↑ (오래된)</option>
-                <option value="review">리뷰 많은 순</option>
-                <option value="release">개봉일 순</option>
-                <option value="popular">인기순</option>
-            </select>
-            <!-- 볼 수 있는 곳(필터) -->
-            <h3 class="filter-title">필터</h3>
-            <!-- 시청 유무 -->
-            <div class="filter-block">
-                <p class="label">보기옵션</p>
-                <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
-                <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
-            </div>
-            <!-- 개봉일 선택 -->
-            <div class="filter-block">
-                <p class="label">출시일</p>
-                <div class="date-range">
-                    <label><input type="date" id="date-from"></label>
-                    <label><input type="date" id="date-to"></label>
-                </div>
-            </div>
-            <div class="filter-block">
-                <p class="label">장르</p>
-                <ul class="genre">
-                    <li>SF</li>
-                    <li>가족</li>
-                    <li>공포</li>
-                    <li>로맨스</li>
-                    <li>모헙</li>
-                    <li>미스터리</li>
-                    <li>범죄</li>
-                    <li>스릴러</li>
-                    <li>액션</li>
-                    <li>역사</li>
-                    <li>음악</li>
-                    <li>전쟁</li>
-                    <li>코미디</li>
-                    <li>판타지</li>
-                </ul>
-            </div>
-            <div class="filter-block expo">
-                <p class="label event">행사, 전시</p>
-                <!-- 행사 유형 -->
-                <div class="sub-label">유형</div>
-                <ul class="event-type">
-                    <li>전시</li>
-                    <li>사진전</li>
-                    <li>팝업스토어</li>
-                    <li>공연</li>
-                    <li>페스티벌</li>
-                    <li>체험형</li>
-                </ul>
-                <div class="sub-label">진행 상태</div>
-                <label><input type="checkbox" name="event-status" value="ongoing"> 진행 중</label>
-                <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
-                <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
-                <!-- 검색 버튼 -->
-                <button class="filter-search-btn">검색</button>
+
+<div id="splash-container">
+    <!--영화 스플래시-->
+    <div class="movie-main" data-tab="영화">
+        <div class="splash">
+            <img class="img splashSide1" src="assets/images/index/splash/movie_splash1.jpg" alt="">
+            <img class="img splashSide2" src="assets/images/index/splash/movie_splash2.jpg" alt="">
+        </div>
+        <div class="top-five">
+            <div>
+                <div class="num">1</div>
+                <img class="img top1" src="" alt="">
+                <div class="title">타이틀</div>
+                <div class="score">★</div>
             </div>
         </div>
     </div>
+
+    <!--도서 스플래시-->
+    <div class="movie-main" data-tab="도서">
+        <div class="splash">
+            <img class="img splashSide1" src="" alt="">
+            <img class="img splashSide2" src="" alt="">
+            <img class="img splashSide3" src="" alt="">
+        </div>
+        <div class="top-five">
+            <div>
+                <div class="num">1</div>
+                <img class="img top1" src="" alt="">
+                <div class="title">타이틀</div>
+                <div class="score">★</div>
+            </div>
+        </div>
+    </div>
+
+    <!--전시/공연 스플래시-->
+    <div class="movie-main" data-tab="전시/공연">
+        <div class="splash">
+            <img class="img splashSide1" src="" alt="">
+            <img class="img splashSide2" src="" alt="">
+            <img class="img splashSide3" src="" alt="">
+        </div>
+        <div class="top-five">
+            <div>
+                <div class="num">1</div>
+                <img class="img top1" src="" alt="">
+                <div class="title">타이틀</div>
+                <div class="score">★</div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div id="main-container">
+    <div id="filter-wrapper">
+        <div id="filter-container">
+            <!-- 영화 정렬 -->
+            <div class="filter-section filter-movie" data-tab="영화">
+                <div class="array-title">정렬</div>
+                <select class="sort-select">
+                    <option value="screening-desc">출시일 ↓ (최신)</option>
+                    <option value="screening-asc">출시일 ↑ (오래된)</option>
+                    <option value="review">리뷰 많은 순</option>
+                    <option value="release">개봉일 순</option>
+                    <option value="popular">인기순</option>
+                </select>
+                <!-- 볼 수 있는 곳(필터) -->
+                <div class="filter-title">필터</div>
+                <!-- 시청 유무 -->
+                <div class="filter-block">
+                    <div class="label">보기옵션</div>
+                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+                </div>
+                <!-- 개봉일 선택 -->
+                <div class="filter-block">
+                    <div class="label">출시일</div>
+                    <div class="date-range">
+                        <label><input type="date" class="date-from"></label>
+                        <label><input type="date" class="date-to"></label>
+                    </div>
+                </div>
+                <div class="filter-block">
+                    <div class="label">영화 장르</div>
+                    <ul class="genre">
+                        <li>SF</li>
+                        <li>가족</li>
+                        <li>공포</li>
+                        <li>로맨스</li>
+                        <li>모험</li>
+                        <li>범죄</li>
+                        <li>미스터리</li>
+                        <li>스릴러</li>
+                        <li>코미디</li>
+                        <li>액션</li>
+                        <li>음악</li>
+                        <li>전쟁</li>
+                        <li>역사</li>
+                        <li>판타지</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 도서 정렬 -->
+            <div class="filter-section filter-book" data-tab="도서">
+                <div class="array-title">정렬</div>
+                <select class="sort-select">
+                    <option value="screening-desc">출시일 ↓ (최신)</option>
+                    <option value="screening-asc">출시일 ↑ (오래된)</option>
+                    <option value="review">리뷰 많은 순</option>
+                    <option value="release">개봉일 순</option>
+                    <option value="popular">인기순</option>
+                </select>
+                <!-- 볼 수 있는 곳(필터) -->
+                <div class="filter-title">필터</div>
+                <!-- 시청 유무 -->
+                <div class="filter-block">
+                    <div class="label">보기옵션</div>
+                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+                </div>
+                <!-- 개봉일 선택 -->
+                <div class="filter-block">
+                    <div class="label">출시일</div>
+                    <div class="date-range">
+                        <label><input type="date" class="date-from"></label>
+                        <label><input type="date" class="date-to"></label>
+                    </div>
+                </div>
+                <div class="filter-block expo">
+                    <div class="label event">행사, 전시 유형</div>
+                    <ul class="event-type">
+                        <li>전시</li>
+                        <li>사진전</li>
+                        <li>공연</li>
+                        <li>팝업스토어</li>
+                        <li>페스티벌</li>
+                        <li>체험형</li>
+                    </ul>
+                    <div class="sub-label">진행 상태</div>
+                    <label><input type="checkbox" name="event-status" value="ongoing"> 진행</label>
+                    <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
+                    <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
+                </div>
+            </div>
+
+            <!-- 전시/공연 정렬 -->
+            <div class="filter-section filter-culture" data-tab="전시/공연">
+                <div class="array-title">정렬</div>
+                <select class="sort-select">
+                    <option value="screening-desc">출시일 ↓ (최신)</option>
+                    <option value="screening-asc">출시일 ↑ (오래된)</option>
+                    <option value="review">리뷰 많은 순</option>
+                    <option value="release">개봉일 순</option>
+                    <option value="popular">인기순</option>
+                </select>
+                <!-- 볼 수 있는 곳(필터) -->
+                <div class="filter-title">필터</div>
+                <!-- 시청 유무 -->
+                <div class="filter-block">
+                    <div class="label">보기옵션</div>
+                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+                </div>
+                <!-- 개봉일 선택 -->
+                <div class="filter-block">
+                    <div class="label">출시일</div>
+                    <div class="date-range">
+                        <label><input type="date" class="date-from"></label>
+                        <label><input type="date" class="date-to"></label>
+                    </div>
+                </div>
+                <div class="filter-block expo">
+                    <div class="label event">행사, 전시 유형</div>
+                    <ul class="event-type">
+                        <li>전시</li>
+                        <li>사진전</li>
+                        <li>공연</li>
+                        <li>팝업스토어</li>
+                        <li>페스티벌</li>
+                        <li>체험형</li>
+                    </ul>
+                    <div class="sub-label">진행 상태</div>
+                    <label><input type="checkbox" name="event-status" value="ongoing"> 진행</label>
+                    <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
+                    <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
+                </div>
+            </div>
+
+        </div>
+        <!-- 검색 버튼 -->
+        <button class="filter-search-btn">검색</button>
+    </div>
+
     <div id="poster-container" class="-stretch">
         <ul id="poster-list" class="list">
             <li>포스터 들어갈 예정</li>
@@ -115,9 +243,11 @@
         </div>
     </div>
     <div id="expo-container" class="tab-content -stretch" data-type="전시/공연">
-        <ul id="expo-list" class="expo-list">
-          <!--  <li class="expo-item"></li>-->
-        </ul>
+        <!--
+                <ul id="expo-list" class="expo-list">
+                  &lt;!&ndash;  <li class="expo-item"></li>&ndash;&gt;
+                </ul>
+        -->
     </div>
 </div>
 
@@ -143,10 +273,12 @@
                 <div class="input-wrapper">
                     <label class="label">
                         <span class="login-title">로그인</span>
-                        <input autofocus required class="input" id="email" type="email" minlength="5" maxlength="50" placeholder="아이디를 입력해 주세요.">
+                        <input autofocus required class="input" id="email" type="email" minlength="5" maxlength="50"
+                               placeholder="아이디를 입력해 주세요.">
                     </label>
                     <label class="label">
-                        <input required class="input" id="password" type="password" minlength="5" maxlength="50" placeholder="비밀번호를 입력해 주세요.">
+                        <input required class="input" id="password" type="password" minlength="5" maxlength="50"
+                               placeholder="비밀번호를 입력해 주세요.">
                     </label>
                     <button class="login-button">로그인</button>
                 </div>
@@ -162,13 +294,16 @@
             <div class="input-wrapper">
                 <div class="caption">회원가입 후 MoodFlick을 즐겨보세요.</div>
                 <label class="label">
-                    <input autofocus required class="input" id="signup-email" type="email" minlength="5" maxlength="50" placeholder="아이디를 입력해 주세요.">
+                    <input autofocus required class="input" id="signup-email" type="email" minlength="5" maxlength="50"
+                           placeholder="아이디를 입력해 주세요.">
                 </label>
                 <label class="label">
-                    <input required class="input" id="signup-password" type="password" minlength="5" maxlength="50" placeholder="비밀번호를 입력해 주세요.">
+                    <input required class="input" id="signup-password" type="password" minlength="5" maxlength="50"
+                           placeholder="비밀번호를 입력해 주세요.">
                 </label>
                 <label class="label">
-                    <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50" placeholder="닉네임을 입력해 주세요.">
+                    <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50"
+                           placeholder="닉네임을 입력해 주세요.">
                 </label>
                 <button type="submit" class="signup-submit-button">회원 가입</button>
                 <button type="button" class="close-button">닫기</button>

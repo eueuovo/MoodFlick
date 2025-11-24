@@ -1,0 +1,43 @@
+#splash-container{
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  > .movie-main{
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    > .splash{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+
+      > .img{
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 80%;
+        object-fit: cover;
+        transition: left 1s ease-in-out;
+      }
+
+      > .splashSide1{
+        left: 0;
+      }
+    }
+
+    > .top-five{
+      position: relative;
+      z-index: 1;
+    }
+  }
+}

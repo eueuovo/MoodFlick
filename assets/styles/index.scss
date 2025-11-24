@@ -5,6 +5,7 @@
 @import "./index/poster";
 @import "./index/login";
 @import "./index/expo";
+@import "./index/splash";
 
 body {
   @include flex (column, center, flex-start);

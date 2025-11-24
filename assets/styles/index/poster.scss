@@ -9,17 +9,19 @@
   margin: 0;
   padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(5, minmax(11.25rem, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8rem;
   justify-content: center;
   list-style: none;
 
   > .item {
+    height: 22rem;
+    width: 14rem;
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.625rem;
+    padding: 0.4rem;
     border-radius: 0.875rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
@@ -37,7 +39,7 @@
     --badge-bg: #022c22;
     --badge-border: #16a34a;
     background: #ffffff;
-    border-radius: 0.875rem;
+    border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 1.125rem 2.5rem rgba(15, 23, 42, 0.16);
     display: flex;
@@ -61,7 +63,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 1rem;
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
@@ -168,7 +169,7 @@
   }
 
   .card--movie {
-    // 위에 설정한 기본 값
+    //위와 동일일
   }
 
   .card--book {
