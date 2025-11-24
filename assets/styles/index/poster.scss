@@ -73,8 +73,10 @@
     }
 
     &_poster {
-      position: relative;
+      width: 100%;
       aspect-ratio: 2 / 3;
+      position: relative;
+      border-radius: 0.5rem;
       overflow: hidden;
 
       img {
@@ -118,11 +120,12 @@
       position: relative;
       padding: 1.125rem 1rem 0.875rem;
       background: #ffffff;
+      margin-top: auto;
     }
 
     &_score {
       position: absolute;
-      left: 1rem;
+      left: 0.5rem;
       top: -1.25rem;
       width: 2.75rem;
       height: 2.75rem;
@@ -148,28 +151,36 @@
     }
 
     &_meta {
-      margin-left: 3.5rem;
+      margin-left: 2rem;
     }
 
     &_title {
-      margin: 0 0 0.25rem;
-      font-size: 0.9375rem;
+      display: -webkit-box;
+      margin: 0.3rem 0 0 0;
+      font-size: 0.95rem;
       font-weight: 600;
+      line-height: 1.3rem;
       color: #111827;
-      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
 
     &_subtitle {
+      display: -webkit-box;
+      height: 1.5rem;
+      color: #6b7280;
       margin: 0;
       font-size: 0.8125rem;
-      color: #6b7280;
+      line-height: 1.5rem;
+      overflow: hidden;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
   }
 
   .card--movie {
-    //위와 동일일
+    // 위에 설정한 기본 값
   }
 
   .card--book {
@@ -218,8 +229,7 @@
       font-size: 1.1rem;
       color: #6b7280;
       cursor: pointer;
-      transition-property: color;
-      transition-duration: 0.2s;
+      transition: color 0.2s ease;
 
       &:hover {
         color: #374151;
@@ -229,6 +239,11 @@
         color: #111827;
         font-weight: 700;
       }
+    }
+
+    .dots {
+      color: #9ca3af;
+      pointer-events: none;
     }
   }
 }

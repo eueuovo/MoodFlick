@@ -191,7 +191,7 @@
           transition: all 0.2s; }
           #filter-wrapper #filter-container .filter-block .event-type li:hover {
             background: #e3e4e8; }
-          #filter-wrapper #filter-container .filter-block .event-type li.active {
+          #filter-wrapper #filter-container .filter-block .event-type li.selected {
             background: #4b7bec;
             color: #fff; }
       #filter-wrapper #filter-container .filter-block label {
@@ -285,8 +285,10 @@
       transition-timing-function: ease;
       font-size: 0.9rem; }
     #poster-list .card_poster {
-      position: relative;
+      width: 100%;
       aspect-ratio: 2 / 3;
+      position: relative;
+      border-radius: 0.5rem;
       overflow: hidden; }
       #poster-list .card_poster img {
         width: 100%;
@@ -317,10 +319,11 @@
     #poster-list .card_bottom {
       position: relative;
       padding: 1.125rem 1rem 0.875rem;
-      background: #ffffff; }
+      background: #ffffff;
+      margin-top: auto; }
     #poster-list .card_score {
       position: absolute;
-      left: 1rem;
+      left: 0.5rem;
       top: -1.25rem;
       width: 2.75rem;
       height: 2.75rem;
@@ -340,19 +343,27 @@
         font-size: 0.6875rem;
         opacity: 0.9; }
     #poster-list .card_meta {
-      margin-left: 3.5rem; }
+      margin-left: 2rem; }
     #poster-list .card_title {
-      margin: 0 0 0.25rem;
-      font-size: 0.9375rem;
+      display: -webkit-box;
+      margin: 0.3rem 0 0 0;
+      font-size: 0.95rem;
       font-weight: 600;
+      line-height: 1.3rem;
       color: #111827;
-      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; }
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical; }
     #poster-list .card_subtitle {
+      display: -webkit-box;
+      height: 1.5rem;
+      color: #6b7280;
       margin: 0;
       font-size: 0.8125rem;
-      color: #6b7280; }
+      line-height: 1.5rem;
+      overflow: hidden;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical; }
   #poster-list .card--book {
     --badge-bg: #1d3557;
     --badge-border: #457b9d; }
@@ -415,13 +426,15 @@
       font-size: 1.1rem;
       color: #6b7280;
       cursor: pointer;
-      transition-property: color;
-      transition-duration: 0.2s; }
+      transition: color 0.2s ease; }
       #poster-container > #page-container .page-numbers .page-number:hover {
         color: #374151; }
       #poster-container > #page-container .page-numbers .page-number.active {
         color: #111827;
         font-weight: 700; }
+    #poster-container > #page-container .page-numbers .dots {
+      color: #9ca3af;
+      pointer-events: none; }
 
 #login-container {
   position: fixed;

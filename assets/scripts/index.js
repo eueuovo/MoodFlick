@@ -1,7 +1,7 @@
-import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
 import {loadAllBooks, loadGoogleBooksPage} from "./index/book.js";
 import { loadExpo } from "./index/culture.js";
+import { loadMovies } from "./index/movie.js";
 
 // 모달
 export const dialogHandler = {
@@ -47,11 +47,12 @@ export const dialogHandler = {
 
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-
+/*
         const $title = document.createElement('div');
         $title.classList.add('title');
         $title.innerText = args.title;
         $modal.append($title);
+*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -446,5 +447,28 @@ export function createCardElement(data, type) {
     return li;
 }
 
+/*
+// =====================================
 
+// 1) 정렬 변경
+document.getElementById("sort-select").addEventListener("change", loadMovies);
 
+// 2) 날짜 변경
+document.getElementById("date-from").addEventListener("change", loadMovies);
+document.getElementById("date-to").addEventListener("change", loadMovies)
+
+// 3) 보기 옵션 변경
+document.querySelectorAll("input[name='watch-state']").forEach(el => {
+    el.addEventListener("change", loadMovies)
+});
+
+// 4) 장르 선택
+document.querySelectorAll(".genre li").forEach(li => {
+    li.addEventListener("click", () => {
+        li.classList.toggle("selected");
+        loadMovies();
+    });
+});
+*/
+
+loadMovies();
