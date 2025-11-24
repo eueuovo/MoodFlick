@@ -95,7 +95,7 @@ function renderMovies(results) {
             fullDescription: m.overview || '영화 설명이 없습니다.',
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/poster/no-image.png',
+                : 'assets/images/index/main/no-poster.png',
             title: m.title || m.name,
             subtitle: m.release_date || '',
             score: Math.round(m.vote_average * 10),

@@ -9,3 +9,9 @@ export function filterOption() {
 
     return {sort, watchState, dateFrom, dateTo, genre};
 }
+
+document.querySelectorAll(".genre li").forEach(li => {
+    li.addEventListener("click", () => {
+        li.classList.toggle("selected");
+    });
+});
