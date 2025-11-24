@@ -206,14 +206,32 @@
                     </div>
                 </div>
                 <div class="filter-block expo">
-                    <div class="label event">행사, 전시 유형</div>
+                    <p class="label event">행사 / 전시 필터</p>
+                    <!-- 지역 필터 -->
+                    <div class="sub-label">지역</div>
+                    <select id="area" class="filter-area">
+                        <option value="">전체</option>
+                        <option value="서울">서울</option>
+                        <option value="경기">경기</option>
+                        <option value="인천">인천</option>
+                        <option value="강원">강원</option>
+                        <option value="충북">충북</option>
+                        <option value="충남">충남</option>
+                        <option value="전북">전북</option>
+                        <option value="전남">전남</option>
+                        <option value="경북">경북</option>
+                        <option value="경남">경남</option>
+                        <option value="부산">부산</option>
+                        <option value="대구">대구</option>
+                        <option value="울산">울산</option>
+                        <option value="광주">광주</option>
+                        <option value="제주">제주</option>
+                        <!-- 필요 시 더 추가 -->
+                    </select>
+                    <div class="label event">유형</div>
                     <ul class="event-type">
-                        <li>전시</li>
-                        <li>사진전</li>
-                        <li>공연</li>
-                        <li>팝업스토어</li>
-                        <li>페스티벌</li>
-                        <li>체험형</li>
+                        <li data-value="공연/전시">공연/전시</li>
+                        <li data-value="교육/체험">교육/체험</li>
                     </ul>
                     <div class="sub-label">진행 상태</div>
                     <label><input type="checkbox" name="event-status" value="ongoing"> 진행</label>
@@ -221,7 +239,6 @@
                     <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
                 </div>
             </div>
-
         </div>
         <!-- 검색 버튼 -->
         <button class="filter-search-btn">검색</button>
@@ -239,15 +256,7 @@
 
             <button class="page-btn next">&gt;</button>
             <button class="page-btn last">&raquo;</button>
-
         </div>
-    </div>
-    <div id="expo-container" class="tab-content -stretch" data-type="전시/공연">
-        <!--
-                <ul id="expo-list" class="expo-list">
-                  &lt;!&ndash;  <li class="expo-item"></li>&ndash;&gt;
-                </ul>
-        -->
     </div>
 </div>
 

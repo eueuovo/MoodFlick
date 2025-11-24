@@ -1,7 +1,7 @@
 import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
 import {loadAllBooks, loadGoogleBooksPage} from "./index/book.js";
-import { fetchCultural,renderExpo,loadExpo} from "./index/culture.js";
+import { loadExpo } from "./index/culture.js";
 
 // 모달
 export const dialogHandler = {
@@ -47,12 +47,11 @@ export const dialogHandler = {
 
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-/*
+
         const $title = document.createElement('div');
         $title.classList.add('title');
         $title.innerText = args.title;
         $modal.append($title);
-*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -105,6 +104,9 @@ export const dialogHandler = {
             ],
         }),
 };
+/*
+let expoLoaded = false;
+*/
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
@@ -120,27 +122,27 @@ categoryInputs.forEach(input => {
 
         //포스터 초기화
         const list = document.querySelector('#poster-container .list')
-        list.innerHTML= ''
-        const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';
+        list.innerHTML = ''
 
+        /*const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';*/
         const poster = document.getElementById('poster-container');
-        const expo = document.getElementById('expo-container');
-        poster.style.display = 'none';
-        expo.style.display = 'none';
+        /*const expo = document.getElementById('expo-container');*/
+        /*poster.style.display = 'none';*/
+     /*   expo.style.display = 'none';
+        expo.classList.remove('active');*/
 
         if (category === '영화') {
-            poster.style.display = 'block';
+           poster.style.display = 'block';
             loadMovies();
-        } if (category === '도서'){
+        }
+        if (category === '도서') {
             poster.style.display = 'block';
-            loadAllBooks();
-        }if(category === '전시/공연'){
-            expo.style.display = 'block';
-            fetchCultural()
-                .then(renderExpo)   // XML 파싱
-                .then(loadExpo)     // 화면에 렌더
-                .catch(err => console.error(err));
+            loadGoogleBooksPage();
+
+        } if (category === "전시/공연") {
+            poster.style.display = "block";  // 영화/도서랑 동일하게 사용
+            loadExpo();                     // ★ 반드시 실행됨
         }
     });
 });
@@ -203,7 +205,7 @@ export function createCardElement(data, type) {
     const card = document.createElement('article');
     card.classList.add('card', `card--${type}`);
 
-    //포스터
+    // 포스터
     const posterWrap = document.createElement('div');
     posterWrap.classList.add('card_poster');
 
@@ -211,7 +213,7 @@ export function createCardElement(data, type) {
     img.src = data.image;
     img.alt = data.title || '';
 
-    //즐겨찾기
+    // 즐겨찾기
     const likeLabel = document.createElement('label');
     likeLabel.classList.add('card_like-label');
 
@@ -227,7 +229,7 @@ export function createCardElement(data, type) {
 
     const likeIcon = document.createElement('span');
     likeIcon.classList.add('like-icon');
-    likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
+    likeIcon.innerText = '★';
 
     likeLabel.appendChild(like);
     likeLabel.appendChild(likeIcon);
@@ -238,20 +240,50 @@ export function createCardElement(data, type) {
     const bottom = document.createElement('div');
     bottom.classList.add('card_bottom');
 
-    const score = document.createElement('div');
-    score.classList.add('card_score');
+    /* ============================
+       SCORE - 영화(movie)일 때만
+    ============================= */
+    if ((type === "movie" || type === "book") && data.score != null) {
+        const score = document.createElement('div');
+        score.classList.add('card_score');
 
-    const scoreNum = document.createElement('span');
-    scoreNum.classList.add('card_score-num');
-    scoreNum.textContent = data.score ?? '–';
+        const scoreNum = document.createElement('span');
+        scoreNum.classList.add('card_score-num');
+        scoreNum.textContent = data.score;
 
-    const scoreUnit = document.createElement('span');
-    scoreUnit.classList.add('card_score-unit');
-    scoreUnit.textContent = data.scoreUnit ?? '%';
+        const scoreUnit = document.createElement('span');
+        scoreUnit.classList.add('card_score-unit');
+        scoreUnit.textContent = data.scoreUnit ?? '%';
 
-    score.appendChild(scoreNum);
-    score.appendChild(scoreUnit);
+        score.appendChild(scoreNum);
+        score.appendChild(scoreUnit);
 
+        bottom.appendChild(score);
+    }
+    /* ============================
+        EXPO 전용: 지역 / serviceName
+     ============================ */
+    if (type === "expo") {
+        const expoMeta = document.createElement('div');
+        expoMeta.classList.add('expo_meta');
+
+        if (data.area) {
+            const area = document.createElement('p');
+            area.classList.add('expo_area');
+            area.textContent = data.area;
+            expoMeta.appendChild(area);
+        }
+
+        if (data.serviceName) {
+            const service = document.createElement('p');
+            service.classList.add('expo_service');
+            service.textContent = data.serviceName;
+            expoMeta.appendChild(service);
+        }
+
+        bottom.appendChild(expoMeta);
+    }
+    // 메타데이터
     const meta = document.createElement('div');
     meta.classList.add('card_meta');
 
@@ -270,7 +302,6 @@ export function createCardElement(data, type) {
     meta.appendChild(title);
     meta.appendChild(subtitle);
 
-    bottom.appendChild(score);
     bottom.appendChild(meta);
 
     card.appendChild(posterWrap);
@@ -414,3 +445,6 @@ export function createCardElement(data, type) {
     });
     return li;
 }
+
+
+

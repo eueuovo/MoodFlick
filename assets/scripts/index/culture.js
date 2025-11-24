@@ -1,67 +1,144 @@
-export const fetchCultural = () => {
-// API 기본 주소 생성
-    const url = new URL('https://apis.data.go.kr/B553457/cultureinfo/period2');
-// API 인증키 및 필요한 옵션 추가
-    url.searchParams.set('serviceKey', '89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==');
-    url.searchParams.set('numOfRows', '10'); // 불러올 개수
-    url.searchParams.set('pageNo', '1');     // 페이지 번호 (기본 1)
+// expo.js
+import { createCardElement, dialogHandler } from '../index.js';
 
-// 실제 호출
-//return 부분이 위에 요청으로 가져온 api
-    return fetch(url)
-        .then(res => res.text())        // 서버에서 받은 데이터는 XML 문자열 형태
-        .then(xmlString => {
+/* ===========================================================
+   1. EXPO API 요청 (XML → JSON)
+=========================================================== */
+
+const PROXIES = [
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://thingproxy.freeboard.io/fetch/${url}`
+];
+
+// XML tag 가져오기
+function getTag(xml, tag) {
+    const el = xml.getElementsByTagName(tag)[0];
+    return el ? el.textContent : "";
+}
+
+// EXPO 데이터 불러오기
+export async function fetchExpo(page = 1, rows = 10) {
+    const targetUrl =
+        "https://apis.data.go.kr/B553457/cultureinfo/period2" +
+        `?serviceKey=89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==` +
+        `&PageNo=${page}&numOfrows=${rows}`;
+
+    let lastError = null;
+
+    // ★ 프록시 자동 재시도 로직
+    for (const proxy of PROXIES) {
+        const fetchUrl = proxy(targetUrl);
+
+        try {
+            const res = await fetch(fetchUrl);
+
+            if (!res.ok) throw new Error("Proxy fetch failed");
+
+            const xmlText = await res.text();
             const parser = new DOMParser();
-            // XML 문자열 → XML DOM 객체로 변환
-            return parser.parseFromString(xmlString, "application/xml");
-        });
+            const xml = parser.parseFromString(xmlText, "text/xml");
+
+            const items = [...xml.getElementsByTagName("item")].map(item => ({
+                id: getTag(item, "seq"),
+                title: getTag(item, "title"),
+                place: getTag(item, "place"),
+                area: getTag(item, "area"),
+                realmName: getTag(item, "realmName"),
+                startDate: getTag(item, "startDate"),
+                endDate: getTag(item, "endDate"),
+                thumbnail: getTag(item, "thumbnail")
+            }));
+
+            const totalCount = Number(getTag(xml, "totalCount"));
+
+            return { items, totalCount };
+        } catch (err) {
+            lastError = err;
+            console.warn(`프록시 실패 → 다음 프록시로 변경:`, err);
+        }
+    }
+
+    // 3개 모두 실패 시
+    throw new Error("모든 프록시 요청 실패: " + lastError);
 }
 
-export function renderExpo(xml) {
-    const items = xml.querySelectorAll("item");
-    return [...items].map(item => ({
-        title: item.querySelector("title")?.textContent,
-        place: item.querySelector("place")?.textContent,
-        area: item.querySelector("area")?.textContent,
-        thumbnail: item.querySelector("thumbnail")?.textContent,
-        startDate: item.querySelector("startDate")?.textContent,
-        endDate: item.querySelector("endDate")?.textContent,
-        realName: item.querySelector("realName")?.textContent,
-    }));
-}
+/* ===========================================================
+   2. EXPO 렌더
+=========================================================== */
 
-export function createExpoCard(data) {
-    const li = document.createElement("li");
-    li.classList.add("item", "expo-item");
+export async function loadExpo(page = 1) {
+    const list = document.querySelector('#poster-container .list');
+    if (!list) return;
 
-    li.innerHTML = `
-        <div class="card card--expo">
-            <div class="card_poster">
-                <img src="${data.thumbnail}" alt="${data.title}">
-                <label class="card_like-label">
-                    <input type="checkbox" class="like-checkbox">
-                    <span class="like-icon">★</span>
-                </label>
-            </div>
-            <div class="card_bottom">
-                <p class="card_title">${data.title}</p>
-                <p class="card_subtitle">${data.place}</p>
-                <p class="card_subtitle">${data.startDate} ~ ${data.endDate}</p>
-            </div>
-        </div>
-    `;
+    list.innerHTML = "";
 
-    return li;
-}
+    const { items, totalCount } = await fetchExpo(page);
 
-export function loadExpo(list) {
-    const ul = document.querySelector("#expo-list");
-    ul.innerHTML = '';
+    if (!items.length) {
+        list.innerHTML = "<p>전시/공연 데이터가 없습니다.</p>";
+        return;
+    }
 
-    if (!Array.isArray(list)) return;
+    items.forEach(expo => {
+        const cardData = {
+            id: expo.id,
+            image: expo.thumbnail,
+            title: expo.title,
+            subtitle: `${expo.place || ''} / ${expo.area || ''}`,
+            score: expo.realm,
+            description: `${expo.startDate} ~ ${expo.endDate}`,
+            type: "expo"
+        };
 
-    list.forEach(data => {
-        const card = createExpoCard(data);
-        ul.appendChild(card);
+        const cardEl = createCardElement(cardData);
+        cardEl.addEventListener("click", () => dialogHandler(cardData));
+        list.appendChild(cardEl);
     });
+
+    renderExpoPagination(page, totalCount);
+}
+
+/* ===========================================================
+   3. 페이지네이션
+=========================================================== */
+
+function renderExpoPagination(current, totalCount) {
+    const container = document.getElementById("page-container");
+    if (!container) return;
+
+    const totalPages = Math.ceil(totalCount / 12);
+    const pagesToShow = 5;
+
+    let start = Math.max(1, current - 2);
+    let end = Math.min(totalPages, start + pagesToShow - 1);
+
+    container.innerHTML = "";
+
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "page-btn";
+    prevBtn.textContent = "<";
+    prevBtn.disabled = current === 1;
+    prevBtn.onclick = () => loadExpo(current - 1);
+    container.appendChild(prevBtn);
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "page-numbers";
+
+    for (let i = start; i <= end; i++) {
+        const num = document.createElement("span");
+        num.className = "page-number" + (i === current ? " active" : "");
+        num.textContent = i;
+        num.onclick = () => loadExpo(i);
+        wrapper.appendChild(num);
+    }
+
+    container.appendChild(wrapper);
+
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "page-btn";
+    nextBtn.textContent = ">";
+    nextBtn.disabled = current === totalPages;
+    nextBtn.onclick = () => loadExpo(current + 1);
+    container.appendChild(nextBtn);
 }
