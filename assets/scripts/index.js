@@ -2,6 +2,7 @@ import "./index/login.js";
 import {loadAllBooks, loadGoogleBooksPage} from "./index/book.js";
 import { loadExpo } from "./index/culture.js";
 import { loadMovies } from "./index/movie.js";
+import "./index/filter.js";
 
 // 모달
 export const dialogHandler = {
@@ -105,9 +106,6 @@ export const dialogHandler = {
             ],
         }),
 };
-/*
-let expoLoaded = false;
-*/
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
@@ -447,28 +445,7 @@ export function createCardElement(data, type) {
     return li;
 }
 
-/*
 // =====================================
-
-// 1) 정렬 변경
-document.getElementById("sort-select").addEventListener("change", loadMovies);
-
-// 2) 날짜 변경
-document.getElementById("date-from").addEventListener("change", loadMovies);
-document.getElementById("date-to").addEventListener("change", loadMovies)
-
-// 3) 보기 옵션 변경
-document.querySelectorAll("input[name='watch-state']").forEach(el => {
-    el.addEventListener("change", loadMovies)
-});
-
-// 4) 장르 선택
-document.querySelectorAll(".genre li").forEach(li => {
-    li.addEventListener("click", () => {
-        li.classList.toggle("selected");
-        loadMovies();
-    });
-});
-*/
+document.querySelector(".filter-search-btn").addEventListener("click", loadMovies);
 
 loadMovies();

@@ -207,7 +207,7 @@
 #filter-wrapper #filter-container .filter-section .filter-block .genre li:hover {
   background: #e7e7ea;
 }
-#filter-wrapper #filter-container .filter-section .filter-block .genre li.active {
+#filter-wrapper #filter-container .filter-section .filter-block .genre li.selected {
   background: #4b7bec;
   color: #fff;
 }

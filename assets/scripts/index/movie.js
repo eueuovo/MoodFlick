@@ -1,7 +1,5 @@
 import { createCardElement } from '../index.js';
-/*
 import { filterOption } from './filter.js';
-*/
 
 const sortMap = {
     "popular": "popularity.desc",
@@ -37,20 +35,19 @@ const TMDB = {
 // 화면에 영화 불러오기
 export function loadMovies() {
 
-/*
     const filters = filterOption();
-*/
+
     const todayStr = new Date().toISOString().slice(0, 10);
 
     const xhr = new XMLHttpRequest();
     let url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=${TMDB.PAGE}`;
 
     // 정렬방식
-/*
+
     url += `&sort_by=${sortMap[filters.sort]}`;
-*/
+
     // 날짜 선택 했을 시
-/*    if (filters.dateFrom) {
+    if (filters.dateFrom) {
         url += `&primary_release_date.gte=${filters.dateFrom}`;
     }
     // 날짜 선택 했을 시
@@ -61,7 +58,8 @@ export function loadMovies() {
     if (filters.genre.length > 0) {
         const genreId = filters.genre.map(g => genreMap[g]).join(",");
         url += `&with_genres=${genreId}`;
-    }*/
+    }
+
     // 미래 영화 안 보이게 하기
     url += `&primary_release_date.lte=${todayStr}`;
 
@@ -97,7 +95,7 @@ function renderMovies(results) {
             fullDescription: m.overview || '영화 설명이 없습니다.',
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/poster/no-image.png',
+                : 'assets/images/index/main/no-poster.png',
             title: m.title || m.name,
             subtitle: m.release_date || '',
             score: Math.round(m.vote_average * 10),
