@@ -447,15 +447,14 @@ export function createCardElement(data, type) {
     return li;
 }
 
-/*
 // =====================================
 
 // 1) 정렬 변경
-document.getElementById("sort-select").addEventListener("change", loadMovies);
+document.querySelector(":scope #filter-container .sort-select").addEventListener("change", loadMovies);
 
 // 2) 날짜 변경
-document.getElementById("date-from").addEventListener("change", loadMovies);
-document.getElementById("date-to").addEventListener("change", loadMovies)
+document.querySelector(":scope #filter-container .date-range > label > .date-from").addEventListener("change", loadMovies);
+document.querySelector(":scope #filter-container .date-range > label > .date-to").addEventListener("change", loadMovies)
 
 // 3) 보기 옵션 변경
 document.querySelectorAll("input[name='watch-state']").forEach(el => {
@@ -469,6 +468,5 @@ document.querySelectorAll(".genre li").forEach(li => {
         loadMovies();
     });
 });
-*/
 
 loadMovies();
