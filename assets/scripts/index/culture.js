@@ -83,7 +83,7 @@ export async function loadExpo(page = 1) {
     items.forEach(expo => {
         const cardData = {
             id: expo.id,
-            image: expo.thumbnail,
+            image: expo.thumbnail || 'assets/images/index/main/no-poster.png',
             title: expo.title,
             subtitle: `${expo.place || ''} / ${expo.area || ''}`,
             score: expo.realm,
