@@ -1,25 +1,5 @@
 import { createCardElement, dialogHandler } from '../index.js';
 
-// 도서 렌더링
-// function renderBooks(items) {
-//     const list = document.querySelector('#poster-container .list');
-//     list.innerHTML = '';
-//     const frag = document.createDocumentFragment();
-//
-//     items.forEach(b => {
-//         const cardData = {
-//             image: b.cover || 'assets/images/no-poster.png',
-//             title: b.title,
-//             subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-//             score: b.userRating ?? '★',
-//             scoreUnit: '',
-//         };
-//         frag.appendChild(createCardElement(cardData, 'book'));
-//     });
-//
-//     list.appendChild(frag);
-// }
-
 // googleBook API 연결
 const googleBook = {
     API_KEY: "AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4",

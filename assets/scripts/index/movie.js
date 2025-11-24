@@ -1,18 +1,63 @@
 import { createCardElement } from '../index.js';
+import { filterOption } from './filter.js';
+
+const sortMap = {
+    "popular": "popularity.desc",
+    "screening-desc": "release_date.desc",
+    "screening-asc": "release_date.asc",
+    "review": "vote_count.desc",
+    "release": "release_date.desc"
+};
+const genreMap = {
+    "SF": 878,
+    "가족": 10751,
+    "공포": 27,
+    "로맨스": 10749,
+    "모험": 12,
+    "미스터리": 9648,
+    "범죄": 80,
+    "스릴러": 53,
+    "액션": 28,
+    "역사": 36,
+    "음악": 10402,
+    "전쟁": 10752,
+    "코미디": 35,
+    "판타지": 14
+};
 
 // 영화 API 연결
 const TMDB = {
     BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
     LANG: 'ko-KR',
     REGION: 'KR',
-    PAGE: 1
+    PAGE: 1,
 };
-
-
 // 화면에 영화 불러오기
 export function loadMovies() {
+
+    const filters = filterOption();
+    const todayStr = new Date().toISOString().slice(0, 10);
+
     const xhr = new XMLHttpRequest();
-    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc&page=${TMDB.PAGE}`;
+    let url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=${TMDB.PAGE}`;
+
+    // 정렬방식
+    url += `&sort_by=${sortMap[filters.sort]}`;
+    // 날짜 선택 했을 시
+    if (filters.dateFrom) {
+        url += `&primary_release_date.gte=${filters.dateFrom}`;
+    }
+    // 날짜 선택 했을 시
+    if (filters.dateTo) {
+        url += `&primary_release_date.lte=${filters.dateTo}`;
+    }
+    // 장르 선택 했을 시
+    if (filters.genre.length > 0) {
+        const genreId = filters.genre.map(g => genreMap[g]).join(",");
+        url += `&with_genres=${genreId}`;
+    }
+    // 미래 영화 안 보이게 하기
+    url += `&primary_release_date.lte=${todayStr}`;
 
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
@@ -46,7 +91,7 @@ function renderMovies(results) {
             fullDescription: m.overview || '영화 설명이 없습니다.',
             image: m.poster_path
                 ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/no-poster.png',
+                : 'assets/images/poster/no-image.png',
             title: m.title || m.name,
             subtitle: m.release_date || '',
             score: Math.round(m.vote_average * 10),
@@ -57,9 +102,8 @@ function renderMovies(results) {
     list.appendChild(frag);
 }
 
-
-let currentPage = 1;
-let totalPages = 1;
+export let currentPage = 1;
+export let totalPages = 1;
 const numbersBox = document.querySelector(':scope #page-container > .page-numbers');
 const firstBtn = document.querySelector(':scope #page-container > .first');
 const prevBtn = document.querySelector(':scope #page-container > .prev');
@@ -126,5 +170,6 @@ lastBtn.addEventListener('click', () => {
         currentPage = totalPages;
     }
     loadMovies(TMDB.PAGE = currentPage);
-})
+});
+
 loadMovies();

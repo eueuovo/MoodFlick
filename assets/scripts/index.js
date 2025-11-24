@@ -1,7 +1,6 @@
-import { loadMovies } from "./index/movie.js";
 import "./index/login.js";
+import { loadMovies } from "./index/movie.js";
 import { loadGoogleBooksPage } from "./index/book.js";
-import { fetchCultural,renderExpo,loadExpo} from "./index/culture.js";
 
 // 모달
 export const dialogHandler = {
@@ -119,7 +118,7 @@ categoryInputs.forEach(input => {
         const poster = document.getElementById('poster-container');
         const expo = document.getElementById('expo-container');
         poster.style.display = 'none';
-        expo.style.display = 'none';
+        // expo.style.display = 'none';
 
         if (category === '영화') {
             poster.style.display = 'block';
@@ -128,11 +127,11 @@ categoryInputs.forEach(input => {
             poster.style.display = 'block';
             loadGoogleBooksPage();
         }if(category === '전시/공연'){
-            expo.style.display = 'block';
-            fetchCultural()
-                .then(renderExpo)   // XML 파싱
-                .then(loadExpo)     // 화면에 렌더
-                .catch(err => console.error(err));
+            // expo.style.display = 'block';
+            // fetchCultural()
+            //     .then(renderExpo)   // XML 파싱
+            //     .then(loadExpo)     // 화면에 렌더
+            //     .catch(err => console.error(err));
         }
     });
 });
@@ -356,3 +355,27 @@ export function createCardElement(data, type) {
     });
     return li;
 }
+
+// =====================================
+
+// 1) 정렬 변경
+document.getElementById("sort-select").addEventListener("change", loadMovies);
+
+// 2) 날짜 변경
+document.getElementById("date-from").addEventListener("change", loadMovies);
+document.getElementById("date-to").addEventListener("change", loadMovies)
+
+// 3) 보기 옵션 변경
+document.querySelectorAll("input[name='watch-state']").forEach(el => {
+    el.addEventListener("change", loadMovies)
+});
+
+// 4) 장르 선택
+document.querySelectorAll(".genre li").forEach(li => {
+    li.addEventListener("click", () => {
+        li.classList.toggle("selected");
+        loadMovies();
+    });
+});
+
+loadMovies();
