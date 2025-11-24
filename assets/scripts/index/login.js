@@ -37,7 +37,7 @@ $loginForm.addEventListener('submit', (e) => {
     const storedUser = localStorage.getItem(`email${email}`);
 
     if (!storedUser){
-        dialogHandler.showSimpleOk('경고', '이메일을 다시 확인해주세요.');
+        dialogHandler.showSimpleOk('이메일을 다시 확인해주세요.');
         return;
     }
 
@@ -45,14 +45,14 @@ $loginForm.addEventListener('submit', (e) => {
     const userDate = JSON.parse(storedUser);
 
     if (userDate.password === password){
-        dialogHandler.showSimpleOk('알림', ` 로그인 되었습니다.`);
+        dialogHandler.showSimpleOk('로그인 되었습니다.');
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', email);
         $loginContainer.classList.remove('visible');
         $loginPage.classList.remove('visible');
         loadMovies();
     } else{
-        dialogHandler.showSimpleOk('경고', '이메일 및 비밀번호를 잘못 입력하셨습니다.');
+        dialogHandler.showSimpleOk('이메일 및 비밀번호를 잘못 입력하셨습니다.');
     }
     $loginPage.querySelector('#email').value = "";
     $loginPage.querySelector('#password').value = "";
@@ -73,7 +73,7 @@ function logout() {
 
 $logoutBtn.addEventListener('click', () => {
     logout();
-    dialogHandler.showSimpleOk('알림', '로그아웃 되었습니다.');
+    dialogHandler.showSimpleOk('로그아웃 되었습니다.');
 });
 
 //회원가입 버튼 클릭 시 회원가입 모달 띄우기
@@ -107,12 +107,12 @@ $signupForm.addEventListener('submit', (e) => {
 
     //입력하지 않았을 때
     if (!email || !password || !nickname){
-        dialogHandler.showSimpleOk('주의', '입력하지 않은 정보가 존재합니다.');
+        dialogHandler.showSimpleOk('입력하지 않은 정보가 존재합니다.');
         return;
     }
     //이미 존재하는 아이디인지 확인
     if (localStorage.getItem(`email${email}`)){
-        dialogHandler.showSimpleOk('경고', '이미 존재하는 아이디입니다.');
+        dialogHandler.showSimpleOk('이미 존재하는 아이디입니다.');
         return;
     }
 
@@ -120,7 +120,7 @@ $signupForm.addEventListener('submit', (e) => {
     const userDate = {email, password, nickname};
     localStorage.setItem(`email${email}`, JSON.stringify(userDate));
 
-    dialogHandler.showSimpleOk('알림', '회원가입이 완료되었습니다! 로그인 해주세요!');
+    dialogHandler.showSimpleOk('회원가입이 완료되었습니다! 로그인 해주세요!');
     $signupPage.classList.remove('visible');
     $loginPage.classList.add('visible');
 });

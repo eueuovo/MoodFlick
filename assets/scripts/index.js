@@ -13,6 +13,12 @@ export const dialogHandler = {
         const index = dialogHandler.$modals.indexOf($modal);
         if (index > -1) dialogHandler.$modals.splice(index, 1);
         $modal.classList.remove('visible');
+
+        const $backdrops = dialogHandler.$dialog.querySelectorAll('.modal-backdrop');
+        if ($backdrops.length > 0) {
+            $backdrops[$backdrops.length - 1].remove();
+        }
+
         if (dialogHandler.$modals.length === 0)
             dialogHandler.$dialog.classList.remove('visible');
         else dialogHandler.$modals.at(-1).classList.remove('collapsed');
@@ -23,13 +29,30 @@ export const dialogHandler = {
     //모달 보여주기
     show: (args) => {
         for (const $m of dialogHandler.$modals) $m.classList.add('collapsed');
+
+        // 배경 레이어 추가 (모달이 2개 이상일 때만)
+        if (dialogHandler.$modals.length > 0) {
+            const $backdrop = document.createElement('div');
+            $backdrop.classList.add('modal-backdrop');
+            $backdrop.style.position = 'absolute';
+            $backdrop.style.top = '0';
+            $backdrop.style.left = '0';
+            $backdrop.style.width = '100%';
+            $backdrop.style.height = '100%';
+            $backdrop.style.backgroundColor = '#21212190';
+            $backdrop.style.backdropFilter = 'blur(0.3rem)';
+            $backdrop.style.zIndex = 10 + dialogHandler.$modals.length;
+            dialogHandler.$dialog.append($backdrop);
+        }
+
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-
+/*
         const $title = document.createElement('div');
         $title.classList.add('title');
         $title.innerText = args.title;
         $modal.append($title);
+*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -52,6 +75,8 @@ export const dialogHandler = {
             $modal.append($btnContainer);
         }
 
+        $modal.style.zIndex = 10 + dialogHandler.$modals.length;
+
         dialogHandler.$dialog.append($modal);
         dialogHandler.$dialog.classList.add('visible');
         dialogHandler.$modals.push($modal);
@@ -63,9 +88,9 @@ export const dialogHandler = {
     },
 
     //간단한 확인 모달
-    showSimpleOk: (title, content, args = {}) =>
+    showSimpleOk: (/*title,*/ content, args = {}) =>
         dialogHandler.show({
-            title,
+            /*title,*/
             content,
             isContentHtml: args.isContentHtml,
             buttons: [
@@ -132,6 +157,11 @@ export function createCardElement(data, type) {
     const likeLabel = document.createElement('label');
     likeLabel.classList.add('card_like-label');
 
+    //즐찾 클릭 시 이벤트 막기
+    likeLabel.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
     // HEAD 스타일 유지
     const like = document.createElement('input');
     like.type = 'checkbox';
@@ -190,180 +220,139 @@ export function createCardElement(data, type) {
     card.appendChild(description);
     li.appendChild(card);
 
-    return li;
-}
-/*// 화면에 영화 불러오기
-function loadMovies() {
-    const xhr = new XMLHttpRequest();
-    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&sort_by=popularity.desc`;
+    card.addEventListener('click', () => {
+        const currentUser = localStorage.getItem('currentUser');
 
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        if (xhr.status < 200 || xhr.status >= 400) {
-            console.error("TMDB 오류:", xhr.responseText);
+        if (!currentUser){
+            dialogHandler.showSimpleOk('로그인이 필요합니다.');
             return;
         }
 
-        const data = JSON.parse(xhr.responseText);
-        renderMovies(data.results);
-    };
+        const reviewKey = `review_${currentUser}_${data.title}`;
+        const reviewData = localStorage.getItem(reviewKey);
+        const existingReview = reviewData ? JSON.parse(reviewData) : null;
 
-    xhr.send();
-}
+        const reviewButtons = existingReview
+            ? `<button id="review-edit">수정</button>
+           <button id="review-delete">삭제</button>`
+            : `<button id="review-submit">등록</button>`;
 
-// 영화 렌더링
-function renderMovies(results) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
+        const $modal = dialogHandler.show({
+            title: '',
+            content: `
+            <div class="modal-content">
+                <div class="modal-poster">
+                    <img src="${data.image}" alt="${data.title}">
+                </div>
+                <div class="modal-info">
+                    <div class="title-wrapper">
+                        <div class="title">${data.title}</div>
+                        <div class="subtitle">${data.subtitle ?? ''}</div>                    
+                    </div>
+                    <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
+                    <div class="description">${data.fullDescription ?? ''}</div>
 
-    const frag = document.createDocumentFragment();
+                    <div class="review-section">
+                        <label>
+                            <input id="review-input" class="review-input" type="text" 
+                                value="${existingReview?.text ?? ''}" 
+                                placeholder="리뷰를 입력하세요"
+                                ${existingReview ? 'readonly' : ''}
+                                style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}">
+                        </label>
+                        <div class="button-wrapper">
+                            ${reviewButtons}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            isContentHtml: true,
+            buttons: [
+                {
+                    caption: '닫기',
+                    onclick: ($m) => dialogHandler.hide($m)
+                }
+            ]
+        })
+        const reviewInput = $modal.querySelector('#review-input');
 
-    results.forEach(m => {
-        const cardData = {
-            description: m.overview
-                ? m.overview.substring(0, 70) + '...'
-                : '영화 설명이 없습니다',
-            image: m.poster_path
-                ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                : 'assets/images/no-poster.png',
-            title: m.title || m.name,
-            subtitle: m.release_date || '',
-            score: Math.round(m.vote_average * 10),
-            scoreUnit: '%',
-        };
-        frag.appendChild(createCardElement(cardData, 'movie'));
+        //리뷰 등록 (리뷰 없을때)
+        const submitBtn = $modal.querySelector('#review-submit');
+        if (submitBtn){
+            submitBtn.addEventListener('click', () => {
+                const reviewText = reviewInput.value.trim();
+                const reviewDate = {
+                    text: reviewText,
+                    author: currentUser,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem(reviewKey, JSON.stringify(reviewDate));
+                dialogHandler.showSimpleOk('리뷰가 등록되었습니다.', {
+                    onclick: () => {
+                        // 모달 닫고 다시 열기
+                        dialogHandler.hide($modal);
+                        setTimeout(() => card.click(), 100);
+                    }
+                });
+            });
+        }
+        //수정 버튼
+        const editBtn = $modal.querySelector('#review-edit');
+        if (editBtn) {
+            let isEditing = false;
+
+            editBtn.addEventListener('click', () => {
+                if (!isEditing) {
+                    // 수정 모드 활성화
+                    reviewInput.removeAttribute('readonly');
+                    reviewInput.style.backgroundColor = '';
+                    reviewInput.style.cursor = '';
+                    reviewInput.focus();
+                    editBtn.textContent = '완료';
+                    isEditing = true;
+                } else {
+                    // 수정 완료
+                    const reviewText = reviewInput.value.trim();
+
+                    if (!reviewText) {
+                        dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');
+                        return;
+                    }
+
+                    const reviewData = {
+                        text: reviewText,
+                        author: currentUser,
+                        timestamp: new Date().toISOString()
+                    };
+                    localStorage.setItem(reviewKey, JSON.stringify(reviewData));
+                    dialogHandler.showSimpleOk('리뷰가 수정되었습니다.', {
+                        onclick: () => {
+                            dialogHandler.hide($modal);
+                            setTimeout(() => card.click(), 100);
+                        }
+                    });
+                }
+            });
+        }
+        //리뷰 삭제 (리뷰 있을 때)
+        const deleteBtn = $modal.querySelector('#review-delete');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                if (existingReview.author !== currentUser) {
+                    dialogHandler.showSimpleOk('본인이 작성한 리뷰만 삭제 가능합니다.');
+                    return;
+                }
+
+                localStorage.removeItem(reviewKey);
+                dialogHandler.showSimpleOk('리뷰가 삭제되었습니다.', {
+                    onclick: () => {
+                        dialogHandler.hide($modal);
+                        setTimeout(() => card.click(), 100);
+                    }
+                });
+            });
+        }
     });
-
-    list.appendChild(frag);
-}
-function createCardElement(data, type) {
-    const li = document.createElement('li');
-    li.classList.add('item');
-
-    const card = document.createElement('article');
-    card.classList.add('card', `card--${type}`);
-
-    const posterWrap = document.createElement('div');
-    posterWrap.classList.add('card_poster');
-
-    const img = document.createElement('img');
-    img.src = data.image;
-    img.alt = data.title || '';
-
-    const likeLabel = document.createElement('label');
-    likeLabel.classList.add('card_like-label');
-
-    // HEAD 스타일 유지
-    const like = document.createElement('input');
-    like.type = 'checkbox';
-    like.classList.add('like-checkbox');
-
-    const likeIcon = document.createElement('span');
-    likeIcon.classList.add('like-icon');
-    likeIcon.innerText = '★'; // sh 버전의 아이콘 표시 추가
-
-    likeLabel.appendChild(like);
-    likeLabel.appendChild(likeIcon);
-
-    posterWrap.appendChild(img);
-    posterWrap.appendChild(likeLabel);
-
-    const bottom = document.createElement('div');
-    bottom.classList.add('card_bottom');
-
-    const score = document.createElement('div');
-    score.classList.add('card_score');
-
-    const scoreNum = document.createElement('span');
-    scoreNum.classList.add('card_score-num');
-    scoreNum.textContent = data.score ?? '–';
-
-    const scoreUnit = document.createElement('span');
-    scoreUnit.classList.add('card_score-unit');
-    scoreUnit.textContent = data.scoreUnit ?? '%';
-
-    score.appendChild(scoreNum);
-    score.appendChild(scoreUnit);
-
-    const meta = document.createElement('div');
-    meta.classList.add('card_meta');
-
-    const title = document.createElement('p');
-    title.classList.add('card_title');
-    title.textContent = data.title;
-
-    const subtitle = document.createElement('p');
-    subtitle.classList.add('card_subtitle');
-    subtitle.textContent = data.subtitle ?? '';
-
-    const description = document.createElement('div');
-    description.classList.add('card_description');
-    description.textContent = data.description ?? '';
-
-    meta.appendChild(title);
-    meta.appendChild(subtitle);
-
-    bottom.appendChild(score);
-    bottom.appendChild(meta);
-
-    card.appendChild(posterWrap);
-    card.appendChild(bottom);
-    card.appendChild(description);
-    li.appendChild(card);
-
     return li;
 }
-
-// 도서 렌더링
-function renderBooks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(b => {
-        const cardData = {
-            image: b.cover || 'assets/images/no-poster.png',
-            title: b.title,
-            subtitle: `${b.author || ''} · ${b.pubDate || ''}`,
-            score: b.userRating ?? '★',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'book'));
-    });
-
-    list.appendChild(frag);
-}
-//행사전시 출력 함수
-
-
-// 음악 렌더링
-function renderTracks(items) {
-    const list = document.querySelector('#poster-container .list');
-    list.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(t => {
-        const cardData = {
-            image: t.cover || 'assets/images/no-poster.png',
-            title: t.title,
-            subtitle: `${t.artist} · ${t.album}`,
-            score: t.popularity ?? '♪',
-            scoreUnit: '',
-        };
-        frag.appendChild(createCardElement(cardData, 'music'));
-    });
-
-    list.appendChild(frag);
-}
-
-
-
-loadMovies();
-loadExpo();*/
-
-
-
