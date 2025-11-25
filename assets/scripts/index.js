@@ -172,11 +172,9 @@ categoryInputs.forEach(input => {
         if (category === '영화') {
            poster.style.display = 'block';
             loadMovies();
-        }
-        if (category === '도서') {
+        } if (category === '도서') {
             poster.style.display = 'block';
             loadGoogleBooksPage();
-
         } if (category === "전시/공연") {
             poster.style.display = "block";  // 영화/도서랑 동일하게 사용
             loadExpo();                     // ★ 반드시 실행됨
