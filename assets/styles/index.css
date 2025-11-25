@@ -335,13 +335,11 @@
   position: relative;
 }
 #filter-wrapper #filter-container {
-  height: calc(100vh - 4rem - 7.8rem);
+  height: 100%;
   width: 15rem;
-  margin-top: 6rem;
+  padding-top: 6rem;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #ffffff;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
 }
 #filter-wrapper #filter-container .filter-section {
   min-height: 100%;
@@ -439,7 +437,7 @@
 #filter-wrapper #filter-container .filter-section .filter-block .genre li:hover {
   background: #e7e7ea;
 }
-#filter-wrapper #filter-container .filter-section .filter-block .genre li.selected {
+#filter-wrapper #filter-container .filter-section .filter-block .genre li.active {
   background: #4b7bec;
   color: #fff;
 }
@@ -537,7 +535,7 @@
 }
 #poster-list > .item {
   height: 22rem;
-  width: 100%;
+  width: 14rem;
   position: relative;
   display: flex;
   flex-direction: column;

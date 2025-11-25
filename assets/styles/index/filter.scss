@@ -8,13 +8,11 @@
   position: relative;
 
   #filter-container {
-    height: calc(100vh - #{$menu-height} - 7.8rem);
+    height: 100%;
     width: $filter-container-width;
-    margin-top: 6rem;
+    padding-top: calc($menu-height + 2rem);
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
 
     .filter-section {
       min-height: 100%;
@@ -121,7 +119,7 @@
               background: #e7e7ea;
             }
 
-            &.selected {
+            &.active {
               background: #4b7bec;
               color: #fff;
             }
