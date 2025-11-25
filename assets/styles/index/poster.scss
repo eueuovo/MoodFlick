@@ -1,17 +1,20 @@
 @import "./def";
 
 #poster-container {
-  height: 100%;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
   padding-top: $menu-height;
 }
 
 #poster-list {
-  margin: 0;
-  padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  width: 100%;
+  padding: 1.5rem 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.8rem;
-  justify-content: center;
   list-style: none;
 
   > .item {

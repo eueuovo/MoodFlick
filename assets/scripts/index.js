@@ -157,9 +157,12 @@ categoryInputs.forEach(input => {
 
         //스플래시
         const splashSections = document.querySelectorAll('.movie-main');
-        splashSections.forEach(s => s.style.display = 'none');
+        splashSections.forEach(s => s.classList.remove('active'));
         const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
-        if (activeSplash) activeSplash.style.display = 'block';
+        if (activeSplash) {
+            activeSplash.classList.add('active');
+            updateSplashHeight();
+        }
 
         //메인 컨테니어 전환
         mainContainers.forEach(container => container.style.display = 'none');
@@ -585,4 +588,17 @@ export function createCardElement(data, type) {
 
 // =================필터 기능==================== //
 document.querySelector(".filter-search-btn").addEventListener("click", loadMovies);
+
+// =================스플래시 크기 변경================= //
+function updateSplashHeight() {
+    const splashContainer = document.querySelector('#splash-container');
+    const activeSplash = document.querySelector('.movie-main.active');
+
+    if (!activeSplash || !splashContainer) return;
+
+    splashContainer.style.height = activeSplash.offsetHeight + 'px';
+}
+window.addEventListener('resize', updateSplashHeight);
+window.addEventListener('load', updateSplashHeight);
+
 loadMovies();
