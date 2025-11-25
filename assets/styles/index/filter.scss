@@ -13,13 +13,14 @@
     margin-top: 6rem;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: #ffffff;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.18);
 
     .filter-section {
-      height: 100%;
+      min-height: 100%;
       display: none;
       padding: 0 1.5rem;
-      background: #fff;
+      background-color: #ffffff;
       box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.08);
       flex-direction: column;
 
@@ -41,10 +42,12 @@
       }
 
       select{
+        width: 11.3rem;
         padding: 0.5rem;
         border-radius: 0.3rem;
         font-size: 1rem;
         border: 0.0625rem solid #21212130;
+
       }
 
       .filter-block {
@@ -189,10 +192,9 @@
 
   /*검색 버튼*/
   .filter-search-btn {
-    left: 1rem;
     z-index: 10;
-    position: sticky;
-    bottom: 0;
+    position: absolute;
+    bottom: -5%;
     width: 15rem;
     align-self: flex-start;
     padding: 0.7rem 1.4rem;

@@ -22,11 +22,18 @@ body {
   margin: 0;
 }
 
+@font-face {
+  font-family: 'Cafe24MeongiBlack';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Meongi-B-v1.0.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
 img {
   -webkit-user-drag: none;
 }
 
-ol, ul {
+ol, ul, p {
   list-style: none;
   margin-block: 0;
   margin-inline: 0;

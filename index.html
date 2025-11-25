@@ -5,7 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoodFlick: 기분에 따라 흐르는 문화 여행</title>
+    <title>Culture Log: 나만의 문화 일기장</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png">
     <link rel="stylesheet" href="assets/styles/common.css">
     <link rel="stylesheet" href="assets/styles/index.css">
     <script defer type="module" src="assets/scripts/index.js"></script>
@@ -25,8 +26,12 @@
             <input hidden class="input" name="categoryTab" type="radio" value="전시/공연">
             <span class="caption">전시/공연</span>
         </label>
+        <label class="tab">
+            <input hidden class="input" name="categoryTab" type="radio" value="기록">
+            <span class="caption">문화 기록</span>
+        </label>
     </div>
-    <div class="-stretch"></div>
+    <div class="logo">Culture Log</div>
     <div class="my-nav">
         <button class="button logout" type="button">로그아웃</button>
     </div>
@@ -40,11 +45,35 @@
             <img class="img splashSide2" src="assets/images/index/splash/movie_splash2.jpg" alt="">
         </div>
         <div class="top-five">
-            <div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
                 <div class="num">1</div>
-                <img class="img top1" src="" alt="">
                 <div class="title">타이틀</div>
-                <div class="score">★</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">2</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">3</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">4</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">5</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
             </div>
         </div>
     </div>
@@ -52,16 +81,39 @@
     <!--도서 스플래시-->
     <div class="movie-main" data-tab="도서">
         <div class="splash">
-            <img class="img splashSide1" src="" alt="">
-            <img class="img splashSide2" src="" alt="">
-            <img class="img splashSide3" src="" alt="">
+            <img class="img splashSide1" src="assets/images/index/splash/book_splash1.jpg" alt="">
+            <img class="img splashSide2" src="assets/images/index/splash/book_splash2.jpg" alt="">
         </div>
         <div class="top-five">
-            <div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
                 <div class="num">1</div>
-                <img class="img top1" src="" alt="">
                 <div class="title">타이틀</div>
-                <div class="score">★</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">2</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">3</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">4</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">5</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
             </div>
         </div>
     </div>
@@ -69,21 +121,42 @@
     <!--전시/공연 스플래시-->
     <div class="movie-main" data-tab="전시/공연">
         <div class="splash">
-            <img class="img splashSide1" src="" alt="">
-            <img class="img splashSide2" src="" alt="">
-            <img class="img splashSide3" src="" alt="">
+            <img class="img splashSide1" src="assets/images/index/splash/culture_splash1.jpg" alt="">
+            <img class="img splashSide2" src="assets/images/index/splash/culture_splash2.jpeg" alt="">
         </div>
         <div class="top-five">
-            <div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
                 <div class="num">1</div>
-                <img class="img top1" src="" alt="">
                 <div class="title">타이틀</div>
-                <div class="score">★</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">2</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">3</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">4</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
+            </div>
+            <div class="top">
+                <img class="img top1" src="assets/images/index/main/no-poster.png" alt="">
+                <div class="num">5</div>
+                <div class="title">타이틀</div>
+                <div class="score">★ 9.1</div>
             </div>
         </div>
     </div>
-
-
 </div>
 
 <div id="main-container">
@@ -256,6 +329,14 @@
 
             <button class="page-btn next">&gt;</button>
             <button class="page-btn last">&raquo;</button>
+        </div>
+    </div>
+    //리뷰
+    <div id="record-container" style="display: none;">
+        <div class="record-header">
+            <h2 id="record-caption" class="caption">"사용자"의 문화 기록</h2>
+        </div>
+        <div id="record-list" class="record-list">
         </div>
     </div>
 </div>
