@@ -6,7 +6,6 @@ export function filterOption() {
     const genre = [
         ...document.querySelectorAll(".genre li.selected")
     ].map(li => li.innerText);
-
     return {sort, watchState, dateFrom, dateTo, genre};
 }
 

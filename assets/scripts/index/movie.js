@@ -32,6 +32,7 @@ const TMDB = {
     REGION: 'KR',
     PAGE: 1,
 };
+
 // 화면에 영화 불러오기
 export function loadMovies() {
 
@@ -43,9 +44,7 @@ export function loadMovies() {
     let url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=${TMDB.PAGE}`;
 
     // 정렬방식
-
     url += `&sort_by=${sortMap[filters.sort]}`;
-
     // 날짜 선택 했을 시
     if (filters.dateFrom) {
         url += `&primary_release_date.gte=${filters.dateFrom}`;
@@ -59,7 +58,6 @@ export function loadMovies() {
         const genreId = filters.genre.map(g => genreMap[g]).join(",");
         url += `&with_genres=${genreId}`;
     }
-
     // 미래 영화 안 보이게 하기
     url += `&primary_release_date.lte=${todayStr}`;
 
@@ -73,9 +71,15 @@ export function loadMovies() {
             console.error("TMDB 오류:", xhr.responseText);
             return;
         }
-
         const data = JSON.parse(xhr.responseText);
-        totalPages = data.total_pages;
+
+        if (filters.watchState === "favorite") {
+            data.results = data.results.filter(m =>
+                localStorage.getItem(`favorite_movie_${m.id}`)
+            );
+        }
+
+        totalPages = Math.min(data.total_pages, 500);
         renderMovies(data.results);
         renderPage();
     };
@@ -91,6 +95,7 @@ function renderMovies(results) {
 
     results.slice(0,10).forEach(m => {
         const cardData = {
+            id: m.id,
             description: '클릭하여 영화 상세 보기',
             fullDescription: m.overview || '영화 설명이 없습니다.',
             image: m.poster_path
@@ -113,6 +118,7 @@ const firstBtn = document.querySelector(':scope #page-container > .first');
 const prevBtn = document.querySelector(':scope #page-container > .prev');
 const nextBtn = document.querySelector(':scope #page-container > .next');
 const lastBtn = document.querySelector(':scope #page-container > .last');
+
 // 번호 생성해서 화면에 보여주기
 function renderPage() {
     numbersBox.innerHTML = '';

@@ -226,6 +226,25 @@ export function createCardElement(data, type) {
     like.type = 'checkbox';
     like.classList.add('like-checkbox');
 
+    // 즐겨찾기 key
+    const favKey = `favorite_movie_${data.id}`;
+
+    // 즐겨찾기 localStorage
+    if (localStorage.getItem(favKey)) {
+        like.checked = true;
+    }
+
+    // 즐겨찾기 추가 클릭
+    like.addEventListener('change', (e) => {
+        e.stopPropagation();
+
+        if (like.checked) {
+            localStorage.setItem(favKey, JSON.stringify(data));
+        } else {
+            localStorage.removeItem(favKey);
+        }
+    });
+
     const likeIcon = document.createElement('span');
     likeIcon.classList.add('like-icon');
     likeIcon.innerText = '★';
@@ -342,6 +361,16 @@ export function createCardElement(data, type) {
 
                     <div class="review-section">
                         <label>
+                            <div class="rating-wrapper">
+                                <div class="stars" id="review-stars">
+                                    <!-- 0.5점 단위 = 10칸 -->
+                                    <span class="star" data-index="0"></span>
+                                    <span class="star" data-index="1"></span>
+                                    <span class="star" data-index="2"></span>
+                                    <span class="star" data-index="3"></span>
+                                    <span class="star" data-index="4"></span>
+                                </div>
+                            </div>
                             <input id="review-input" class="review-input" type="text" 
                                 value="${existingReview?.text ?? ''}" 
                                 placeholder="리뷰를 입력하세요"
@@ -363,19 +392,80 @@ export function createCardElement(data, type) {
                 }
             ]
         })
-        const reviewInput = $modal.querySelector('#review-input');
 
+        // =================별점 기능==================== //
+        const starsWrap = $modal.querySelector('#review-stars');
+        const stars = $modal.querySelectorAll('.star');
+        let state = [0, 0, 0, 0, 0];
+        // 0 = empty, 0.5 = half, 1 = full
+        let selectedRating = 0;
+
+        function renderStars() {
+            selectedRating = 0;
+            // star : 반복 중인 현재 값 i: 반복 횟수(현재 index)
+            stars.forEach((star, i) => {
+                star.classList.remove('full', 'half');
+
+                if (state[i] === 1) star.classList.add('full');
+                else if (state[i] === 0.5) star.classList.add('half');
+
+                selectedRating += state[i];
+            });
+        }
+
+        if (existingReview) {
+            const savedRating = existingReview.star ?? 0;
+
+            state = [0, 0, 0, 0, 0];
+            const full = Math.floor(savedRating);
+            for (let i = 0; i < full; i++) state[i] = 1;
+            if (savedRating % 1 !== 0 && full < state.length) {
+                state[full] = 0.5;
+            }
+
+            renderStars();                       // 별 모양 반영
+            starsWrap.classList.add('disabled'); // 수정 누르기 전까지 잠금
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const index = Number(star.dataset.index);
+                // 현재 상태에 따라 변환
+                if (state[index] === 0) {
+                    state[index] = 0.5;
+                } else if (state[index] === 0.5) {
+                    state[index] = 1;
+                } else {
+                    state[index] = 0;
+                }
+
+                // 왼쪽 별들은 항상 full
+                for (let i = 0; i < index; i++) {
+                    state[i] = 1;
+                }
+
+                // 오른쪽 별들은 항상 empty
+                for (let i = index + 1; i < 5; i++) {
+                    state[i] = 0;
+                }
+                renderStars();
+            });
+        });
+
+        const reviewInput = $modal.querySelector('#review-input');
         //리뷰 등록 (리뷰 없을때)
         const submitBtn = $modal.querySelector('#review-submit');
         if (submitBtn){
             submitBtn.addEventListener('click', () => {
                 const reviewText = reviewInput.value.trim();
-                const reviewDate = {
+                starsWrap.classList.add('disabled');   // ★ 등록 후 별점 잠금
+                const reviewData = {
+                    star : selectedRating,
                     text: reviewText,
                     author: currentUser,
                     timestamp: new Date().toISOString()
                 };
-                localStorage.setItem(reviewKey, JSON.stringify(reviewDate));
+                localStorage.setItem(reviewKey, JSON.stringify(reviewData));
                 dialogHandler.showSimpleOk('리뷰가 등록되었습니다.', {
                     onclick: () => {
                         // 모달 닫고 다시 열기
@@ -393,6 +483,7 @@ export function createCardElement(data, type) {
             editBtn.addEventListener('click', () => {
                 if (!isEditing) {
                     // 수정 모드 활성화
+                    starsWrap.classList.remove('disabled');
                     reviewInput.removeAttribute('readonly');
                     reviewInput.style.backgroundColor = '';
                     reviewInput.style.cursor = '';
@@ -408,7 +499,10 @@ export function createCardElement(data, type) {
                         return;
                     }
 
+                    starsWrap.classList.add('disabled');  // ★ 다시 잠금
+
                     const reviewData = {
+                        star : selectedRating,
                         text: reviewText,
                         author: currentUser,
                         timestamp: new Date().toISOString()
@@ -420,6 +514,7 @@ export function createCardElement(data, type) {
                             setTimeout(() => card.click(), 100);
                         }
                     });
+                    isEditing = false;
                 }
             });
         }
@@ -445,7 +540,6 @@ export function createCardElement(data, type) {
     return li;
 }
 
-// =====================================
+// =================필터 기능==================== //
 document.querySelector(".filter-search-btn").addEventListener("click", loadMovies);
-
 loadMovies();
