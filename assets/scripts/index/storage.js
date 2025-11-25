@@ -1,10 +1,10 @@
-import { createCardElement } from "../index.js";
+import { createCardElement, dialogHandler } from "../index.js";
 
 const currentUser = localStorage.getItem('currentUser');
 
 export function loadData(key){
     try {
-        // 1. 키가 null이거나 정의되지 않은 경우
+        // 키가 null이거나 정의되지 않은 경우
         if (!key) {
             return null;
         }
@@ -132,7 +132,7 @@ function createRecordCard(record) {
             <div class="record-ratings">
                 <div class="rating-item">
                     <span class="rating-label">내 평점</span>
-                    <span class="rating-value my-rating">${reviewData.myRating ? '★ ' + reviewData.myRating : '미등록'}</span>
+                    <span class="rating-value my-rating">${reviewData.star ? '★ ' + reviewData.star : '미등록'}</span>
                 </div>
                 <div class="rating-item">
                     <span class="rating-label">평균 평점</span>
@@ -143,7 +143,7 @@ function createRecordCard(record) {
                 <p class="review-text">${reviewData.text}</p>
             </div>
             <div class="record-footer">
-                <span class="review-date">${formattedDate}</span>
+                <span class="review-date">${formattedDate}에 작성한 리뷰</span>
                 <div class="record-actions">
                     <button class="btn-edit" data-key="${record.key}">수정</button>
                     <button class="btn-delete" data-key="${record.key}">삭제</button>
@@ -171,13 +171,19 @@ function editReview(reviewKey, title, reviewData) {
     const $modal = dialogHandler.show({
         content: `
             <div class="edit-review-modal">
+            
                 <h3>${title}</h3>
-                <textarea id="edit-review-text" class="review-textarea" placeholder="리뷰를 입력하세요">${reviewData.text}</textarea>
-                <div class="rating-input">
-                    <label>내 평점: </label>
-                    <input type="number" id="edit-my-rating" min="0" max="10" step="0.1" 
-                           value="${reviewData.myRating || ''}" placeholder="0.0 ~ 10.0">
+                <div class="stars" id="edit-review-stars">
+                    <span class="star-caption">내가 준 점수</span>
+                    <span class="star" data-index="0"></span>
+                    <span class="star" data-index="1"></span>
+                    <span class="star" data-index="2"></span>
+                    <span class="star" data-index="3"></span>
+                    <span class="star" data-index="4"></span>
+                    <input type="hidden" id="edit-my-rating" value="${reviewData.myRating || 0}">
                 </div>
+
+                <textarea id="edit-review-text" class="review-textarea" placeholder="리뷰를 입력하세요">${reviewData.text}</textarea>
             </div>
         `,
         isContentHtml: true,
@@ -217,7 +223,7 @@ function editReview(reviewKey, title, reviewData) {
 
 function deleteReview(reviewKey) {
     dialogHandler.show({
-        content: '정말 이 리뷰를 삭제하시겠습니까?',
+        content: '리뷰를 삭제하시겠습니까?',
         buttons: [
             {
                 caption: '삭제',

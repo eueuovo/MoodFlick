@@ -10,7 +10,9 @@
   height: 4rem;
   background-color: #212121;
   color: #ffffff;
-  z-index: 999; }
+  z-index: 999;
+  justify-content: space-between;
+  overflow: hidden; }
   #menu-container > * {
     flex-grow: 0;
     flex-shrink: 0; }
@@ -37,11 +39,22 @@
         background-color: #ffffff;
         color: #212121; }
       #menu-container > .category > .tab > .caption {
-        padding: 1rem 2.5rem;
-        border-radius: 0.2rem;
+        padding: 1.2rem 1.5vw;
+        min-width: 4rem;
+        max-width: 9rem;
         overflow: hidden;
-        cursor: pointer; }
+        cursor: pointer;
+        border-top-left-radius: 0.2rem;
+        border-top-right-radius: 0.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-top: 0.9rem; }
   #menu-container > .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 2rem;
     font-family: 'Cafe24MeongiBlack', sans-serif;
     display: flex;
@@ -64,9 +77,15 @@
       flex-grow: 1;
       flex-shrink: 1; }
     #menu-container > .my-nav > .button {
-      cursor: pointer;
-      padding: 0.5rem; }
+      padding-top: 0.9rem;
+      cursor: pointer; }
 
+@media (max-width: 1000px) {
+  #menu-container .category .tab .caption {
+    display: none; }
+
+  #menu-container .category .tab:last-child .caption {
+    display: inline-block; } }
 #main-container {
   align-items: flex-start;
   display: flex;
@@ -134,7 +153,7 @@
       height: 11rem;
       border-radius: 0.3rem;
       overflow: hidden;
-      background-color: red; }
+      border: 0.0625rem solid #21212110; }
       #record-container .record-card .record-poster > img {
         width: 100%;
         height: 100%;
