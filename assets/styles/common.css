@@ -1,7 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-std.min.css");
 * {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
 
 html {
   height: 100%;
@@ -21,11 +20,16 @@ body {
   margin: 0;
 }
 
+@font-face {
+  font-family: 'Cafe24MeongiBlack';
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Meongi-B-v1.0.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap; }
 img {
   -webkit-user-drag: none;
 }
 
-ol, ul {
+ol, ul, p {
   list-style: none;
   margin-block: 0;
   margin-inline: 0;
@@ -66,7 +70,7 @@ input:-webkit-autofill {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(33, 33, 33, 0.5647058824);
+  background-color: #21212190;
   backdrop-filter: blur(0.3rem);
   z-index: 999;
   pointer-events: none;

@@ -2,61 +2,78 @@ import { createCardElement, dialogHandler } from '../index.js';
 
 let currentPage = 1;
 const itemsPerPage = 10;
-let totalItems = 0;
+let totalItems = 0; // API에서 받은 전체 결과 수
 let totalPages = 1;
-let allBooks = []; // 전체 도서 데이터를 저장
 
-// 전체 도서 데이터를 한 번에 가져오기
-export function loadAllBooks() {
-    const fetchAmount = 40; // 최대 40
-    const url = `https://www.googleapis.com/books/v1/volumes?q=a&key=AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4&maxResults=${fetchAmount}&langRestrict=ko&orderBy=newest`;
+// ⭐ 전체 도서 데이터를 한 번에 가져오는 loadAllBooks 함수는 제거됩니다.
+// ⭐ loadGoogleBooksPage 함수가 API를 직접 호출하도록 수정됩니다.
+// export function loadAllBooks() { ... } // 이 함수는 이제 필요 없습니다.
 
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.items || data.items.length === 0){
-                console.log("데이터 없음");
-                return;
-            }
-
-            // 출시일 기준으로 정렬 (최신순)
-            allBooks = data.items
-                .filter(item => item.volumeInfo.publishedDate) // 날짜 있는 것만
-                .sort((a, b) => {
-                    const dateA = new Date(a.volumeInfo.publishedDate);
-                    const dateB = new Date(b.volumeInfo.publishedDate);
-                    return dateB - dateA; // 최신순 (내림차순)
-                });
-
-            totalItems = allBooks.length;
-            totalPages = Math.ceil(totalItems / itemsPerPage);
-
-            // 첫 페이지 렌더링
-            loadGoogleBooksPage(1);
-        })
-        .catch(err => console.error("구글 북스 api 오류", err));
-}
-
-// 특정 페이지 로드
-export function loadGoogleBooksPage(page = 1){
+// 특정 페이지 로드 (페이지 이동 시마다 API를 호출)
+export async function loadGoogleBooksPage(page = 1) {
     currentPage = page;
 
-    // 전체 데이터가 없으면 먼저 로드
-    if (allBooks.length === 0) {
-        loadAllBooks();
-        return;
+    // 현재 페이지 로딩 표시
+    const list = document.querySelector('#poster-container .list');
+    if (list) {
+        list.innerHTML = `<p>데이터를 불러오는 중...</p>`;
     }
 
-    // 현재 페이지에 해당하는 10개만 추출
+    // 요청 시작 지점 계산 (페이지 번호 기반)
     const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const pageBooks = allBooks.slice(startIndex, endIndex);
 
-    renderGoogleBooks(pageBooks);
-    renderPagination();
+    // ⭐ 1. 검색 쿼리: 제목에 '살구'가 포함되도록 intitle:salgu 사용
+    const query = encodeURIComponent('intitle:살구');
+
+    // ⭐ 2. URL 구성: 10개씩 요청하고 시작 인덱스를 지정합니다.
+    const url =
+        `https://www.googleapis.com/books/v1/volumes?q=${query}` +
+        `&key=AIzaSyCNbz5sSjh_AJ9buWD0QDSV_3m9nY1jyP4` +
+        `&maxResults=${itemsPerPage}` +      // 10개만 요청
+        `&startIndex=${startIndex}` +        // 시작 위치 지정
+        `&orderBy=newest`;                   // 최신순 정렬
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.items || data.items.length === 0) {
+            console.log("데이터 없음");
+            if (list) list.innerHTML = `<p>도서 데이터가 없습니다. 검색 조건을 확인하세요.</p>`;
+            totalItems = 0;
+            totalPages = 1;
+            renderPagination();
+            return;
+        }
+
+        // ⭐ 3. 데이터 처리 및 정렬 (최신순 정렬을 안정화하기 위한 클라이언트 측 필터링/정렬 유지)
+        const sortedItems = data.items
+            .filter(item => item.volumeInfo.publishedDate) // 날짜가 있는 항목만 필터링
+            .sort((a, b) => {
+                // publishedDate를 Date 객체로 변환하여 비교 (안정적인 최신순 정렬)
+                const dateA = new Date(a.volumeInfo.publishedDate);
+                const dateB = new Date(b.volumeInfo.publishedDate);
+                return dateB - dateA; // 최신순 (내림차순) 정렬
+            });
+
+        // ⭐ 4. 전체 도서 수 (totalItems)와 총 페이지 수 업데이트
+        totalItems = data.totalItems;
+        totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        // 렌더링
+        renderGoogleBooks(sortedItems);
+        renderPagination();
+
+    } catch (err) {
+        console.error("구글 북스 api 오류", err);
+        if (list) list.innerHTML = `<p style="color:red;">데이터 로딩 오류가 발생했습니다.</p>`;
+        totalItems = 0;
+        totalPages = 1;
+        renderPagination();
+    }
 }
 
-//도서 랜더링
+//도서 랜더링 (변경 없음)
 function renderGoogleBooks(items) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
@@ -79,7 +96,7 @@ function renderGoogleBooks(items) {
     list.appendChild(frag);
 }
 
-// 페이지네이션 렌더링
+// 페이지네이션 렌더링 (변경 없음)
 function renderPagination() {
     const numbersBox = document.querySelector('#page-container > .page-numbers');
     const firstBtn = document.querySelector('#page-container > .first');
@@ -128,7 +145,7 @@ function renderPagination() {
     if (lastBtn) lastBtn.disabled = currentPage === totalPages;
 }
 
-// 버튼 이벤트 리스너
+// 버튼 이벤트 리스너 (DOMContentLoaded 시 loadGoogleBooksPage(1) 호출로 수정)
 document.addEventListener('DOMContentLoaded', () => {
     const firstBtn = document.querySelector('#page-container > .first');
     const prevBtn = document.querySelector('#page-container > .prev');

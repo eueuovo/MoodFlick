@@ -6,16 +6,16 @@
   position: fixed;
   width: 100%;
   height: $menu-height;
-  background-color: #000000e0;
+  background-color: #212121;
   color: #ffffff;
   z-index: 999;
 
   > .category{
     @include flex (row, stretch, center);
-    padding-left: 5rem;
+    padding-left: 1.5rem;
 
     > .tab{
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: 500;
 
       > .input{
@@ -29,13 +29,25 @@
          padding: 1rem 2.5rem;
          border-radius: 0.2rem;
          overflow: hidden;
+         cursor: pointer;
        }
     }
+  }
+
+  > .logo{
+    font-size: 2rem;
+    font-family: 'Cafe24MeongiBlack', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    cursor: pointer;
   }
 
   > .my-nav{
     @include flex(row, flex-start, center, 0.7rem);
     margin-right: 1.5rem;
+    margin-left: auto;
 
     > .button{
       cursor: pointer;

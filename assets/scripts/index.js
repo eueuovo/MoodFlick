@@ -1,8 +1,9 @@
 import "./index/login.js";
-import {loadAllBooks, loadGoogleBooksPage} from "./index/book.js";
+import { loadGoogleBooksPage} from "./index/book.js";
 import { loadExpo } from "./index/culture.js";
 import { loadMovies } from "./index/movie.js";
 import "./index/filter.js";
+import { loadRecords } from "./index/storage.js";
 
 // 모달
 export const dialogHandler = {
@@ -106,15 +107,38 @@ export const dialogHandler = {
             ],
         }),
 };
+/*
+let expoLoaded = false;
+*/
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterSections = document.querySelectorAll('.filter-section');
+const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
 
+        // 기록 컨테이너 숨기기
+        const recordContainer = document.getElementById('record-container');
+        if (recordContainer) recordContainer.style.display = 'none';
+
+        // 필터랑 스플래시 기록 탭 아닐때 보이게
+        const filterWrapper = document.querySelector('#filter-wrapper');
+        const splashContainer = document.querySelector('#splash-container');
+
+        if (category === '기록') {
+            // 기록 탭: 필터와 스플래시 숨기기
+            if (filterWrapper) filterWrapper.style.display = 'none';
+            if (splashContainer) splashContainer.style.display = 'none';
+        } else {
+            // 다른 탭: 필터와 스플래시 보이기
+            if (filterWrapper) filterWrapper.style.display = 'block';
+            if (splashContainer) splashContainer.style.display = 'block';
+        }
+
+        // 필터 전환
         filterSections.forEach(section => section.style.display = 'none');
         const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
         if (active) active.style.display = 'block';
@@ -131,6 +155,20 @@ categoryInputs.forEach(input => {
      /*   expo.style.display = 'none';
         expo.classList.remove('active');*/
 
+        //스플래시
+        const splashSections = document.querySelectorAll('.movie-main');
+        splashSections.forEach(s => s.style.display = 'none');
+        const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
+        if (activeSplash) activeSplash.style.display = 'block';
+
+        //메인 컨테니어 전환
+        mainContainers.forEach(container => container.style.display = 'none');
+        const posterContainerActive = document.querySelector(`#poster-container[data-tab="${category}"]`);
+        if (posterContainerActive) {
+            posterContainerActive.style.display = 'block';
+        }
+
+        //카테고리별 함수 호출
         if (category === '영화') {
            poster.style.display = 'block';
             loadMovies();
@@ -142,6 +180,9 @@ categoryInputs.forEach(input => {
         } if (category === "전시/공연") {
             poster.style.display = "block";  // 영화/도서랑 동일하게 사용
             loadExpo();                     // ★ 반드시 실행됨
+        } if (category === "기록"){
+            poster.style.display = 'none';
+            loadRecords();
         }
     });
 });
@@ -453,6 +494,7 @@ export function createCardElement(data, type) {
         });
 
         const reviewInput = $modal.querySelector('#review-input');
+
         //리뷰 등록 (리뷰 없을때)
         const submitBtn = $modal.querySelector('#review-submit');
         if (submitBtn){
@@ -463,7 +505,10 @@ export function createCardElement(data, type) {
                     star : selectedRating,
                     text: reviewText,
                     author: currentUser,
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString(),
+                    contentImage: data.image,
+                    contentSubtitle: data.subtitle ?? '',
+                    rating: data.score ?? null
                 };
                 localStorage.setItem(reviewKey, JSON.stringify(reviewData));
                 dialogHandler.showSimpleOk('리뷰가 등록되었습니다.', {
