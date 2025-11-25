@@ -123,4 +123,7 @@ $signupForm.addEventListener('submit', (e) => {
     dialogHandler.showSimpleOk('회원가입이 완료되었습니다! 로그인 해주세요!');
     $signupPage.classList.remove('visible');
     $loginPage.classList.add('visible');
+
+    $loginPage.querySelector('#email').value = "";
+    $loginPage.querySelector('#password').value = "";
 });

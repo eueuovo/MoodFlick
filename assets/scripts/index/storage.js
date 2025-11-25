@@ -20,6 +20,9 @@ export function loadData(key){
 }
 
 export function loadRecords() {
+
+    const currentUser = localStorage.getItem('currentUser');
+
     //기록 탭 전용 컨테이너
     const $recordContainer = document.querySelector('#record-container');
 
@@ -93,8 +96,8 @@ export function loadRecords() {
     if (records.length === 0) {
         $reviewList.innerHTML = `
             <div class="empty-state">
-                <p>아직 작성된 문화 기록이 없습니다.</p>
-                <p class="sub-text">영화, 도서, 전시/공연 탭에서 리뷰를 작성해보세요!</p>
+                <div class="text">아직 작성된 문화 기록이 없습니다.</div>
+                <div class="sub-text">영화, 도서, 전시/공연 탭에서 리뷰를 작성해보세요!</div>
             </div>
         `;
     } else {
