@@ -1,7 +1,7 @@
 @import "./def";
 @import "../def";
 
-#filter-wrapper{
+#filter-wrapper {
   display: flex;
   flex-direction: column;
   width: $filter-container-width;
@@ -23,11 +23,11 @@
       flex-direction: column;
 
 
-      &[data-tab="영화"]{
+      &[data-tab="영화"] {
         display: block;
       }
 
-      .array-title{
+      .array-title {
         font-size: 1.5rem;
         font-weight: 700;
         padding: 1rem 0;
@@ -39,7 +39,7 @@
         padding-top: 1rem;
       }
 
-      select{
+      select {
         width: 11.3rem;
         padding: 0.5rem;
         border-radius: 0.3rem;
@@ -131,12 +131,13 @@
     /* 행사/전시 영역 */
     .filter-block {
       padding-bottom: 1rem;
+
       .event {
         font-size: 1.3rem;
         font-weight: 700;
       }
 
-      > .sub-label{
+      > .sub-label {
         font-size: 1.2rem;
         font-weight: 600;
         color: #333;
@@ -174,11 +175,13 @@
         gap: 0.5rem;
         margin-right: 0.8rem;
         cursor: pointer;
+
         input {
           transform: scale(1.2);
         }
       }
     }
+
     @media (max-width: 48rem) {
       #filter-container .filter-section .filter-block .date-range {
         flex-direction: column !important;
