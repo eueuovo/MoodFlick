@@ -109,43 +109,38 @@ export const dialogHandler = {
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-const filterSections = document.querySelectorAll('.filter-section');
+const filterContainer = document.querySelector('#filter-container');
+const posterList = document.getElementById('poster-list'); // poster-list 선택
+const pageBtn = document.getElementById('page-container')//페이지 버튼
+const search =document.getElementById('search-container') //전시,도서 검생창
 
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
 
-        filterSections.forEach(section => section.style.display = 'none');
-        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
-        if (active) active.style.display = 'block';
-
-        //포스터 초기화
-        const list = document.querySelector('#poster-container .list')
-        list.innerHTML = ''
-
-        /*const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';*/
-        const poster = document.getElementById('poster-container');
-        /*const expo = document.getElementById('expo-container');*/
-        /*poster.style.display = 'none';*/
-     /*   expo.style.display = 'none';
-        expo.classList.remove('active');*/
+        posterList.innerHTML = ''; // 포스터 초기화
 
         if (category === '영화') {
-           poster.style.display = 'block';
+            // 영화 → 필터 있음
+            filterContainer.style.display = 'block';
+            posterList.style.transform = 'translateX(0)'; // 원래 위치
+            search.style.display ='none';
             loadMovies();
-        }
-        if (category === '도서') {
-            poster.style.display = 'block';
-            loadGoogleBooksPage();
+        } else {
+            // 필터 없음
+            filterContainer.style.display = 'none';
+            posterList.style.transform = 'translateX(-5rem)';
+            pageBtn.style.transform = 'translateX(-7rem)'// 필터 넓이만큼 왼쪽 이동
+            search.style.display = 'block'
 
-        } if (category === "전시/공연") {
-            poster.style.display = "block";  // 영화/도서랑 동일하게 사용
-            loadExpo();                     // ★ 반드시 실행됨
+            if (category === '도서') {
+                loadGoogleBooksPage();
+            } else if (category === '전시/공연') {
+                loadExpo();
+            }
         }
     });
 });
-
 // 스플래시 전환
 function initSplashAutoSlide() {
     const splashContainers = document.querySelectorAll('.splash');
@@ -446,6 +441,16 @@ export function createCardElement(data, type) {
 }
 
 // =====================================
-document.querySelector(".filter-search-btn").addEventListener("click", loadMovies);
+document.querySelector(".filter-search-btn").addEventListener("click", () => {
+    const activeTab = document.querySelector(".filter-section[style*='display: block']"); // 현재 보이는 탭
+    if (!activeTab) return;
+
+    const tabName = activeTab.dataset.tab;
+
+    if (tabName === "영화") loadMovies();
+    else if (tabName === "도서") loadGoogleBooksPage();
+    else if (tabName === "전시/공연") loadExpo();
+});
+
 
 loadMovies();

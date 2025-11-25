@@ -8,6 +8,7 @@
   position: relative;
 
   #filter-container {
+    border-radius: 0.5rem;
     height: calc(100vh - #{$menu-height} - 7.8rem);
     width: $filter-container-width;
     margin-top: 6rem;
@@ -22,6 +23,10 @@
       background: #fff;
       box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.08);
       flex-direction: column;
+
+      .array-title{
+        margin-top: 1rem;
+      }
 
 
       &[data-tab="영화"]{
@@ -189,11 +194,12 @@
 
   /*검색 버튼*/
   .filter-search-btn {
+    border-radius: 0.5rem;
     left: 1rem;
     z-index: 10;
     position: sticky;
-    bottom: 0;
-    width: 15rem;
+    bottom: 2rem;
+    width: 12rem;
     align-self: flex-start;
     padding: 0.7rem 1.4rem;
     background: #4b7bec;
