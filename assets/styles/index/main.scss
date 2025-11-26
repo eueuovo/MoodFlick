@@ -2,19 +2,42 @@
 @import "../def";
 
 #main-container {
-  @include flex(row, flex-start, flex-start, 2rem);
+  @include flex(row, flex-start, flex-start);
   width: 100%;
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;
 
   > .wrapper {
-    @include flex(column, center, flex-start, 1.5rem);
+    @include flex(column, center, flex-start);
     flex: 1;
     min-width: 0;
     //height: 100%;
     //width: 100%;
-    padding-top: $menu-height;
+    padding: $menu-height 2rem 2rem 2rem;
+    margin-top: 1rem;
+
+    &.centered{
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+
+      #poster-list{
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        padding: 0 1rem;
+      }
+
+      #page-container{
+        transform: none;
+      }
+
+      #search {
+        max-width: 100%;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
   }
 }
 

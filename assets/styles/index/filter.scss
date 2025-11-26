@@ -7,19 +7,19 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: calc(#{$menu-height} + 1rem);
-  height: calc(100vh - #{$menu-height} - 1rem);
+  padding-top: $filter-padding-area;
   margin-bottom: 4.5rem;
 
   #filter-container {
     flex: 1;
     width: 100%;
-    margin-top: calc($menu-height + 1.5rem);
     overflow-y: auto;
     overflow-x: hidden;
     border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
     box-shadow: 0 0.625rem 2rem #0F172A1E;
+    min-height: 77.5vh;
+    background-color: #ffffff;
 
     .filter-section {
       min-height: 100%;

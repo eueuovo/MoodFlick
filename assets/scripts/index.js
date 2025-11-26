@@ -115,10 +115,9 @@ const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
 const pageBtn = document.getElementById('page-container')//페이지 버튼
-const search = document.getElementById('book-search')
-const wrapper = document.getElementById('wrapper');
-
-
+const search = document.getElementById('search')
+const wrapper = document.querySelector('.wrapper');
+const filterSearchBtn = document.querySelector('.filter-search-btn');
 
 posterList.innerHTML = ''; // 포스터 초기화
 
@@ -181,29 +180,38 @@ categoryInputs.forEach(input => {
         //카테고리별 함수 호출
         if (category === '영화') {
             poster.style.display = 'block';
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
-            if (posterList) posterList.style.transform = 'translateX(0)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(0)';
-            if (search) search.style.display = 'none'; // null 체크
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'block';
+            if (filterWrapper) filterWrapper.style.display = 'block';
             loadMovies();
             loadTop5Movies();
         } if (category === '도서') {
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
             poster.style.display = 'block';
             loadGoogleBooksPage();
         } if (category === "전시/공연") {
+            if (wrapper) wrapper.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
+            if (search) search.style.display = 'block';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
             poster.style.display = "block";
             loadExpo();
         } if (category === "기록"){
-            poster.style.display = 'none';
-            if (search) search.style.display = 'none'; // null 체크
+            if (wrapper) wrapper.style.display = 'none';
+            if (poster) poster.style.display = 'none';
+            if (search) search.style.display = 'none'; // 검색창 숨기기
+            if (recordContainer) recordContainer.style.display = 'block'; // 기록 컨테이너 보이기
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (filterWrapper) filterWrapper.style.display = 'none';
             loadRecords();
         }
     });
