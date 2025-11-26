@@ -107,14 +107,21 @@ export const dialogHandler = {
             ],
         }),
 };
-/*
-let expoLoaded = false;
-*/
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterSections = document.querySelectorAll('.filter-section');
 const mainContainers = document.querySelectorAll('#poster-container.-stretch');
+const filterContainer = document.querySelector('#filter-container');
+const posterList = document.getElementById('poster-list'); // poster-list 선택
+const pageBtn = document.getElementById('page-container')//페이지 버튼
+const search = document.getElementById('book-search')
+const wrapper = document.getElementById('wrapper');
+
+
+
+posterList.innerHTML = ''; // 포스터 초기화
+
 
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
@@ -174,12 +181,24 @@ categoryInputs.forEach(input => {
         //카테고리별 함수 호출
         if (category === '영화') {
            poster.style.display = 'block';
+            filterContainer.style.display = 'block';
+            posterList.style.transform = 'translateX(0)'; // 원래 위치
+            pageBtn.style.transform = 'translateX(0)'; // 페이지 버튼 원위치
+            search.style.display = 'none';
             loadMovies();
             loadTop5Movies();
         } if (category === '도서') {
+            filterContainer.style.display = 'none';
+            posterList.style.transform = 'translateX(-5rem)';
+            pageBtn.style.transform = 'translateX(-7rem)'; // 필터 넓이만큼 왼쪽 이동
+            search.style.display='block';
             poster.style.display = 'block';
             loadGoogleBooksPage();
         } if (category === "전시/공연") {
+            filterContainer.style.display = 'none';
+            posterList.style.transform = 'translateX(-5rem)';
+            pageBtn.style.transform = 'translateX(-7rem)'; // 필터 넓이만큼 왼쪽 이동
+            search.style.display='block';
             poster.style.display = "block";  // 영화/도서랑 동일하게 사용
             loadExpo();                     // ★ 반드시 실행됨
         } if (category === "기록"){

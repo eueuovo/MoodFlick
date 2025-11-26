@@ -83,7 +83,7 @@ export async function loadExpo(page = 1) {
     items.forEach(expo => {
         const cardData = {
             id: expo.id,
-            image: expo.thumbnail,
+            image: expo.thumbnail || 'assets/images/index/main/no-poster.png',
             title: expo.title,
             subtitle: `${expo.place || ''} / ${expo.area || ''}`,
             score: expo.realm,
@@ -116,13 +116,23 @@ function renderExpoPagination(current, totalCount) {
 
     container.innerHTML = "";
 
+    // « 첫 페이지 버튼
+    const firstBtn = document.createElement("button");
+    firstBtn.className = "page-btn first";
+    firstBtn.textContent = "«";
+    firstBtn.disabled = current === 1;
+    firstBtn.onclick = () => loadExpo(1);
+    container.appendChild(firstBtn);
+
+    // < 이전 버튼
     const prevBtn = document.createElement("button");
-    prevBtn.className = "page-btn";
+    prevBtn.className = "page-btn prev";
     prevBtn.textContent = "<";
     prevBtn.disabled = current === 1;
     prevBtn.onclick = () => loadExpo(current - 1);
     container.appendChild(prevBtn);
 
+    // 페이지 번호
     const wrapper = document.createElement("div");
     wrapper.className = "page-numbers";
 
@@ -136,10 +146,22 @@ function renderExpoPagination(current, totalCount) {
 
     container.appendChild(wrapper);
 
+    // > 다음 버튼
     const nextBtn = document.createElement("button");
-    nextBtn.className = "page-btn";
+    nextBtn.className = "page-btn next";
     nextBtn.textContent = ">";
     nextBtn.disabled = current === totalPages;
     nextBtn.onclick = () => loadExpo(current + 1);
     container.appendChild(nextBtn);
+
+    // » 마지막 페이지 버튼
+    const lastBtn = document.createElement("button");
+    lastBtn.className = "page-btn last";
+    lastBtn.textContent = "»";
+    lastBtn.disabled = current === totalPages;
+    lastBtn.onclick = () => loadExpo(totalPages);
+    container.appendChild(lastBtn);
 }
+
+
+
