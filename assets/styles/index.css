@@ -112,7 +112,7 @@
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  gap: 2;
+  gap: 2rem;
   justify-content: flex-start;
 }
 #main-container > * {
@@ -128,6 +128,26 @@
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;
+}
+#main-container > .wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+#main-container > .wrapper > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-container > .wrapper > .-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-container > .wrapper {
+  flex: 1;
+  min-width: 0;
+  padding-top: 4rem;
 }
 
 #record-container {
@@ -345,6 +365,42 @@
   color: #9ca3af;
 }
 
+#search {
+  position: relative;
+  width: 100%;
+  max-width: 70rem;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+}
+
+#search-input {
+  width: 100%;
+  padding: 1rem 2.5rem 1rem 0.75rem; /* 오른쪽 여백 확보 */
+  border: 0.0625rem solid #ccc;
+  border-radius: 1.5rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+#search-input:focus {
+  border-color: #16a34a; /* 초록 포커스 */
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  background-image: url("/assets/images/index/main/search.png"); /* 돋보기 이미지 */
+  background-size: cover;
+  background-position: center;
+  pointer-events: none; /* 클릭이 input으로 전달되도록 */
+}
+
 #filter-wrapper {
   width: 15rem;
   flex-shrink: 0;
@@ -354,7 +410,6 @@
   top: calc(4rem + 1rem);
   height: calc(100vh - 4rem - 1rem);
   margin-bottom: 4.5rem;
-  margin-top: 6rem;
 }
 #filter-wrapper #filter-container {
   flex: 1;
@@ -553,7 +608,6 @@
   flex: 1;
   min-width: 0;
   width: 100%;
-  padding-top: 4rem;
 }
 
 #poster-list {
@@ -1361,13 +1415,14 @@
 }
 #splash-container > .movie-main > .splash > .img {
   padding-top: 4rem;
-  padding-bottom: 11rem;
+  padding-bottom: 10.5rem;
   position: absolute;
   top: 0;
   left: 100%;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: 89%;
+  object-fit: cover;
+  object-position: center;
   transition: left 1s ease-in-out;
 }
 #splash-container > .movie-main > .splash > .splashSide1 {

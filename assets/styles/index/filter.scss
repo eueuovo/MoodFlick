@@ -10,7 +10,6 @@
   top: calc(#{$menu-height} + 1rem);
   height: calc(100vh - #{$menu-height} - 1rem);
   margin-bottom: 4.5rem;
-  margin-top: 6rem;
 
   #filter-container {
     flex: 1;
@@ -27,7 +26,6 @@
       display: none;
       padding: 0 1.5rem;
       background-color: #ffffff;
-
       flex-direction: column;
 
       &[data-tab="영화"] {

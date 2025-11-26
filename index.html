@@ -181,19 +181,9 @@
                     필터
                     <i class="fa-solid fa-filter"></i>
                 </div>
-                <!-- 시청 유무 -->
-                <div class="filter-block">
-                    <div class="label">
-                        <i class="fa-solid fa-border-all"></i>
-                        보기옵션
-                    </div>
-                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
-                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
-                </div>
                 <!-- 개봉일 선택 -->
                 <div class="filter-block">
                     <div class="label">
-                        <i class="fa-solid fa-calendar-days"></i>
                         기간
                     </div>
                     <div class="date-range">
@@ -203,7 +193,6 @@
                 </div>
                 <div class="filter-block">
                     <div class="label">
-                        <i class="fa-solid fa-layer-group"></i>
                         영화 장르
                     </div>
                     <ul class="genre">
@@ -333,7 +322,12 @@
         <button class="filter-search-btn">검색</button>
     </div>
 
-    <div id="poster-container" class="-stretch">
+    <div class="wrapper">
+        <div id="search" class="search">
+            <input type="text" id="search-input" placeholder="검색어를 입력하세요..." />
+            <span class="search-icon"></span>
+        </div>
+        <div id="poster-container" class="-stretch">
         <ul id="poster-list" class="list">
             <li>포스터 들어갈 예정</li>
         </ul>
@@ -347,7 +341,7 @@
             <button class="page-btn last">&raquo;</button>
         </div>
     </div>
-
+    </div>
     <div id="record-container" style="display: none;">
         <div class="record-header">
             <h2 id="record-caption" class="caption">"사용자"의 문화 기록</h2>

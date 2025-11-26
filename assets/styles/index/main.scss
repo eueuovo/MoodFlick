@@ -1,12 +1,21 @@
 @import "./def";
-@import "def";
+@import "../def";
 
 #main-container {
-  @include flex(row, flex-start, flex-start,2);
+  @include flex(row, flex-start, flex-start, 2rem);
   width: 100%;
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;
+
+  > .wrapper {
+    @include flex(column, center, flex-start, 1.5rem);
+    flex: 1;
+    min-width: 0;
+    //height: 100%;
+    //width: 100%;
+    padding-top: $menu-height;
+  }
 }
 
 #record-container{
@@ -264,4 +273,40 @@
       }
     }
   }
+}
+
+#search{
+  position: relative;
+  width: 100%;
+  max-width: 70rem;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+}
+
+#search-input {
+  width: 100%;
+  padding: 1rem 2.5rem 1rem 0.75rem; /* 오른쪽 여백 확보 */
+  border: 0.0625rem solid #ccc;
+  border-radius: 1.5rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+#search-input:focus {
+  border-color: #16a34a; /* 초록 포커스 */
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  background-image: url('/assets/images/index/main/search.png'); /* 돋보기 이미지 */
+  background-size: cover;
+  background-position: center;
+  pointer-events: none; /* 클릭이 input으로 전달되도록 */
 }
