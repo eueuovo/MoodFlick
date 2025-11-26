@@ -1,25 +1,20 @@
 @import "./def";
-@import "def";
+@import "../def";
 
 #main-container {
-  @include flex(row, flex-start, flex-start, 2);
+  @include flex(row, flex-start, flex-start, 2rem);
   width: 100%;
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;
-  position: relative;
 
-  > #wrapper {
-    padding: $menu-height 0 0 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: calc(100% - $filter-container-width);
-    height: 100%;
+  > .wrapper {
+    @include flex(column, center, flex-start, 1.5rem);
     flex: 1;
     min-width: 0;
-    overflow-x: hidden;
+    //height: 100%;
+    //width: 100%;
+    padding-top: $menu-height;
   }
 }
 
@@ -280,15 +275,15 @@
   }
 }
 
-#book-search{
+#search{
   position: relative;
   width: 100%;
   max-width: 70rem;
   box-sizing: border-box;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
-#book-search-input {
+#search-input {
   width: 100%;
   padding: 1rem 2.5rem 1rem 0.75rem; /* 오른쪽 여백 확보 */
   border: 0.0625rem solid #ccc;

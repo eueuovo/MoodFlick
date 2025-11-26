@@ -180,15 +180,6 @@
                     필터
                     <i class="fa-solid fa-filter"></i>
                 </div>
-                <!-- 시청 유무 -->
-                <div class="filter-block">
-                    <div class="label">
-                        <i class="fa-solid fa-border-all"></i>
-                        보기옵션
-                    </div>
-                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
-                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
-                </div>
                 <!-- 개봉일 선택 -->
                 <div class="filter-block">
                     <div class="label">
@@ -222,17 +213,125 @@
                         <li>판타지</li>
                     </ul>
                 </div>
-                <button class="filter-search-btn">검색</button>
+            </div>
+
+            <!-- 도서 정렬 -->
+            <div class="filter-section filter-book" data-tab="도서">
+                <div class="array-title">정렬</div>
+                <select class="sort-select">
+                    <option value="screening-desc">출시일 ↓ (최신)</option>
+                    <option value="screening-asc">출시일 ↑ (오래된)</option>
+                    <option value="review">리뷰 많은 순</option>
+                    <option value="release">개봉일 순</option>
+                    <option value="popular">인기순</option>
+                </select>
+                <!-- 볼 수 있는 곳(필터) -->
+                <div class="filter-title">필터</div>
+                <!-- 시청 유무 -->
+                <div class="filter-block">
+                    <div class="label">보기옵션</div>
+                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+                </div>
+                <!-- 개봉일 선택 -->
+                <div class="filter-block">
+                    <div class="label">출시일</div>
+                    <div class="date-range">
+                        <label><input type="date" class="date-from"></label>
+                        <label><input type="date" class="date-to"></label>
+                    </div>
+                </div>
+                <div class="filter-block expo">
+                    <div class="label event">행사, 전시 유형</div>
+                    <ul class="event-type">
+                        <li>전시</li>
+                        <li>사진전</li>
+                        <li>공연</li>
+                        <li>팝업스토어</li>
+                        <li>페스티벌</li>
+                        <li>체험형</li>
+                    </ul>
+                    <div class="sub-label">진행 상태</div>
+                    <label><input type="checkbox" name="event-status" value="ongoing"> 진행</label>
+                    <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
+                    <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
+                </div>
+            </div>
+
+            <!-- 전시/공연 정렬 -->
+            <div class="filter-section filter-culture" data-tab="전시/공연">
+                <div class="array-title">정렬</div>
+                <select class="sort-select">
+                    <option value="screening-desc">출시일 ↓ (최신)</option>
+                    <option value="screening-asc">출시일 ↑ (오래된)</option>
+                    <option value="review">리뷰 많은 순</option>
+                    <option value="release">개봉일 순</option>
+                    <option value="popular">인기순</option>
+                </select>
+                <!-- 볼 수 있는 곳(필터) -->
+                <div class="filter-title">필터</div>
+                <!-- 시청 유무 -->
+                <div class="filter-block">
+                    <div class="label">보기옵션</div>
+                    <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
+                    <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
+                </div>
+                <!-- 개봉일 선택 -->
+                <div class="filter-block">
+                    <div class="label">출시일</div>
+                    <div class="date-range">
+                        <label><input type="date" class="date-from"></label>
+                        <label><input type="date" class="date-to"></label>
+                    </div>
+                </div>
+                <div class="filter-block expo">
+                    <p class="label event">행사 / 전시 필터</p>
+                    <!-- 지역 필터 -->
+                    <div class="sub-label">지역</div>
+                    <select id="area" class="filter-area">
+                        <option value="">전체</option>
+                        <option value="서울">서울</option>
+                        <option value="경기">경기</option>
+                        <option value="인천">인천</option>
+                        <option value="강원">강원</option>
+                        <option value="충북">충북</option>
+                        <option value="충남">충남</option>
+                        <option value="전북">전북</option>
+                        <option value="전남">전남</option>
+                        <option value="경북">경북</option>
+                        <option value="경남">경남</option>
+                        <option value="부산">부산</option>
+                        <option value="대구">대구</option>
+                        <option value="울산">울산</option>
+                        <option value="광주">광주</option>
+                        <option value="제주">제주</option>
+                        <!-- 필요 시 더 추가 -->
+                    </select>
+                    <div class="label event">유형</div>
+                    <ul class="event-type">
+                        <li data-value="공연/전시">공연/전시</li>
+                        <li data-value="교육/체험">교육/체험</li>
+                    </ul>
+                    <div class="sub-label">진행 상태</div>
+                    <label><input type="checkbox" name="event-status" value="ongoing"> 진행</label>
+                    <label><input type="checkbox" name="event-status" value="upcoming"> 예정</label>
+                    <label><input type="checkbox" name="event-status" value="ended"> 종료</label>
+                </div>
             </div>
         </div>
+        <!-- 검색 버튼 -->
+        <button class="filter-search-btn">검색</button>
     </div>
-    <div id="wrapper">
-        <div id="book-search" class="search-b">
-            <input type="text" id="book-search-input" placeholder="검색어를 입력하세요..." />
+
+    <div class="wrapper">
+        <div id="search" class="search">
+            <input type="text" id="search-input" placeholder="검색어를 입력하세요..." />
             <span class="search-icon"></span>
         </div>
-     <div id="poster-container" class="-stretch">
-        <ul id="poster-list" class="list"></ul>
+        <div id="poster-container" class="-stretch">
+        <ul id="poster-list" class="list">
+            <li>포스터 들어갈 예정</li>
+        </ul>
         <div id="page-container">
             <button class="page-btn first" disabled>&laquo;</button>
             <button class="page-btn prev" disabled>&lt;</button>

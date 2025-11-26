@@ -90,30 +90,33 @@
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  gap: 2;
+  gap: 2rem;
   justify-content: flex-start;
   width: 100%;
   min-height: 100vh;
   padding: 0 7rem;
-  box-sizing: border-box;
-  position: relative; }
+  box-sizing: border-box; }
   #main-container > * {
     flex-grow: 0;
     flex-shrink: 0; }
   #main-container > .-stretch {
     flex-grow: 1;
     flex-shrink: 1; }
-  #main-container > #wrapper {
-    padding: 4rem 0 0 5rem;
+  #main-container > .wrapper {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 1.5rem;
     justify-content: flex-start;
-    width: calc(100% - $filter-container-width);
-    height: 100%;
     flex: 1;
     min-width: 0;
-    overflow-x: hidden; }
+    padding-top: 4rem; }
+    #main-container > .wrapper > * {
+      flex-grow: 0;
+      flex-shrink: 0; }
+    #main-container > .wrapper > .-stretch {
+      flex-grow: 1;
+      flex-shrink: 1; }
 
 #record-container {
   padding-top: 4.5rem;
@@ -290,14 +293,14 @@
       .edit-review-modal .rating-input > input[type="number"]::placeholder {
         color: #9ca3af; }
 
-#book-search {
+#search {
   position: relative;
   width: 100%;
   max-width: 70rem;
   box-sizing: border-box;
-  margin-bottom: 0.4rem; }
+  margin-bottom: 0.5rem; }
 
-#book-search-input {
+#search-input {
   width: 100%;
   padding: 1rem 2.5rem 1rem 0.75rem;
   /* 오른쪽 여백 확보 */
@@ -335,7 +338,6 @@
   top: calc(4rem + 1rem);
   height: calc(100vh - 4rem - 1rem);
   margin-bottom: 4.5rem;
-  align-items: flex-start;
   /*검색 버튼*/ }
   #filter-wrapper #filter-container {
     flex: 1;
@@ -365,7 +367,7 @@
       #filter-wrapper #filter-container .filter-section .filter-title {
         font-size: 1.5rem;
         font-weight: 700;
-        padding: 2rem 0 0.5rem;
+        padding: 4rem 0 0.5rem;
         color: #111827;
         border-bottom: 2px solid #e5e7eb;
         margin-bottom: 0.75rem; }
@@ -1036,7 +1038,7 @@
       z-index: 0; }
       #splash-container > .movie-main > .splash > .img {
         padding-top: 4rem;
-        padding-bottom: 11rem;
+        padding-bottom: 10.5rem;
         position: absolute;
         width: 100%;
         height: 89%;
