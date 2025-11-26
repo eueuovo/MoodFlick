@@ -4,6 +4,7 @@
 #main-container {
   @include flex(row, flex-start, flex-start,2);
   width: 100%;
+  position: relative;
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;

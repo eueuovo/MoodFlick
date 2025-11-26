@@ -10,7 +10,7 @@
   top: calc(#{$menu-height} + 1rem);
   height: calc(100vh - #{$menu-height} - 1rem);
   margin-bottom: 4.5rem;
-  margin-top: 6rem;
+  align-items: flex-start;
 
   #filter-container {
     flex: 1;
@@ -18,7 +18,7 @@
     margin-top: calc($menu-height + 1.5rem);
     overflow-y: auto;
     overflow-x: hidden;
-    border-top-left-radius:   0.75rem;
+    border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
     box-shadow: 0 0.625rem 2rem #0F172A1E;
 
@@ -46,7 +46,7 @@
       .filter-title {
         font-size: 1.5rem;
         font-weight: 700;
-        padding: 4rem 0 0.5rem;
+        padding: 2rem 0 0.5rem;
         color: #111827;
         border-bottom: 2px solid #e5e7eb;
         margin-bottom: 0.75rem;
