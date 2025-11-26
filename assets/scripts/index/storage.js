@@ -132,11 +132,11 @@ function createRecordCard(record) {
             <div class="record-ratings">
                 <div class="rating-item">
                     <span class="rating-label">내 평점</span>
-                    <span class="rating-value my-rating">${reviewData.star ? '★ ' + reviewData.star : '미등록'}</span>
+                    <span class="rating-value my-rating">${reviewData.star ? '★ ' + reviewData.star : '-'}</span>
                 </div>
                 <div class="rating-item">
                     <span class="rating-label">평균 평점</span>
-                    <span class="rating-value avg-rating">${reviewData.rating ? '★ ' + reviewData.rating : 'N/A'}</span>
+                    <span class="rating-value avg-rating">${reviewData.rating ? '★ ' + reviewData.rating : '-'}</span>
                 </div>
             </div>
             <div class="record-review">
