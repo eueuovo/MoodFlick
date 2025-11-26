@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Culture Log: 나만의 문화 일기장</title>
     <link rel="shortcut icon" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/styles/common.css">
     <link rel="stylesheet" href="assets/styles/index.css">
     <script defer type="module" src="assets/scripts/index.js"></script>
@@ -39,7 +40,7 @@
 
 <div id="splash-container">
     <!--영화 스플래시-->
-    <div class="movie-main" data-tab="영화">
+    <div class="movie-main active" data-tab="영화">
         <div class="splash">
             <img class="img splashSide1" src="assets/images/index/splash/movie_splash1.jpg" alt="">
             <img class="img splashSide2" src="assets/images/index/splash/movie_splash2.jpg" alt="">
@@ -164,7 +165,10 @@
         <div id="filter-container">
             <!-- 영화 정렬 -->
             <div class="filter-section filter-movie" data-tab="영화">
-                <div class="array-title">정렬</div>
+                <div class="array-title">
+                    정렬
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                </div>
                 <select class="sort-select">
                     <option value="screening-desc">출시일 ↓ (최신)</option>
                     <option value="screening-asc">출시일 ↑ (오래된)</option>
@@ -173,23 +177,35 @@
                     <option value="popular">인기순</option>
                 </select>
                 <!-- 볼 수 있는 곳(필터) -->
-                <div class="filter-title">필터</div>
+                <div class="filter-title">
+                    필터
+                    <i class="fa-solid fa-filter"></i>
+                </div>
                 <!-- 시청 유무 -->
                 <div class="filter-block">
-                    <div class="label">보기옵션</div>
+                    <div class="label">
+                        <i class="fa-solid fa-border-all"></i>
+                        보기옵션
+                    </div>
                     <label><input type="radio" name="watch-state" value="all" checked> 전체</label>
                     <label><input type="radio" name="watch-state" value="favorite"> 즐겨찾기</label>
                 </div>
                 <!-- 개봉일 선택 -->
                 <div class="filter-block">
-                    <div class="label">출시일</div>
+                    <div class="label">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        기간
+                    </div>
                     <div class="date-range">
                         <label><input type="date" class="date-from"></label>
                         <label><input type="date" class="date-to"></label>
                     </div>
                 </div>
                 <div class="filter-block">
-                    <div class="label">영화 장르</div>
+                    <div class="label">
+                        <i class="fa-solid fa-layer-group"></i>
+                        영화 장르
+                    </div>
                     <ul class="genre">
                         <li>SF</li>
                         <li>가족</li>

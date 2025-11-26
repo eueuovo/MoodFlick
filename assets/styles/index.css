@@ -93,8 +93,9 @@
   gap: 2;
   justify-content: flex-start;
   width: 100%;
-  height: 100vh;
-  padding: 0 7rem; }
+  min-height: 100vh;
+  padding: 0 7rem;
+  box-sizing: border-box; }
   #main-container > * {
     flex-grow: 0;
     flex-shrink: 0; }
@@ -278,36 +279,48 @@
         color: #9ca3af; }
 
 #filter-wrapper {
+  width: 15rem;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  width: 15rem;
-  position: relative;
-  padding-top: 6rem;
+  position: sticky;
+  top: calc(4rem + 1rem);
+  height: calc(100vh - 4rem - 1rem);
+  margin-bottom: 4.5rem;
+  margin-top: 6rem;
   /*검색 버튼*/ }
   #filter-wrapper #filter-container {
-    height: 41.5rem;
-    width: 15rem;
-    padding-top: calc($menu-height + 2rem);
+    flex: 1;
+    width: 100%;
+    margin-top: calc($menu-height + 1.5rem);
     overflow-y: auto;
     overflow-x: hidden;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    box-shadow: 0 0.625rem 2rem #0F172A1E;
     /* 행사/전시 영역 */ }
     #filter-wrapper #filter-container .filter-section {
       min-height: 100%;
       display: none;
       padding: 0 1.5rem;
       background-color: #ffffff;
-      box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.08);
       flex-direction: column; }
       #filter-wrapper #filter-container .filter-section[data-tab="영화"] {
         display: block; }
       #filter-wrapper #filter-container .filter-section .array-title {
         font-size: 1.5rem;
         font-weight: 700;
-        padding: 1rem 0; }
+        padding: 2rem 0 0.5rem;
+        color: #111827;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 0.75rem; }
       #filter-wrapper #filter-container .filter-section .filter-title {
         font-size: 1.5rem;
         font-weight: 700;
-        padding-top: 1rem; }
+        padding: 4rem 0 0.5rem;
+        color: #111827;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 0.75rem; }
       #filter-wrapper #filter-container .filter-section select {
         width: 11.3rem;
         padding: 0.5rem;
@@ -413,10 +426,7 @@
         gap: 0.8rem; } }
   #filter-wrapper .filter-search-btn {
     z-index: 10;
-    position: absolute;
-    bottom: -5%;
     width: 15rem;
-    align-self: flex-start;
     padding: 0.7rem 1.4rem;
     background: #4b7bec;
     color: #fff;
@@ -424,21 +434,27 @@
     font-weight: 600;
     border: none;
     cursor: pointer;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    box-shadow: 0 0.625rem 2rem #0F172A1E;
     transition: background 0.2s; }
     #filter-wrapper .filter-search-btn:hover {
       background: #3c6bd0; }
 
 #poster-container {
-  height: 100%;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
   padding-top: 4rem; }
 
 #poster-list {
-  margin: 0;
-  padding: 1.5rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  width: 100%;
+  padding: 1.5rem 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.8rem;
-  justify-content: center;
   list-style: none; }
   #poster-list > .item {
     height: 22rem;
@@ -1115,20 +1131,29 @@
 
 */
 #splash-container {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: relative;
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0 auto; }
   #splash-container > .movie-main {
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    height: 100%;
-    width: 100%; }
-    #splash-container > .movie-main > .splash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: clamp(30rem, 60vw, 60rem);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    overflow: hidden; }
+    #splash-container > .movie-main.active {
       position: relative;
-      width: 106rem;
-      height: 60rem;
+      opacity: 1;
+      pointer-events: auto; }
+    #splash-container > .movie-main > .splash {
+      width: 100%;
+      height: 100%;
+      position: relative;
       overflow: hidden;
       z-index: 0; }
       #splash-container > .movie-main > .splash > .img {
@@ -1137,7 +1162,7 @@
         top: 0;
         left: 100%;
         width: 100%;
-        height: 70%;
+        height: 100%;
         object-fit: cover;
         transition: left 1s ease-in-out; }
       #splash-container > .movie-main > .splash > .splashSide1 {
