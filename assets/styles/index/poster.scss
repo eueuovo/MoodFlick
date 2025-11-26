@@ -9,13 +9,10 @@
 #poster-list {
   display: grid;
   width: 100%;
-  /*
-  padding: 1.5rem 1rem;
-  */
   margin: 0;
   box-sizing: border-box;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
   list-style: none;
   justify-content: center;
   align-items: center;

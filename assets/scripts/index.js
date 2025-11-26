@@ -184,7 +184,6 @@ categoryInputs.forEach(input => {
             filterContainer.style.display = 'block';
             posterList.style.transform = 'translateX(0)'; // 원래 위치
             pageBtn.style.transform = 'translateX(0)'; // 페이지 버튼 원위치
-            search.style.display = 'none';
             loadMovies();
             loadTop5Movies();
         } if (category === '도서') {

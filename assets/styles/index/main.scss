@@ -7,15 +7,19 @@
   min-height: 100vh;
   padding: 0 7rem;
   box-sizing: border-box;
+  position: relative;
 
   > #wrapper {
-    padding-top: $menu-height;
+    padding: $menu-height 0 0 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     width: calc(100% - $filter-container-width);
     height: 100%;
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
   }
 }
 
@@ -278,8 +282,10 @@
 
 #book-search{
   position: relative;
-  width: 70rem; /* 필요에 따라 조절 */
-  margin: 2rem;
+  width: 100%;
+  max-width: 70rem;
+  box-sizing: border-box;
+  margin-bottom: 0.4rem;
 }
 
 #book-search-input {
@@ -290,6 +296,7 @@
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 #search-input:focus {
