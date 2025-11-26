@@ -135,20 +135,15 @@
                 </div>
                 <button class="filter-search-btn">검색</button>
             </div>
-
         </div>
     </div>
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="Search..." />
-        <button type="submit" id="search-btn">
-            <img class="search-img" src="assets/images/index/main/search.png" alt="검색">
-        </button>
-    </div>
-
-    <div id="poster-container" class="-stretch">
-        <ul id="poster-list" class="list">
-            <li>포스터 들어갈 예정</li>
-        </ul>
+    <div id="wrapper">
+        <div id="book-search" class="search-b">
+            <input type="text" id="book-search-input" placeholder="검색어를 입력하세요..." />
+            <span class="search-icon"></span>
+        </div>
+     <div id="poster-container" class="-stretch">
+        <ul id="poster-list" class="list"></ul>
         <div id="page-container">
             <button class="page-btn first" disabled>&laquo;</button>
             <button class="page-btn prev" disabled>&lt;</button>
@@ -156,7 +151,9 @@
             <button class="page-btn next">&gt;</button>
             <button class="page-btn last">&raquo;</button>
         </div>
-    </div>
+     </div>
+  </div>
+
 </div>
 
 <div id="login-container">

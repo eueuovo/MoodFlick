@@ -112,16 +112,18 @@ const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
 const pageBtn = document.getElementById('page-container')//페이지 버튼
-const search = document.getElementById('search-container'); // 전시, 도서 검색창
+const search = document.getElementById('book-search')
+const wrapper = document.getElementById('wrapper');
 
-search.style.display='none';
+
+
+posterList.innerHTML = ''; // 포스터 초기화
+
+
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
-
-        posterList.innerHTML = ''; // 포스터 초기화
-
-        if (category === '영화') {
+    if (category === '영화') {
             // 영화 → 필터 있음
             filterContainer.style.display = 'block';
             posterList.style.transform = 'translateX(0)'; // 원래 위치
@@ -133,7 +135,8 @@ categoryInputs.forEach(input => {
             filterContainer.style.display = 'none';
             posterList.style.transform = 'translateX(-5rem)';
             pageBtn.style.transform = 'translateX(-7rem)'; // 필터 넓이만큼 왼쪽 이동
-            search.style.display = 'block';
+            search.style.display='block';
+
 
             if (category === '도서') {
                 loadGoogleBooksPage();
