@@ -127,15 +127,18 @@ categoryInputs.forEach(input => {
         // 필터랑 스플래시 기록 탭 아닐때 보이게
         const filterWrapper = document.querySelector('#filter-wrapper');
         const splashContainer = document.querySelector('#splash-container');
+        const searchContainer = document.querySelector('.search');
 
         if (category === '기록') {
             // 기록 탭: 필터와 스플래시 숨기기
             if (filterWrapper) filterWrapper.style.display = 'none';
             if (splashContainer) splashContainer.style.display = 'none';
+            if (searchContainer) searchContainer.style.display = 'none';
         } else {
             // 다른 탭: 필터와 스플래시 보이기
             if (filterWrapper) filterWrapper.style.display = 'block';
             if (splashContainer) splashContainer.style.display = 'block';
+            if (searchContainer) searchContainer.style.display = 'block';
         }
 
         // 필터 전환
