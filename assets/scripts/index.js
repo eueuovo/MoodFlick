@@ -110,14 +110,14 @@ export const dialogHandler = {
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-const filterContainer = document.querySelector('#filter-container');
 const filterSections = document.querySelectorAll('.filter-section');
-const posterContainer = document.getElementById('poster-container');
 const mainContainers = document.querySelectorAll('#poster-container.-stretch');
+const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
 const pageBtn = document.getElementById('page-container')//페이지 버튼
-const search = document.getElementById('book-search')
-
+const search = document.getElementById('search')
+const wrapper = document.querySelector('.wrapper');
+const filterSearchBtn = document.querySelector('.filter-search-btn');
 
 posterList.innerHTML = ''; // 포스터 초기화
 
@@ -130,33 +130,38 @@ categoryInputs.forEach(input => {
         const recordContainer = document.getElementById('record-container');
         if (recordContainer) recordContainer.style.display = 'none';
 
-
+        // 필터랑 스플래시 기록 탭 아닐때 보이게
         const filterWrapper = document.querySelector('#filter-wrapper');
         const splashContainer = document.querySelector('#splash-container');
-        const searchContainer = document.querySelector('.search');
-        // 필터랑 스플래시 기록 탭 아닐때 보이게
+
         if (category === '기록') {
             // 기록 탭: 필터와 스플래시 숨기기
             if (filterWrapper) filterWrapper.style.display = 'none';
             if (splashContainer) splashContainer.style.display = 'none';
-            if (searchContainer) searchContainer.style.display = 'none';
         } else {
             // 다른 탭: 필터와 스플래시 보이기
             if (filterWrapper) filterWrapper.style.display = 'block';
             if (splashContainer) splashContainer.style.display = 'block';
-            if (searchContainer) searchContainer.style.display = 'block';
         }
 
-        // 탭에 맞는 필터 보여주기
+        // 필터 전환
         filterSections.forEach(section => section.style.display = 'none');
-        const active = document.querySelector(`.filter-section[data-tab="${category}"]`);
+        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
         if (active) active.style.display = 'block';
 
-        // 포스터 초기화
+        //포스터 초기화
         const list = document.querySelector('#poster-container .list')
         list.innerHTML = ''
 
-        // 스플래시
+        /*const expoList = document.querySelector('#expo-list');
+        if (expoList) expoList.innerHTML = '';*/
+        const poster = document.getElementById('poster-container');
+        /*const expo = document.getElementById('expo-container');*/
+        /*poster.style.display = 'none';*/
+     /*   expo.style.display = 'none';
+        expo.classList.remove('active');*/
+
+        //스플래시
         const splashSections = document.querySelectorAll('.movie-main');
         splashSections.forEach(s => s.classList.remove('active'));
         const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
@@ -174,31 +179,39 @@ categoryInputs.forEach(input => {
 
         //카테고리별 함수 호출
         if (category === '영화') {
-            posterContainer.style.display = 'block';
+            poster.style.display = 'block';
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
-            if (posterList) posterList.style.transform = 'translateX(0)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(0)';
-            if (search) search.style.display = 'none'; // null 체크
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'block';
+            if (filterWrapper) filterWrapper.style.display = 'block';
             loadMovies();
             loadTop5Movies();
         } if (category === '도서') {
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
-            posterContainer.style.display = 'block';
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
+            poster.style.display = 'block';
             loadGoogleBooksPage();
         } if (category === "전시/공연") {
+            if (wrapper) wrapper.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
-            posterContainer.style.display = "block";
+            if (search) search.style.display = 'block';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
+            poster.style.display = "block";
             loadExpo();
         } if (category === "기록"){
-            posterContainer.style.display = 'none';
-            if (searchContainer) searchContainer.style.display = 'none';
-            if (search) search.style.display = 'none'; // null 체크
+            if (wrapper) wrapper.style.display = 'none';
+            if (poster) poster.style.display = 'none';
+            if (search) search.style.display = 'none'; // 검색창 숨기기
+            if (recordContainer) recordContainer.style.display = 'block'; // 기록 컨테이너 보이기
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (filterWrapper) filterWrapper.style.display = 'none';
             loadRecords();
         }
     });
@@ -422,7 +435,7 @@ export function createCardElement(data, type) {
                         <label class="review-wrapper">
                             <div class="rating-wrapper">
                                 <div class="stars" id="review-stars">
-                                    <span class="star-caption">내 평점</span>
+                                    <span class="star-caption">내가 준 점수</span>
                                     <!-- 0.5점 단위 = 10칸 -->
                                     <span class="star" data-index="0"></span>
                                     <span class="star" data-index="1"></span>

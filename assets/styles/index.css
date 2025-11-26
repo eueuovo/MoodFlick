@@ -112,7 +112,7 @@
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 0;
   justify-content: flex-start;
 }
 #main-container > * {
@@ -133,7 +133,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0;
   justify-content: flex-start;
 }
 #main-container > .wrapper > * {
@@ -147,7 +147,26 @@
 #main-container > .wrapper {
   flex: 1;
   min-width: 0;
-  padding-top: 4rem;
+  padding: 4rem 2rem 2rem 2rem;
+  margin-top: 1rem;
+}
+#main-container > .wrapper.centered {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+#main-container > .wrapper.centered #poster-list {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  padding: 0 1rem;
+}
+#main-container > .wrapper.centered #page-container {
+  transform: none;
+}
+#main-container > .wrapper.centered #search {
+  max-width: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #record-container {
@@ -446,19 +465,19 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: calc(4rem + 1rem);
-  height: calc(100vh - 4rem - 1rem);
+  padding-top: 5.5rem;
   margin-bottom: 4.5rem;
 }
 #filter-wrapper #filter-container {
   flex: 1;
   width: 100%;
-  margin-top: 5.5rem;
   overflow-y: auto;
   overflow-x: hidden;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   box-shadow: 0 0.625rem 2rem rgba(15, 23, 42, 0.1176470588);
+  min-height: 77.5vh;
+  background-color: #ffffff;
 }
 #filter-wrapper #filter-container .filter-section {
   min-height: 100%;
@@ -654,6 +673,7 @@
   width: 100%;
   padding: 1.5rem 1rem;
   margin: 0;
+  padding: 0 1rem;
   box-sizing: border-box;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.8rem;
@@ -661,7 +681,6 @@
 }
 #poster-list > .item {
   height: 22rem;
-  width: 14rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -715,14 +734,13 @@
   width: 100%;
   aspect-ratio: 2/3;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   overflow: hidden;
 }
 #poster-list .card_poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 #poster-list .card_like-label {
   position: absolute;
@@ -814,7 +832,7 @@
 }
 
 #poster-container > #page-container {
-  margin: 1rem 0 3rem 0;
+  margin-top: 1rem;
   align-items: center;
   display: flex;
   flex-direction: row;

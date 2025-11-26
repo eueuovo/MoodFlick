@@ -18,7 +18,7 @@ function getTag(xml, tag) {
 }
 
 // EXPO 데이터 불러오기
-export async function fetchExpo(page = 1, rows = 10) {
+export async function fetchExpo(page = 1, rows = 12) {
     const targetUrl =
         "https://apis.data.go.kr/B553457/cultureinfo/period2" +
         `?serviceKey=89YiOxOkyK6UlZ801yXmfUJP0oT9U6f6YMbAycEXoblUG1jvQbXfWFNgXwMGNWjHkGXhIA/JjY/M2cCOURanpQ==` +
