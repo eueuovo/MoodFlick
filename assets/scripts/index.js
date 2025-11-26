@@ -383,7 +383,7 @@ export function createCardElement(data, type) {
 
         const reviewButtons = existingReview
             ? `<button id="review-edit">수정</button>
-           <button id="review-delete">삭제</button>`
+               <button id="review-delete">삭제</button>`
             : `<button id="review-submit">등록</button>`;
 
         const $modal = dialogHandler.show({
@@ -396,15 +396,17 @@ export function createCardElement(data, type) {
                 <div class="modal-info">
                     <div class="title-wrapper">
                         <div class="title">${data.title}</div>
-                        <div class="subtitle">${data.subtitle ?? ''}</div>                    
+                        <div class="info-row">
+                            <div class="subtitle">개봉일 ${data.subtitle ?? ''}</div>                                            
+                            <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
+                        </div>
                     </div>
-                    <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
                     <div class="description">${data.fullDescription ?? ''}</div>
-
                     <div class="review-section">
-                        <label>
+                        <label class="review-wrapper">
                             <div class="rating-wrapper">
                                 <div class="stars" id="review-stars">
+                                    <span class="star-caption">내가 준 점수</span>
                                     <!-- 0.5점 단위 = 10칸 -->
                                     <span class="star" data-index="0"></span>
                                     <span class="star" data-index="1"></span>
@@ -413,11 +415,11 @@ export function createCardElement(data, type) {
                                     <span class="star" data-index="4"></span>
                                 </div>
                             </div>
-                            <input id="review-input" class="review-input" type="text" 
-                                value="${existingReview?.text ?? ''}" 
-                                placeholder="리뷰를 입력하세요"
-                                ${existingReview ? 'readonly' : ''}
-                                style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}">
+                            <textarea id="review-input" class="review-input"
+                            placeholder="리뷰를 입력하세요"
+                            ${existingReview ? 'readonly' : ''} 
+                            style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}"
+                            >${existingReview?.text ?? ''}</textarea>
                         </label>
                         <div class="button-wrapper">
                             ${reviewButtons}
@@ -501,6 +503,17 @@ export function createCardElement(data, type) {
         if (submitBtn){
             submitBtn.addEventListener('click', () => {
                 const reviewText = reviewInput.value.trim();
+
+                if (selectedRating === 0) {
+                    dialogHandler.showSimpleOk('별점을 선택해주세요.');
+                    return;
+                }
+
+                if (!reviewText) {
+                    dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');
+                    return;
+                }
+
                 starsWrap.classList.add('disabled');   // ★ 등록 후 별점 잠금
                 const reviewData = {
                     star : selectedRating,
@@ -539,6 +552,11 @@ export function createCardElement(data, type) {
                 } else {
                     // 수정 완료
                     const reviewText = reviewInput.value.trim();
+
+                    if (selectedRating === 0) {
+                        dialogHandler.showSimpleOk('별점을 선택해주세요.');
+                        return;
+                    }
 
                     if (!reviewText) {
                         dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');

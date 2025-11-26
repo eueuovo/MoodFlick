@@ -87,7 +87,8 @@ export async function loadExpo(page = 1) {
             title: expo.title,
             subtitle: `${expo.place || ''} / ${expo.area || ''}`,
             score: expo.realm,
-            description: `${expo.startDate} ~ ${expo.endDate}`,
+            description: '클릭하여 전시/공연 상세 보기',
+            fullDescription: '전시/공연 설명이 없습니다.',
             type: "expo"
         };
 
