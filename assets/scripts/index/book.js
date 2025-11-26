@@ -74,6 +74,7 @@ function renderGoogleBooks(items) {
         const volumeInfo = b.volumeInfo;
         const fullDesc = volumeInfo.description || '도서 설명이 없습니다.';
         const cardData = {
+            id: b.id,
             image: volumeInfo.imageLinks?.thumbnail || 'assets/images/index/main/no-poster.png',
             title: volumeInfo.title,
             subtitle: `${volumeInfo.authors?.join(", ") || ""} · ${volumeInfo.publishedDate || ""}`,

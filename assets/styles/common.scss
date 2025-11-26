@@ -16,10 +16,24 @@ body {
   background-color: #f3f4f6;
   color: #030712;
   cursor: default;
-  font-family: "Pretendard Std Variable", "Pretendard Std", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family: 'SchoolSafetyRoundedSmile', sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   margin: 0;
+}
+
+@font-face {
+  font-family: 'SchoolSafetyRoundedSmile';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-R.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SchoolSafetyRoundedSmile';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
 }
 
 @font-face {
