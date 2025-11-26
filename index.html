@@ -173,7 +173,6 @@
                     <option value="screening-desc">출시일 ↓ (최신)</option>
                     <option value="screening-asc">출시일 ↑ (오래된)</option>
                     <option value="review">리뷰 많은 순</option>
-                    <option value="release">개봉일 순</option>
                     <option value="popular">인기순</option>
                 </select>
                 <!-- 볼 수 있는 곳(필터) -->
@@ -184,6 +183,7 @@
                 <!-- 개봉일 선택 -->
                 <div class="filter-block">
                     <div class="label">
+                        <i class="fa-solid fa-calendar-days"></i>
                         기간
                     </div>
                     <div class="date-range">
@@ -193,6 +193,7 @@
                 </div>
                 <div class="filter-block">
                     <div class="label">
+                        <i class="fa-solid fa-layer-group"></i>
                         영화 장르
                     </div>
                     <ul class="genre">
@@ -334,14 +335,13 @@
         <div id="page-container">
             <button class="page-btn first" disabled>&laquo;</button>
             <button class="page-btn prev" disabled>&lt;</button>
-
             <div class="page-numbers"></div>
-
             <button class="page-btn next">&gt;</button>
             <button class="page-btn last">&raquo;</button>
         </div>
+     </div>
     </div>
-    </div>
+
     <div id="record-container" style="display: none;">
         <div class="record-header">
             <h2 id="record-caption" class="caption">"사용자"의 문화 기록</h2>
