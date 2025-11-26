@@ -445,7 +445,7 @@ export function createCardElement(data, type) {
                                 </div>
                             </div>
                             <textarea id="review-input" class="review-input"
-                            placeholder="리뷰를 입력하세요"
+                            placeholder="메모 및 한줄평을 기록해주세요."
                             ${existingReview ? 'readonly' : ''} 
                             style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}"
                             >${existingReview?.text ?? ''}</textarea>

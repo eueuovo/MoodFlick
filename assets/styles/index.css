@@ -94,7 +94,7 @@
   justify-content: flex-start;
   width: 100%;
   min-height: 100vh;
-  padding: 0 7rem;
+  padding: 0 10rem;
   box-sizing: border-box; }
   #main-container > * {
     flex-grow: 0;
