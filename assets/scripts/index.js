@@ -1,7 +1,7 @@
 import "./index/login.js";
 import { loadGoogleBooksPage} from "./index/book.js";
 import { loadExpo } from "./index/culture.js";
-import { loadMovies } from "./index/movie.js";
+import {loadMovies, loadTop5Movies} from "./index/movie.js";
 import "./index/filter.js";
 import { loadRecords } from "./index/storage.js";
 
@@ -175,6 +175,7 @@ categoryInputs.forEach(input => {
         if (category === '영화') {
            poster.style.display = 'block';
             loadMovies();
+            loadTop5Movies();
         } if (category === '도서') {
             poster.style.display = 'block';
             loadGoogleBooksPage();
@@ -620,3 +621,4 @@ window.addEventListener('resize', updateSplashHeight);
 window.addEventListener('load', updateSplashHeight);
 
 loadMovies();
+loadTop5Movies();

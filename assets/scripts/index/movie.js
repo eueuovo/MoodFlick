@@ -111,6 +111,57 @@ function renderMovies(results) {
     list.appendChild(frag);
 }
 
+// top5 영화
+export function loadTop5Movies() {
+    const today = new Date();
+    const threeMonthsAgo = new Date(today);
+    threeMonthsAgo.setMonth(today.getMonth() - 3);
+
+    const todayStr = today.toISOString().slice(0, 10);
+    const threeMonthsAgoStr = threeMonthsAgo.toISOString().slice(0, 10);
+
+    const xhr = new XMLHttpRequest();
+    const url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=1&sort_by=vote_average.desc&primary_release_date.gte=${threeMonthsAgoStr}&primary_release_date.lte=${todayStr}&vote_count.gte=100`;
+
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.status < 200 || xhr.status >= 400) {
+            console.error("TMDB Top5 오류:", xhr.responseText);
+            return;
+        }
+        const data = JSON.parse(xhr.responseText);
+        renderTop5(data.results.slice(0, 5));
+    };
+    xhr.send();
+}
+
+// top5 렌더링 함수
+function renderTop5(movies) {
+
+    if (!movies || movies.length === 0) return;
+
+    // 영화 탭의 top5만 선택
+    const topElements = document.querySelectorAll('.movie-main[data-tab="영화"] .top-five .top');
+
+    movies.forEach((movie, index) => {
+        if (index < topElements.length) {
+            const topEl = topElements[index];
+            const img = topEl.querySelector('.img');
+            const title = topEl.querySelector('.title');
+            const score = topEl.querySelector('.score');
+
+            if (img) img.src = movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : 'assets/images/index/main/no-poster.png';
+            if (title) title.textContent = movie.title || movie.name;
+            if (score) score.textContent = `★ ${movie.vote_average.toFixed(1)}`;
+        }
+    });
+}
+
 export let currentPage = 1;
 export let totalPages = 1;
 const numbersBox = document.querySelector(':scope #page-container > .page-numbers');
@@ -122,6 +173,7 @@ const lastBtn = document.querySelector(':scope #page-container > .last');
 // 번호 생성해서 화면에 보여주기
 function renderPage() {
     numbersBox.innerHTML = '';
+
 
     const maxVisible = 5; // 현재 페이지 기준 5개
     let start = currentPage - Math.floor(maxVisible / 2);
