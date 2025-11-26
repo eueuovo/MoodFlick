@@ -110,14 +110,13 @@ export const dialogHandler = {
 
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
-const filterSections = document.querySelectorAll('.filter-section');
-const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 const filterContainer = document.querySelector('#filter-container');
+const filterSections = document.querySelectorAll('.filter-section');
+const posterContainer = document.getElementById('poster-container');
+const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
 const pageBtn = document.getElementById('page-container')//페이지 버튼
 const search = document.getElementById('book-search')
-const wrapper = document.getElementById('wrapper');
-
 
 
 posterList.innerHTML = ''; // 포스터 초기화
@@ -131,11 +130,11 @@ categoryInputs.forEach(input => {
         const recordContainer = document.getElementById('record-container');
         if (recordContainer) recordContainer.style.display = 'none';
 
-        // 필터랑 스플래시 기록 탭 아닐때 보이게
+
         const filterWrapper = document.querySelector('#filter-wrapper');
         const splashContainer = document.querySelector('#splash-container');
         const searchContainer = document.querySelector('.search');
-
+        // 필터랑 스플래시 기록 탭 아닐때 보이게
         if (category === '기록') {
             // 기록 탭: 필터와 스플래시 숨기기
             if (filterWrapper) filterWrapper.style.display = 'none';
@@ -148,24 +147,16 @@ categoryInputs.forEach(input => {
             if (searchContainer) searchContainer.style.display = 'block';
         }
 
-        // 필터 전환
+        // 탭에 맞는 필터 보여주기
         filterSections.forEach(section => section.style.display = 'none');
-        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
+        const active = document.querySelector(`.filter-section[data-tab="${category}"]`);
         if (active) active.style.display = 'block';
 
-        //포스터 초기화
+        // 포스터 초기화
         const list = document.querySelector('#poster-container .list')
         list.innerHTML = ''
 
-        /*const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';*/
-        const poster = document.getElementById('poster-container');
-        /*const expo = document.getElementById('expo-container');*/
-        /*poster.style.display = 'none';*/
-     /*   expo.style.display = 'none';
-        expo.classList.remove('active');*/
-
-        //스플래시
+        // 스플래시
         const splashSections = document.querySelectorAll('.movie-main');
         splashSections.forEach(s => s.classList.remove('active'));
         const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
@@ -183,7 +174,7 @@ categoryInputs.forEach(input => {
 
         //카테고리별 함수 호출
         if (category === '영화') {
-            poster.style.display = 'block';
+            posterContainer.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
             if (posterList) posterList.style.transform = 'translateX(0)';
             if (pageBtn) pageBtn.style.transform = 'translateX(0)';
@@ -195,17 +186,18 @@ categoryInputs.forEach(input => {
             if (posterList) posterList.style.transform = 'translateX(-5rem)';
             if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             if (search) search.style.display = 'block'; // null 체크
-            poster.style.display = 'block';
+            posterContainer.style.display = 'block';
             loadGoogleBooksPage();
         } if (category === "전시/공연") {
             if (filterContainer) filterContainer.style.display = 'none';
             if (posterList) posterList.style.transform = 'translateX(-5rem)';
             if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             if (search) search.style.display = 'block'; // null 체크
-            poster.style.display = "block";
+            posterContainer.style.display = "block";
             loadExpo();
         } if (category === "기록"){
-            poster.style.display = 'none';
+            posterContainer.style.display = 'none';
+            if (searchContainer) searchContainer.style.display = 'none';
             if (search) search.style.display = 'none'; // null 체크
             loadRecords();
         }
@@ -430,7 +422,7 @@ export function createCardElement(data, type) {
                         <label class="review-wrapper">
                             <div class="rating-wrapper">
                                 <div class="stars" id="review-stars">
-                                    <span class="star-caption">내가 준 점수</span>
+                                    <span class="star-caption">내 평점</span>
                                     <!-- 0.5점 단위 = 10칸 -->
                                     <span class="star" data-index="0"></span>
                                     <span class="star" data-index="1"></span>

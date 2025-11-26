@@ -217,6 +217,48 @@
     margin: 0;
   }
 
+  > .stars{
+    padding: 0.5rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 0.15rem;
+
+    > .star-caption{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #21212190;
+      padding: 0 0.2rem;
+    }
+
+    > .star{
+      width: 1.2rem;
+      height: 1.2rem;
+      display: inline-block;
+      background-image: url('/assets/images/index/modal/star.png');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+
+      &.half {
+        background-image: url('/assets/images/index/modal/half-star.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      &.full{
+        background-image: url('/assets/images/index/modal/fill-star.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
   > .subtitle {
     font-size: 0.9rem;
     color: #6b7280;
@@ -302,7 +344,7 @@
 .search-icon {
   position: absolute;
   top: 50%;
-  right: 0.75rem;
+  right: 2rem;
   transform: translateY(-50%);
   width: 1.2rem;
   height: 1.2rem;

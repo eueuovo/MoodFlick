@@ -174,7 +174,7 @@ function editReview(reviewKey, title, reviewData) {
             
                 <h3>${title}</h3>
                 <div class="stars" id="edit-review-stars">
-                    <span class="star-caption">내가 준 점수</span>
+                    <span class="star-caption">내 평점</span>
                     <span class="star" data-index="0"></span>
                     <span class="star" data-index="1"></span>
                     <span class="star" data-index="2"></span>
