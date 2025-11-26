@@ -180,28 +180,30 @@ categoryInputs.forEach(input => {
 
         //카테고리별 함수 호출
         if (category === '영화') {
-           poster.style.display = 'block';
-            filterContainer.style.display = 'block';
-            posterList.style.transform = 'translateX(0)'; // 원래 위치
-            pageBtn.style.transform = 'translateX(0)'; // 페이지 버튼 원위치
+            poster.style.display = 'block';
+            if (filterContainer) filterContainer.style.display = 'block';
+            if (posterList) posterList.style.transform = 'translateX(0)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(0)';
+            if (search) search.style.display = 'none'; // null 체크
             loadMovies();
             loadTop5Movies();
         } if (category === '도서') {
-            filterContainer.style.display = 'none';
-            posterList.style.transform = 'translateX(-5rem)';
-            pageBtn.style.transform = 'translateX(-7rem)'; // 필터 넓이만큼 왼쪽 이동
-            search.style.display='block';
+            if (filterContainer) filterContainer.style.display = 'none';
+            if (posterList) posterList.style.transform = 'translateX(-5rem)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
+            if (search) search.style.display = 'block'; // null 체크
             poster.style.display = 'block';
             loadGoogleBooksPage();
         } if (category === "전시/공연") {
-            filterContainer.style.display = 'none';
-            posterList.style.transform = 'translateX(-5rem)';
-            pageBtn.style.transform = 'translateX(-7rem)'; // 필터 넓이만큼 왼쪽 이동
-            search.style.display='block';
-            poster.style.display = "block";  // 영화/도서랑 동일하게 사용
-            loadExpo();                     // ★ 반드시 실행됨
+            if (filterContainer) filterContainer.style.display = 'none';
+            if (posterList) posterList.style.transform = 'translateX(-5rem)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
+            if (search) search.style.display = 'block'; // null 체크
+            poster.style.display = "block";
+            loadExpo();
         } if (category === "기록"){
             poster.style.display = 'none';
+            if (search) search.style.display = 'none'; // null 체크
             loadRecords();
         }
     });
