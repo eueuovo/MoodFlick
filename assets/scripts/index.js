@@ -102,6 +102,8 @@ export const dialogHandler = {
         }),
 };
 
+
+
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterSections = document.querySelectorAll('.filter-section');
@@ -125,10 +127,11 @@ let currentMoviePage = 1;
 let currentBookKeyword = '';
 let currentBookPage = 1;
 
-posterList.innerHTML = ''; // 포스터 초기화
 
 let currentExpoKeyword = '';
 let currentExpoPage = 1;
+
+posterList.innerHTML = ''; // 포스터 초기화
 
 
 // ------------------- 검색 -------------------
@@ -172,9 +175,14 @@ if (!searchBtn.dataset.listenerAdded) {
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
-
         currentCategory = category; // 현재 카테고리 업데이트
-        /*searchInput.value = '';*/
+        // 1. 포스터 리스트 초기화
+        const list = document.querySelector('#poster-container .list');
+        if (list) list.innerHTML = '';
+
+
+        // 2. 검색창 초기화
+        searchInput.value = '';
 
         // 기록 컨테이너 숨기기
         const recordContainer = document.getElementById('record-container');
@@ -196,9 +204,6 @@ categoryInputs.forEach(input => {
         const active = document.querySelector(`.filter-section[data-tab="${category}"]`);
         if (active) active.style.display = 'block';
 
-        // 포스터 초기화
-        const list = document.querySelector('#poster-container .list');
-        list.innerHTML = '';
 
         const poster = document.getElementById('poster-container');
 
@@ -218,29 +223,29 @@ categoryInputs.forEach(input => {
 
         // 카테고리별 함수 호출
         if (category === '영화') {
-            currentMoviePage = 1 // 초기화
-            TMDB.PAGE = currentMoviePage
+            currentBookPage = 1; currentBookKeyword = '';
+            currentExpoPage = 1; currentExpoKeyword = '';
+            TMDB.PAGE = currentMoviePage;
+            searchInput.value = '';
             if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
-            if (search) search.style.display = 'block';
             if (filterSearchBtn) filterSearchBtn.style.display = 'block';
             if (filterWrapper) filterWrapper.style.display = 'block';
             if (posterList) posterList.style.transform = 'translateX(0)';
             if (pageBtn) pageBtn.style.transform = 'translateX(0)';
-            searchInput.value= currentMovieKeyword
             poster.style.display = 'block';
-            loadMovies( currentMovieKeyword, currentMoviePage);
+            currentMovieKeyword=''; //검색어초기화
+            loadMovies( currentMovieKeyword, 1);
             loadTop5Movies();
+
         } if (category === '도서') {
             if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (search) search.style.display = 'block';
             if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             poster.style.display = "block";
+            currentBookKeyword='';
             searchInput.value= currentBookKeyword;
             loadGoogleBooksPage(1,  currentBookKeyword);
             loadTop5Books();
@@ -248,13 +253,11 @@ categoryInputs.forEach(input => {
             if (wrapper) wrapper.style.display = 'block';
             if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (filterContainer) filterContainer.style.display = 'none';
-            if (search) search.style.display = 'block';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             poster.style.display = "block";
-            searchInput.value=currentExpoKeyword;
+            currentExpoKeyword='';
+            searchInput.value = "";
             loadExpo(1, currentExpoKeyword);
             loadTop5Expo();
         } if (category === "기록") {

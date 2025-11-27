@@ -44,8 +44,6 @@ export function loadMovies(keyword, page) {
 
     // keyword를 문자열로 강제 변환
     keyword = typeof keyword === 'string' ? keyword : '';
-    currentKeyword = keyword;
-    currentPage = page;
     TMDB.PAGE = page;
 
     const filters = filterOption();
@@ -78,7 +76,7 @@ export function loadMovies(keyword, page) {
             data.results = data.results.filter(m => localStorage.getItem(`favorite_movie_${m.id}`));
         }
         totalPages = Math.min(data.total_pages, 500);
-        renderMovies(data.results);
+        renderMovies(data.results,keyword);
         renderPage();
     };
 
@@ -88,7 +86,7 @@ export function loadMovies(keyword, page) {
 
 
 // 영화 렌더링
-function renderMovies(results) {
+function renderMovies(results,keyword='') {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
 
@@ -96,7 +94,7 @@ function renderMovies(results) {
         list.innerHTML = `
             <div class="no-results" style="display:flex; flex-direction: column; align-items:center; justify-content:center; padding:2rem;">
                 <img src="assets/images/index/main/search.png" alt="검색 결과 없음" style="width:2rem; height:2rem;">
-                <p>검색어 "${currentKeyword}"에 해당하는 영화를 찾을 수 없습니다.<br>다른 키워드로 검색해 보세요.</p>
+                <p>검색어 "${keyword}"에 해당하는 영화를 찾을 수 없습니다.<br>다른 키워드로 검색해 보세요.</p>
             </div>
         `;
 
@@ -241,26 +239,28 @@ function renderPage() {
 firstBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage = 1;
-        loadMovies(currentKeyword || '', currentPage)
+        loadMovies(currentKeyword || '', currentPage);
+
     }
 });
 prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
-        loadMovies(currentKeyword || '', currentPage)
+        loadMovies(currentKeyword || '', currentPage);
+
     }
 });
 nextBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage++;
-        loadMovies(currentKeyword || '', currentPage)
+        loadMovies(currentKeyword || '', currentPage);
+
     }
 });
 lastBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage = totalPages;
     }
-    loadMovies(currentKeyword || '', currentPage)
-});
+    loadMovies(currentKeyword || '', currentPage);
 
-loadMovies();
+});
