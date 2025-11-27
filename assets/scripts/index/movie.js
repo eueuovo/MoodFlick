@@ -25,8 +25,11 @@ const genreMap = {
     "판타지": 14
 };
 
+let currentKeyword;
+
+
 // 영화 API 연결
-const TMDB = {
+export const TMDB = {
     BEARER: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGMxNjlkZjU3MDExMjliYTlmY2UyZGI0Y2NkOGI2ZSIsIm5iZiI6MTc2MzA0NTE5OS4wOCwic3ViIjoiNjkxNWVmNGYwMDQxOTU0NjA4YTBkZjA0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.9D_r4JCstflEuuhrR9YqUi3077_v6E703Td7cliNKwU',
     LANG: 'ko-KR',
     REGION: 'KR',
@@ -34,62 +37,82 @@ const TMDB = {
 };
 
 // 화면에 영화 불러오기
-export function loadMovies() {
+//검색할때 키워드로 로드할 수 있게 매개변수 키워드 추가)
+export function loadMovies(keyword, page) {
+    // page 유효성 체크
+    if (!page || page < 1) page = 1;
+
+    // keyword를 문자열로 강제 변환
+    keyword = typeof keyword === 'string' ? keyword : '';
+    currentKeyword = keyword;
+    currentPage = page;
+    TMDB.PAGE = page;
 
     const filters = filterOption();
-
     const todayStr = new Date().toISOString().slice(0, 10);
-
-    const xhr = new XMLHttpRequest();
     let url = `https://api.themoviedb.org/3/discover/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=${TMDB.PAGE}`;
 
-    // 정렬방식
-    url += `&sort_by=${sortMap[filters.sort]}`;
-    // 날짜 선택 했을 시
-    if (filters.dateFrom) {
-        url += `&primary_release_date.gte=${filters.dateFrom}`;
+    // 이제 keyword가 항상 문자열이므로 trim() 안전
+    if (keyword.trim()) {
+        url = `https://api.themoviedb.org/3/search/movie?language=${TMDB.LANG}&region=${TMDB.REGION}&page=${TMDB.PAGE}&query=${encodeURIComponent(keyword)}`;
+    } else {
+        url += `&sort_by=${sortMap[filters.sort]}`;
+        if (filters.dateFrom) url += `&primary_release_date.gte=${filters.dateFrom}`;
+        if (filters.dateTo) url += `&primary_release_date.lte=${filters.dateTo}`;
+        if (filters.genre.length > 0) url += `&with_genres=${filters.genre.map(g => genreMap[g]).join(',')}`;
+        url += `&primary_release_date.lte=${todayStr}`;
     }
-    // 날짜 선택 했을 시
-    if (filters.dateTo) {
-        url += `&primary_release_date.lte=${filters.dateTo}`;
-    }
-    // 장르 선택 했을 시
-    if (filters.genre.length > 0) {
-        const genreId = filters.genre.map(g => genreMap[g]).join(",");
-        url += `&with_genres=${genreId}`;
-    }
-    // 미래 영화 안 보이게 하기
-    url += `&primary_release_date.lte=${todayStr}`;
 
+    const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Authorization", "Bearer " + TMDB.BEARER);
 
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
         if (xhr.status < 200 || xhr.status >= 400) {
-            console.error("TMDB 오류:", xhr.responseText);
+            console.error("TMDB 오류:", xhr.responseText, "URL:", url);
             return;
         }
         const data = JSON.parse(xhr.responseText);
-
         if (filters.watchState === "favorite") {
-            data.results = data.results.filter(m =>
-                localStorage.getItem(`favorite_movie_${m.id}`)
-            );
+            data.results = data.results.filter(m => localStorage.getItem(`favorite_movie_${m.id}`));
         }
-
         totalPages = Math.min(data.total_pages, 500);
         renderMovies(data.results);
         renderPage();
     };
+
     xhr.send();
 }
+
+
 
 // 영화 렌더링
 function renderMovies(results) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
+
+    if (!results || results.length === 0) {
+        list.innerHTML = `
+            <div class="no-results" style="display:flex; flex-direction: column; align-items:center; justify-content:center; padding:2rem;">
+                <img src="assets/images/index/main/search.png" alt="검색 결과 없음" style="width:2rem; height:2rem;">
+                <p>검색어 "${currentKeyword}"에 해당하는 영화를 찾을 수 없습니다.<br>다른 키워드로 검색해 보세요.</p>
+            </div>
+        `;
+
+        const pageContainer = document.querySelector('#page-container');
+        if (pageContainer) {
+            pageContainer.style.paddingLeft = '4rem';
+            pageContainer.innerHTML = `
+                <button class="page-btn first" disabled>«</button>
+                <button class="page-btn prev" disabled><</button>
+                <span class="page-number active">1</span>
+                <button class="page-btn next" disabled>></button>
+                <button class="page-btn last" disabled>»</button>
+            `;
+        }
+        return;
+    }
 
     const frag = document.createDocumentFragment();
 
@@ -204,7 +227,7 @@ function renderPage() {
         }
         btn.addEventListener('click', () => {
             currentPage = i;
-            loadMovies(TMDB.PAGE = currentPage);
+            loadMovies(currentKeyword || '', currentPage);
         });
         numbersBox.appendChild(btn);
     }
@@ -218,26 +241,26 @@ function renderPage() {
 firstBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage = 1;
-        loadMovies(TMDB.PAGE = currentPage);
+        loadMovies(currentKeyword || '', currentPage)
     }
 });
 prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
-        loadMovies(TMDB.PAGE = currentPage);
+        loadMovies(currentKeyword || '', currentPage)
     }
 });
 nextBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage++;
-        loadMovies(TMDB.PAGE = currentPage);
+        loadMovies(currentKeyword || '', currentPage)
     }
 });
 lastBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage = totalPages;
     }
-    loadMovies(TMDB.PAGE = currentPage);
+    loadMovies(currentKeyword || '', currentPage)
 });
 
 loadMovies();

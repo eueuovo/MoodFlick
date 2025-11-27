@@ -1,7 +1,7 @@
 import "./index/login.js";
 import { loadGoogleBooksPage, loadTop5Books } from "./index/book.js";
 import { loadExpo, loadTop5Expo } from "./index/culture.js";
-import {loadMovies, loadTop5Movies} from "./index/movie.js";
+import {loadMovies, loadTop5Movies,TMDB} from "./index/movie.js";
 import "./index/filter.js";
 import { loadRecords } from "./index/storage.js";
 
@@ -49,12 +49,6 @@ export const dialogHandler = {
 
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-/*
-        const $title = document.createElement('div');
-        $title.classList.add('title');
-        $title.innerText = args.title;
-        $modal.append($title);
-*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -118,50 +112,97 @@ const pageBtn = document.getElementById('page-container')//페이지 버튼
 const search = document.getElementById('search')
 const wrapper = document.querySelector('.wrapper');
 const filterSearchBtn = document.querySelector('.filter-search-btn');
+const searchInput = document.getElementById('search-input'); // 서치 인풋
+const searchBtn = document.querySelector('.search-icon'); // 서치 버튼
+
+let currentCategory = ''; // 현재 선택된 탭
+
+// 카테고리별 상태 변수
+let currentMovieKeyword = '';
+let currentMoviePage = 1;
+
+
+let currentBookKeyword = '';
+let currentBookPage = 1;
 
 posterList.innerHTML = ''; // 포스터 초기화
 
+let currentExpoKeyword = '';
+let currentExpoPage = 1;
 
+
+// ------------------- 검색 -------------------
+function searchContent() {
+    const keyword = searchInput.value.trim();
+    if (!keyword) return;
+
+
+    if (!currentCategory) currentCategory = '영화';
+
+    if (currentCategory === '영화') {
+        currentMovieKeyword = keyword;
+        currentMoviePage = 1;
+        TMDB.PAGE = currentMoviePage;
+        loadMovies(currentMovieKeyword, currentMoviePage);
+    } else if (currentCategory === '도서') {
+        currentBookKeyword = keyword;
+        currentBookPage = 1;
+        loadGoogleBooksPage(currentBookPage, currentBookKeyword);
+    } else if (currentCategory === '전시/공연') {
+        currentExpoKeyword = keyword;
+        currentExpoPage = 1;
+        loadExpo(currentExpoPage, currentExpoKeyword);
+    }
+}
+
+// 이벤트 등록 (한 번만 등록)
+if (!searchInput.dataset.listenerAdded) {
+    searchInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') searchContent();
+    });
+    searchInput.dataset.listenerAdded = true;
+}
+
+if (!searchBtn.dataset.listenerAdded) {
+    searchBtn.addEventListener('click', searchContent);
+    searchBtn.dataset.listenerAdded = true;
+}
+
+// 탭 전환
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+
+        currentCategory = category; // 현재 카테고리 업데이트
+        /*searchInput.value = '';*/
 
         // 기록 컨테이너 숨기기
         const recordContainer = document.getElementById('record-container');
         if (recordContainer) recordContainer.style.display = 'none';
 
-        // 필터랑 스플래시 기록 탭 아닐때 보이게
+        // 필터/스플래시 표시
         const filterWrapper = document.querySelector('#filter-wrapper');
         const splashContainer = document.querySelector('#splash-container');
-
         if (category === '기록') {
-            // 기록 탭: 필터와 스플래시 숨기기
             if (filterWrapper) filterWrapper.style.display = 'none';
             if (splashContainer) splashContainer.style.display = 'none';
         } else {
-            // 다른 탭: 필터와 스플래시 보이기
             if (filterWrapper) filterWrapper.style.display = 'block';
             if (splashContainer) splashContainer.style.display = 'block';
         }
 
         // 필터 전환
         filterSections.forEach(section => section.style.display = 'none');
-        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
+        const active = document.querySelector(`.filter-section[data-tab="${category}"]`);
         if (active) active.style.display = 'block';
 
-        //포스터 초기화
-        const list = document.querySelector('#poster-container .list')
-        list.innerHTML = ''
+        // 포스터 초기화
+        const list = document.querySelector('#poster-container .list');
+        list.innerHTML = '';
 
-        /*const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';*/
         const poster = document.getElementById('poster-container');
-        /*const expo = document.getElementById('expo-container');*/
-        /*poster.style.display = 'none';*/
-     /*   expo.style.display = 'none';
-        expo.classList.remove('active');*/
 
-        //스플래시
+        // 스플래시
         const splashSections = document.querySelectorAll('.--splash');
         splashSections.forEach(s => s.classList.remove('active'));
         const activeSplash = document.querySelector(`.--splash[data-tab="${category}"]`);
@@ -170,22 +211,25 @@ categoryInputs.forEach(input => {
             updateSplashHeight();
         }
 
-        //메인 컨테니어 전환
+        // 메인 컨테이너 전환
         mainContainers.forEach(container => container.style.display = 'none');
         const posterContainerActive = document.querySelector(`#poster-container[data-tab="${category}"]`);
-        if (posterContainerActive) {
-            posterContainerActive.style.display = 'block';
-        }
+        if (posterContainerActive) posterContainerActive.style.display = 'block';
 
-        //카테고리별 함수 호출
+        // 카테고리별 함수 호출
         if (category === '영화') {
-            poster.style.display = 'block';
+            currentMoviePage = 1 // 초기화
+            TMDB.PAGE = currentMoviePage
             if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
             if (search) search.style.display = 'block';
             if (filterSearchBtn) filterSearchBtn.style.display = 'block';
             if (filterWrapper) filterWrapper.style.display = 'block';
-            loadMovies();
+            if (posterList) posterList.style.transform = 'translateX(0)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(0)';
+            searchInput.value= currentMovieKeyword
+            poster.style.display = 'block';
+            loadMovies( currentMovieKeyword, currentMoviePage);
             loadTop5Movies();
         } if (category === '도서') {
             if (wrapper) wrapper.style.display = 'block';
@@ -194,8 +238,11 @@ categoryInputs.forEach(input => {
             if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
-            poster.style.display = 'block';
-            loadGoogleBooksPage();
+            if (posterList) posterList.style.transform = 'translateX(-5rem)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
+            poster.style.display = "block";
+            searchInput.value= currentBookKeyword;
+            loadGoogleBooksPage(1,  currentBookKeyword);
             loadTop5Books();
         } if (category === "전시/공연") {
             if (wrapper) wrapper.style.display = 'block';
@@ -204,10 +251,13 @@ categoryInputs.forEach(input => {
             if (search) search.style.display = 'block';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
+            if (posterList) posterList.style.transform = 'translateX(-5rem)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             poster.style.display = "block";
-            loadExpo();
+            searchInput.value=currentExpoKeyword;
+            loadExpo(1, currentExpoKeyword);
             loadTop5Expo();
-        } if (category === "기록"){
+        } if (category === "기록") {
             if (wrapper) wrapper.style.display = 'none';
             if (poster) poster.style.display = 'none';
             if (search) search.style.display = 'none'; // 검색창 숨기기
@@ -264,7 +314,6 @@ function initSplashAutoSlide() {
         }, 3000);
     });
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     initSplashAutoSlide();
 });

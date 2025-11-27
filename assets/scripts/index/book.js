@@ -6,15 +6,21 @@ let totalItems = 0;
 let totalPages = 1;
 
 // 특정 페이지 로드 (페이지 이동 시마다 API를 호출)
-export async function loadGoogleBooksPage(page = 1) {
+export async function loadGoogleBooksPage(page = 1, keyword = currentKeyword) {
     currentPage = page;
 
+    // 현재 페이지 로딩 표시
     const list = document.querySelector('#poster-container .list');
     if (list) {
         list.innerHTML = `<p>데이터를 불러오는 중...</p>`;
     }
+    // keyword가 있으면 제목 필드로 제한, 없으면 기본 subject:fiction
+    const query = encodeURIComponent(
+        keyword ? `intitle:"${keyword}"` : 'subject:fiction');
 
-    const query = encodeURIComponent('subject:fiction');
+    currentKeyword = keyword;
+
+    // 요청 시작 지점 계산 (페이지 번호 기반)
     const startIndex = (page - 1) * itemsPerPage;
 
     const url =
@@ -30,17 +36,34 @@ export async function loadGoogleBooksPage(page = 1) {
 
         if (!data.items || data.items.length === 0) {
             console.log("데이터 없음");
-            if (list) list.innerHTML = `<p>도서 데이터가 없습니다. 검색 조건을 확인하세요.</p>`;
+            if (list) list.innerHTML =  list.innerHTML = `
+          <div class="no-results" style= "display:flex; flex-direction: column; align-items:center; justify-content:center; padding-bottom: 3rem;">
+            <img src="assets/images/index/main/search.png" alt="검색 결과 없음 아이콘" style="width: 2rem; height: 2rem;">
+            <p>"${keyword}" 로 된 도서를 찾을 수 없습니다.\n
+               다른 키워드로 다시 검색해 보세요.</p>
+          </div>
+        `;
             totalItems = 0;
             totalPages = 1;
+
+
+
+            const pageContainer = document.querySelector('#page-container');
+            if (pageContainer) {
+                pageContainer.style.paddingLeft = '4rem'; // 왼쪽으로 4rem 이동
+            }
+
             renderPagination();
             return;
         }
 
         const filteredItems = data.items;
+
+        // 전체 도서 수 (totalItems)와 총 페이지 수 업데이트
         totalItems = data.totalItems;
         totalPages = Math.ceil(totalItems / itemsPerPage);
 
+        // 렌더링
         renderGoogleBooks(filteredItems);
         renderPagination();
 
@@ -154,51 +177,52 @@ function renderTop5Books(books) {
 
 // ===== 페이지네이션 관련 =====
 
+let currentKeyword;
+// 페이지네이션 렌더링
 function renderPagination() {
-    const numbersBox = document.querySelector('#page-container > .page-numbers');
-    const firstBtn = document.querySelector('#page-container > .first');
-    const prevBtn = document.querySelector('#page-container > .prev');
-    const nextBtn = document.querySelector('#page-container > .next');
-    const lastBtn = document.querySelector('#page-container > .last');
+    const container = document.querySelector('#page-container');
+    if (!container) return;
 
-    if (!numbersBox) {
-        console.error('페이지네이션 컨테이너를 찾을 수 없습니다.');
-        return;
-    }
+    container.innerHTML = `
+        <button class="page-btn first">«</button>
+        <button class="page-btn prev"><</button>
+        <div class="page-numbers"></div>
+        <button class="page-btn next">></button>
+        <button class="page-btn last">»</button>
+    `;
 
-    numbersBox.innerHTML = '';
+    const numbersBox = container.querySelector('.page-numbers');
+    const firstBtn = container.querySelector('.first');
+    const prevBtn = container.querySelector('.prev');
+    const nextBtn = container.querySelector('.next');
+    const lastBtn = container.querySelector('.last');
 
+    // 숫자 페이지 버튼
     const maxVisible = 5;
     let start = currentPage - Math.floor(maxVisible / 2);
     let end = currentPage + Math.floor(maxVisible / 2);
-
-    if (start < 1) {
-        end += (1 - start);
-        start = 1;
-    }
-    if (end > totalPages) {
-        start -= (end - totalPages);
-        end = totalPages;
-    }
+    if (start < 1) { end += 1 - start; start = 1; }
+    if (end > totalPages) { start -= (end - totalPages); end = totalPages; }
     if (start < 1) start = 1;
 
     for (let i = start; i <= end; i++) {
         const btn = document.createElement('button');
         btn.textContent = i;
         btn.classList.add('page-number');
-        if (i === currentPage) {
-            btn.classList.add('active');
-        }
-        btn.addEventListener('click', () => {
-            loadGoogleBooksPage(i);
-        });
+        if (i === currentPage) btn.classList.add('active');
+        btn.addEventListener('click', () => loadGoogleBooksPage(i, currentKeyword));
         numbersBox.appendChild(btn);
     }
 
-    if (firstBtn) firstBtn.disabled = currentPage === 1;
-    if (prevBtn) prevBtn.disabled = currentPage === 1;
-    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
-    if (lastBtn) lastBtn.disabled = currentPage === totalPages;
+    // <<, <, >, >> 버튼 이벤트
+    firstBtn.addEventListener('click', () => { if (currentPage > 1) loadGoogleBooksPage(1, currentKeyword); });
+    prevBtn.addEventListener('click', () => { if (currentPage > 1) loadGoogleBooksPage(currentPage - 1, currentKeyword); });
+    nextBtn.addEventListener('click', () => { if (currentPage < totalPages) loadGoogleBooksPage(currentPage + 1, currentKeyword); });
+    lastBtn.addEventListener('click', () => { if (currentPage < totalPages) loadGoogleBooksPage(totalPages, currentKeyword); });
+
+    // 버튼 활성/비활성
+    firstBtn.disabled = prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = lastBtn.disabled = currentPage === totalPages;
 }
 
 // 버튼 이벤트 리스너
@@ -211,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (firstBtn) {
         firstBtn.addEventListener('click', () => {
             if (currentPage > 1) {
-                loadGoogleBooksPage(1);
+                loadGoogleBooksPage(1,currentKeyword);
             }
         });
     }
@@ -219,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
-                loadGoogleBooksPage(currentPage - 1);
+                loadGoogleBooksPage(currentPage - 1,currentKeyword);
             }
         });
     }
@@ -227,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
             if (currentPage < totalPages) {
-                loadGoogleBooksPage(currentPage + 1);
+                loadGoogleBooksPage(currentPage + 1,currentKeyword);
             }
         });
     }
@@ -235,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastBtn) {
         lastBtn.addEventListener('click', () => {
             if (currentPage < totalPages) {
-                loadGoogleBooksPage(totalPages);
+                loadGoogleBooksPage(totalPages,currentKeyword);
             }
         });
     }
