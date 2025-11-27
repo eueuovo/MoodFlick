@@ -9,16 +9,16 @@
 #poster-list {
   display: grid;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1.5rem 1rem;
   margin: 0;
+  padding: 0 1rem;
   box-sizing: border-box;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.8rem;
   list-style: none;
 
   > .item {
     height: 22rem;
-    width: auto;
     position: relative;
     display: flex;
     flex-direction: column;
