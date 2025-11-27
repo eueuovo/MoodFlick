@@ -8,12 +8,18 @@ let totalPages = 1;
 // 특정 페이지 로드 (페이지 이동 시마다 API를 호출)
 export async function loadGoogleBooksPage(page = 1, keyword = currentKeyword) {
     currentPage = page;
+    const pageContainer = document.querySelector('#page-container');
 
     // 현재 페이지 로딩 표시
     const list = document.querySelector('#poster-container .list');
     if (list) {
-        list.innerHTML = `<p>데이터를 불러오는 중...</p>`;
+        list.innerHTML = `<p class="loading">도서 불러오는 중...</p>`;
     }
+
+    if (pageContainer) {
+        pageContainer.style.display = 'none';
+    }
+
     // keyword가 있으면 제목 필드로 제한, 없으면 기본 subject:fiction
     const query = encodeURIComponent(
         keyword ? `intitle:"${keyword}"` : 'subject:fiction');
@@ -58,6 +64,10 @@ export async function loadGoogleBooksPage(page = 1, keyword = currentKeyword) {
         }
 
         const filteredItems = data.items;
+
+        if (pageContainer) {
+            pageContainer.style.display = 'flex';
+        }
 
         // 전체 도서 수 (totalItems)와 총 페이지 수 업데이트
         totalItems = data.totalItems;

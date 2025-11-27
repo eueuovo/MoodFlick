@@ -73,7 +73,17 @@ export async function fetchExpo(page = 1, rows = 12, keyword ='') {
 
 export async function loadExpo(page = 1, keyword='') {
     const list = document.querySelector('#poster-container .list');
-    if(list) list.innerHTML = '';
+    const pageContainer = document.querySelector('#page-container');
+
+    // 현재 페이지 로딩 표시
+    if (list) {
+        list.innerHTML = `<p class="loading">공연/전시 불러오는 중...</p>`;
+    }
+
+    if (pageContainer) {
+        pageContainer.style.display = 'none';
+    }
+
     const { items, totalCount } = await fetchExpo(page, 12, keyword);
 
     if (!items.length) {
@@ -97,6 +107,14 @@ export async function loadExpo(page = 1, keyword='') {
             `;
         }
         return;
+    }
+
+    if (list) {
+        list.innerHTML = '';
+    }
+
+    if (pageContainer) {
+        pageContainer.style.display = 'flex';
     }
 
     items.forEach(expo => {

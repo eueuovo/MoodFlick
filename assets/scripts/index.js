@@ -238,8 +238,6 @@ categoryInputs.forEach(input => {
             if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             poster.style.display = "block";
             searchInput.value= currentBookKeyword;
             loadGoogleBooksPage(1,  currentBookKeyword);
@@ -251,8 +249,6 @@ categoryInputs.forEach(input => {
             if (search) search.style.display = 'block';
             if (wrapper) wrapper.classList.add('centered');
             if (filterWrapper) filterWrapper.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
             poster.style.display = "block";
             searchInput.value=currentExpoKeyword;
             loadExpo(1, currentExpoKeyword);

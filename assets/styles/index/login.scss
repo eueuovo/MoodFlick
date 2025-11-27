@@ -105,27 +105,44 @@
       flex-direction: column;
       position: relative;
 
-      > .caption{
-        top: 8.5%;
-        width: 100%;
+      > .image-wrapper{
         display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 2rem;
-        font-weight: 500;
-        padding-bottom: 2rem;
+        align-items: center;
         position: absolute;
-        color: #ffffff;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        &::before{
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          z-index: 1;
+        }
+
+        > .img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       > .login-form{
-        background-color: #8080804D;
+        background-color: #25272C;
         display: flex;
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
-        padding: 2rem 6rem;
+        padding: 3rem 8rem;
         border-radius: 0.5rem;
+        position: relative;
+        z-index: 1;
 
         > .input-wrapper {
           width: 100%;
@@ -399,11 +416,4 @@
   .login-page .dsc .content .main-text {
     font-size: 2.5rem;
   }
-}
-
-@keyframes size-out {
-  0%{
-
-  }
-
 }

@@ -185,7 +185,7 @@
   justify-content: flex-start;
   width: 100%;
   min-height: 100vh;
-  padding: 0 9rem;
+  padding: 0 8rem;
   box-sizing: border-box; }
   #main-container > * {
     flex-grow: 0;
@@ -794,6 +794,15 @@
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 0.8rem;
   list-style: none; }
+  #poster-list > .loading {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #6b7280;
+    font-weight: 500;
+    padding-top: 10rem; }
   #poster-list > .item {
     height: 22rem;
     width: auto;
@@ -1070,25 +1079,38 @@
       justify-content: center;
       flex-direction: column;
       position: relative; }
-      #login-container > .login-page > .login-warrap > .caption {
-        top: 8.5%;
-        width: 100%;
+      #login-container > .login-page > .login-warrap > .image-wrapper {
         display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 2rem;
-        font-weight: 500;
-        padding-bottom: 2rem;
+        align-items: center;
         position: absolute;
-        color: #ffffff; }
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; }
+        #login-container > .login-page > .login-warrap > .image-wrapper::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          z-index: 1; }
+        #login-container > .login-page > .login-warrap > .image-wrapper > .img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; }
       #login-container > .login-page > .login-warrap > .login-form {
-        background-color: #8080804D;
+        background-color: #25272C;
         display: flex;
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
-        padding: 2rem 6rem;
-        border-radius: 0.5rem; }
+        padding: 3rem 8rem;
+        border-radius: 0.5rem;
+        position: relative;
+        z-index: 1; }
         #login-container > .login-page > .login-warrap > .login-form > .input-wrapper {
           width: 100%;
           display: flex;
@@ -1389,6 +1411,8 @@
     background: linear-gradient(to top, #2b2b2b 0%, #2b2b2b 30%, #2b2b2b 75%, #2b2b2b80 90%, #2b2b2b00 100%); }
   #splash-container > .--splash[data-tab="도서"] > .splash::after {
     background: linear-gradient(to top, #f5f1e8 0%, #f5f1e8 30%, #f5f1e8 75%, #f5f1e880 90%, #f5f1e800 100%); }
+  #splash-container > .--splash[data-tab="전시/공연"] {
+    background: linear-gradient(#f5f1e880, #f5f1e880); }
   #splash-container > .--splash[data-tab="전시/공연"] > .splash > .img {
     padding-bottom: 15rem; }
   #splash-container > .--splash[data-tab="전시/공연"] > .splash::after {
