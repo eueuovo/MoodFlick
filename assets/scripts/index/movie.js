@@ -74,12 +74,10 @@ export function loadMovies() {
         const data = JSON.parse(xhr.responseText);
 
         if (filters.watchState === "favorite") {
-            const likes = JSON.parse(localStorage.getItem('likes')) || [];
             data.results = data.results.filter(m =>
-                likes.some(l => l.id === m.id && l.type === "movie")
+                localStorage.getItem(`favorite_movie_${m.id}`)
             );
         }
-
 
         totalPages = Math.min(data.total_pages, 500);
         renderMovies(data.results);
@@ -220,30 +218,26 @@ function renderPage() {
 firstBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage = 1;
-        TMDB.PAGE = currentPage
-        loadMovies();
+        loadMovies(TMDB.PAGE = currentPage);
     }
 });
 prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
-        TMDB.PAGE = currentPage
-        loadMovies();
+        loadMovies(TMDB.PAGE = currentPage);
     }
 });
 nextBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage++;
-        TMDB.PAGE = currentPage
-        loadMovies();
+        loadMovies(TMDB.PAGE = currentPage);
     }
 });
 lastBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage = totalPages;
     }
-    TMDB.PAGE = currentPage
-    loadMovies();
+    loadMovies(TMDB.PAGE = currentPage);
 });
 
 loadMovies();

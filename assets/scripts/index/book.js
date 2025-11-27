@@ -78,8 +78,8 @@ function renderGoogleBooks(items) {
             image: volumeInfo.imageLinks?.thumbnail || 'assets/images/index/main/no-poster.png',
             title: volumeInfo.title,
             subtitle: `${volumeInfo.authors?.join(", ") || ""} · ${volumeInfo.publishedDate || ""}`,
-            score: parseFloat((Math.random() * 4 + 1).toFixed(1)),
-            scoreUnit: '%',
+            score: volumeInfo.averageRating ?? '★',
+            scoreUnit: '',
             description: '클릭하여 도서 상세 보기',
             fullDescription: fullDesc
         };
