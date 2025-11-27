@@ -52,8 +52,6 @@ export async function loadGoogleBooksPage(page = 1, keyword = currentKeyword) {
             totalItems = 0;
             totalPages = 1;
 
-
-
             const pageContainer = document.querySelector('#page-container');
             if (pageContainer) {
                 pageContainer.style.paddingLeft = '4rem'; // 왼쪽으로 4rem 이동
