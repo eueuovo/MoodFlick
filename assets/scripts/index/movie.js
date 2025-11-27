@@ -145,7 +145,7 @@ function renderTop5(movies) {
     if (!movies || movies.length === 0) return;
 
     // 영화 탭의 top5만 선택
-    const topElements = document.querySelectorAll('.movie-main[data-tab="영화"] .top-five .top');
+    const topElements = document.querySelectorAll('.--splash[data-tab="영화"] .top-five .top');
 
     movies.forEach((movie, index) => {
         if (index < topElements.length) {

@@ -1,6 +1,6 @@
 import "./index/login.js";
-import { loadGoogleBooksPage} from "./index/book.js";
-import { loadExpo } from "./index/culture.js";
+import { loadGoogleBooksPage, loadTop5Books } from "./index/book.js";
+import { loadExpo, loadTop5Expo } from "./index/culture.js";
 import {loadMovies, loadTop5Movies} from "./index/movie.js";
 import "./index/filter.js";
 import { loadRecords } from "./index/storage.js";
@@ -162,9 +162,9 @@ categoryInputs.forEach(input => {
         expo.classList.remove('active');*/
 
         //스플래시
-        const splashSections = document.querySelectorAll('.movie-main');
+        const splashSections = document.querySelectorAll('.--splash');
         splashSections.forEach(s => s.classList.remove('active'));
-        const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
+        const activeSplash = document.querySelector(`.--splash[data-tab="${category}"]`);
         if (activeSplash) {
             activeSplash.classList.add('active');
             updateSplashHeight();
@@ -196,6 +196,7 @@ categoryInputs.forEach(input => {
             if (filterWrapper) filterWrapper.style.display = 'none';
             poster.style.display = 'block';
             loadGoogleBooksPage();
+            loadTop5Books();
         } if (category === "전시/공연") {
             if (wrapper) wrapper.style.display = 'block';
             if (filterSearchBtn) filterSearchBtn.style.display = 'none';
@@ -205,6 +206,7 @@ categoryInputs.forEach(input => {
             if (filterWrapper) filterWrapper.style.display = 'none';
             poster.style.display = "block";
             loadExpo();
+            loadTop5Expo();
         } if (category === "기록"){
             if (wrapper) wrapper.style.display = 'none';
             if (poster) poster.style.display = 'none';
@@ -219,9 +221,9 @@ categoryInputs.forEach(input => {
 
 // 스플래시 전환
 function initSplashAutoSlide() {
-    const splashContainers = document.querySelectorAll('.splash');
+    const splashBox = document.querySelectorAll('.splash');
 
-    splashContainers.forEach(container => {
+    splashBox.forEach(container => {
         const images = Array.from(container.querySelectorAll('.img'));
         if (!images.length) return;
 
@@ -655,7 +657,7 @@ document.querySelector(".filter-search-btn").addEventListener("click", loadMovie
 // =================스플래시 크기 변경================= //
 function updateSplashHeight() {
     const splashContainer = document.querySelector('#splash-container');
-    const activeSplash = document.querySelector('.movie-main.active');
+    const activeSplash = document.querySelector('.--splash.active');
 
     if (!activeSplash || !splashContainer) return;
 

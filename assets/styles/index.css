@@ -55,8 +55,8 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 2rem;
-    font-family: 'Cafe24MeongiBlack', sans-serif;
+    font-size: 1.8rem;
+    font-family: 'Ria', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1300,7 +1300,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto; }
-  #splash-container > .movie-main {
+  #splash-container > .--splash {
     position: absolute;
     top: 0;
     left: 0;
@@ -1309,17 +1309,17 @@
     opacity: 0;
     pointer-events: none;
     overflow: hidden; }
-    #splash-container > .movie-main.active {
+    #splash-container > .--splash.active {
       position: relative;
       opacity: 1;
       pointer-events: auto; }
-    #splash-container > .movie-main > .splash {
+    #splash-container > .--splash > .splash {
       width: 100%;
       height: 100%;
       position: relative;
       overflow: hidden;
       z-index: 0; }
-      #splash-container > .movie-main > .splash > .img {
+      #splash-container > .--splash > .splash > .img {
         padding-top: 4rem;
         padding-bottom: 10.5rem;
         position: absolute;
@@ -1328,9 +1328,9 @@
         object-fit: cover;
         object-position: center;
         transition: left 1s ease-in-out; }
-      #splash-container > .movie-main > .splash > .splashSide1 {
+      #splash-container > .--splash > .splash > .splashSide1 {
         left: 0; }
-      #splash-container > .movie-main > .splash::after {
+      #splash-container > .--splash > .splash::after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -1339,7 +1339,7 @@
         height: 40%;
         pointer-events: none;
         z-index: 1; }
-    #splash-container > .movie-main > .top-five {
+    #splash-container > .--splash > .top-five {
       position: absolute;
       top: 81%;
       left: 50%;
@@ -1349,22 +1349,23 @@
       flex-direction: row;
       gap: 2rem;
       justify-content: center; }
-      #splash-container > .movie-main > .top-five > .top {
+      #splash-container > .--splash > .top-five > .top {
         position: relative; }
-        #splash-container > .movie-main > .top-five > .top > .img {
+        #splash-container > .--splash > .top-five > .top > .img {
           position: relative;
           background-color: #21212190;
           width: 10rem;
           height: 15rem; }
-        #splash-container > .movie-main > .top-five > .top > .num {
+        #splash-container > .--splash > .top-five > .top > .num {
           top: 70%;
           left: 0;
-          font-family: 'Ria', sans-serif;
+          font-family: 'SandollSamlipHobbangOutline', sans-serif;
           position: absolute;
           color: #ffffff;
-          font-size: 2rem;
-          font-weight: 700; }
-        #splash-container > .movie-main > .top-five > .top > .title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          text-shadow: 0 0 6px rgba(0, 0, 0, 0.7); }
+        #splash-container > .--splash > .top-five > .top > .title {
           color: #ffffff;
           font-size: 1rem;
           font-weight: 500;
@@ -1372,29 +1373,29 @@
           display: flex;
           align-items: center;
           justify-content: center; }
-        #splash-container > .movie-main > .top-five > .top > .score {
+        #splash-container > .--splash > .top-five > .top > .score {
           color: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 0.8rem; }
-  #splash-container > .movie-main[data-tab="영화"] > .splash > .img {
+  #splash-container > .--splash[data-tab="영화"] > .splash > .img {
     padding-bottom: 11.125rem; }
-  #splash-container > .movie-main[data-tab="영화"] > .splash::after {
+  #splash-container > .--splash[data-tab="영화"] > .splash::after {
     background: linear-gradient(to top, #2b2b2b 0%, #2b2b2b 30%, #2b2b2b 75%, #2b2b2b80 90%, #2b2b2b00 100%); }
-  #splash-container > .movie-main[data-tab="도서"] > .splash::after {
+  #splash-container > .--splash[data-tab="도서"] > .splash::after {
     background: linear-gradient(to top, #f5f1e8 0%, #f5f1e8 30%, #f5f1e8 75%, #f5f1e880 90%, #f5f1e800 100%); }
-  #splash-container > .movie-main[data-tab="전시/공연"] {
+  #splash-container > .--splash[data-tab="전시/공연"] {
     background: linear-gradient(#251919, #000000); }
-  #splash-container > .movie-main[data-tab="전시/공연"] > .splash > .img {
+  #splash-container > .--splash[data-tab="전시/공연"] > .splash > .img {
     padding-bottom: 15rem; }
-  #splash-container > .movie-main[data-tab="전시/공연"] > .splash::after {
+  #splash-container > .--splash[data-tab="전시/공연"] > .splash::after {
     background: linear-gradient(to top, #f5f1e8 0%, #f5f1e8 30%, #f5f1e8 75%, #f5f1e880 90%, #f5f1e800 100%); }
-  #splash-container > .movie-main[data-tab="도서"] > .top-five > .top > .title,
-  #splash-container > .movie-main[data-tab="전시/공연"] > .top-five > .top > .title {
+  #splash-container > .--splash[data-tab="도서"] > .top-five > .top > .title,
+  #splash-container > .--splash[data-tab="전시/공연"] > .top-five > .top > .title {
     color: #212121; }
-  #splash-container > .movie-main[data-tab="도서"] > .top-five > .top > .score,
-  #splash-container > .movie-main[data-tab="전시/공연"] > .top-five > .top > .score {
+  #splash-container > .--splash[data-tab="도서"] > .top-five > .top > .score,
+  #splash-container > .--splash[data-tab="전시/공연"] > .top-five > .top > .score {
     color: #212121; }
 
 body {

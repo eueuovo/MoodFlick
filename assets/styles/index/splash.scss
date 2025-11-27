@@ -7,7 +7,7 @@
   overflow: hidden;
   margin: 0 auto;
 
-  > .movie-main {
+  > .--splash {
     position: absolute;
     top: 0;
     left: 0;
@@ -80,11 +80,12 @@
         > .num {
           top: 70%;
           left: 0;
-          font-family: 'Ria', sans-serif;
+          font-family: 'SandollSamlipHobbangOutline', sans-serif;
           position: absolute;
           color: #ffffff;
-          font-size: 2rem;
+          font-size: 2.5rem;
           font-weight: 700;
+          text-shadow: 0 0 6px rgba(0,0,0,0.7);
         }
 
         > .title {
@@ -107,10 +108,10 @@
       }
     }
   }
-  > .movie-main[data-tab="영화"] > .splash > .img{
+  > .--splash[data-tab="영화"] > .splash > .img{
     padding-bottom: 11.125rem;
   }
-  > .movie-main[data-tab="영화"] > .splash::after{
+  > .--splash[data-tab="영화"] > .splash::after{
     background: linear-gradient(to top,
             #2b2b2b 0%,
             #2b2b2b 30%,
@@ -119,7 +120,7 @@
             #2b2b2b00 100%);
   }
 
-  > .movie-main[data-tab="도서"] > .splash::after{
+  > .--splash[data-tab="도서"] > .splash::after{
     background: linear-gradient(to top,
             #f5f1e8 0%,
             #f5f1e8 30%,
@@ -128,13 +129,13 @@
             #f5f1e800 100%);
   }
 
-  > .movie-main[data-tab="전시/공연"] {
+  > .--splash[data-tab="전시/공연"] {
     background: linear-gradient(#251919, #000000);
   }
-  > .movie-main[data-tab="전시/공연"] > .splash > .img{
+  > .--splash[data-tab="전시/공연"] > .splash > .img{
     padding-bottom: 15rem;
   }
-  > .movie-main[data-tab="전시/공연"] > .splash::after{
+  > .--splash[data-tab="전시/공연"] > .splash::after{
     background: linear-gradient(to top,
             #f5f1e8 0%,
             #f5f1e8 30%,
@@ -143,8 +144,8 @@
             #f5f1e800 100%);
   }
 
-  > .movie-main[data-tab = "도서"],
-  > .movie-main[data-tab = "전시/공연"]{
+  > .--splash[data-tab = "도서"],
+  > .--splash[data-tab = "전시/공연"]{
     > .top-five > .top{
       > .title{
         color: #212121;
