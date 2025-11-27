@@ -709,7 +709,7 @@
             color: #333333; }
             #filter-wrapper #filter-container .filter-section .filter-block .genre li:hover {
               background: #E0E0E0; }
-            #filter-wrapper #filter-container .filter-section .filter-block .genre li.active {
+            #filter-wrapper #filter-container .filter-section .filter-block .genre li.selected {
               background: #A0A0A0;
               color: #fff;
               font-weight: 600;
@@ -765,6 +765,7 @@
     z-index: 10;
     width: 15rem;
     padding: 0.7rem 1.4rem;
+    margin-top: 7.5rem;
     background: #A0A0A0;
     color: #fff;
     font-size: 1.2rem;
