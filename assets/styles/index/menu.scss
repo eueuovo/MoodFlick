@@ -119,6 +119,14 @@
   }
 }
 
+@media (max-width: 1000px) {
+  #update-panel .update-content {
+    display: none;
+  }
+}
+
+
+
 
 .update-form {
   display: flex;

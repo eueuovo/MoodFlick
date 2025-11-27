@@ -119,6 +119,9 @@
     color: #212121;
     margin: 0; }
 
+@media (max-width: 1000px) {
+  #update-panel .update-content {
+    display: none; } }
 .update-form {
   display: flex;
   flex-direction: column;
@@ -1385,8 +1388,6 @@
     background: linear-gradient(to top, #2b2b2b 0%, #2b2b2b 30%, #2b2b2b 75%, #2b2b2b80 90%, #2b2b2b00 100%); }
   #splash-container > .--splash[data-tab="도서"] > .splash::after {
     background: linear-gradient(to top, #f5f1e8 0%, #f5f1e8 30%, #f5f1e8 75%, #f5f1e880 90%, #f5f1e800 100%); }
-  #splash-container > .--splash[data-tab="전시/공연"] {
-    background: linear-gradient(#251919, #000000); }
   #splash-container > .--splash[data-tab="전시/공연"] > .splash > .img {
     padding-bottom: 15rem; }
   #splash-container > .--splash[data-tab="전시/공연"] > .splash::after {
