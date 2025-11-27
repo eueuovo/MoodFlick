@@ -340,11 +340,17 @@
             </div>
         </div>
     </div>
-    <div id="record-container" style="display: none;">
-        <div class="record-header">
-            <h2 id="record-caption" class="caption">"사용자"의 문화 기록</h2>
+    <div id="record-container">
+        <div class="tabs">
+            <button class="record-tab" data-record-tab="record">기록</button>
+            <button class="bookmark-tab" data-record-tab="bookmark">즐겨찾기</button>
         </div>
-        <div id="record-list" class="record-list"></div>
+        <div class="record">
+            <div id="record-list" class="record-list"></div>
+        </div>
+        <div class="bookmark">
+            <div id="bookmark-list" class="record-list"></div>
+        </div>
     </div>
 </div>
 

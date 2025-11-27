@@ -1,5 +1,6 @@
 import { dialogHandler } from '../index.js';
 import { loadMovies } from './movie.js';
+import { loadRecords } from './storage.js';
 
 const $loginContainer = document.getElementById("login-container");
 const $loginPage = $loginContainer.querySelector('.login-page');
@@ -43,12 +44,18 @@ $loginForm.addEventListener('submit', (e) => {
     const userDate = JSON.parse(storedUser);
 
     if (userDate.password === password){
-        dialogHandler.showSimpleOk('로그인 되었습니다.');
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', email);
         $loginContainer.classList.remove('visible');
         $loginPage.classList.remove('visible');
-        loadMovies();
+
+        // 현재 기록 탭에 있다면 새로고침
+        const recordContainer = document.getElementById('record-container');
+        if (recordContainer && recordContainer.style.display === 'block') {
+            loadRecords();
+        } else {
+            loadMovies();
+        }
     } else{
         dialogHandler.showSimpleOk('이메일 및 비밀번호를 잘못 입력하셨습니다.');
     }
@@ -64,6 +71,31 @@ function logout() {
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.removeItem('currentUser');
 
+    // 기록/즐겨찾기 컨테이너 초기화
+    const $recordList = document.querySelector('#record-list');
+    const $bookmarkList = document.querySelector('#bookmark-list');
+    if ($recordList) {
+        $recordList.innerHTML = `
+            <div class="empty-state">
+                <p>로그인 후 기록을 확인해주세요.</p>
+            </div>
+        `;
+    }
+    if ($bookmarkList) {
+        $bookmarkList.innerHTML = `
+            <div class="empty-state">
+                <p>로그인 후 즐겨찾기를 확인해주세요.</p>
+            </div>
+        `;
+    }
+
+    // 영화 탭으로 강제 이동
+    const movieRadio = document.querySelector('input[name="categoryTab"][value="영화"]');
+    if (movieRadio) {
+        movieRadio.checked = true;
+        movieRadio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
     //로그인 페이지로 이동
     $loginContainer.classList.add('visible');
     $loginPage.classList.add('visible');
@@ -71,7 +103,6 @@ function logout() {
 
 $logoutBtn.addEventListener('click', () => {
     logout();
-    dialogHandler.showSimpleOk('로그아웃 되었습니다.');
 });
 
 //회원가입 버튼 클릭 시 회원가입 모달 띄우기
@@ -88,11 +119,11 @@ $signupBtn.addEventListener('click', (e) => {
 
 // 회원가입 모달에서 닫기 누르면 로그인 모달 띄우기
 $closeButton.addEventListener('click', () => {
-   $signupPage.classList.remove('visible');
-   $loginPage.classList.add('visible');
+    $signupPage.classList.remove('visible');
+    $loginPage.classList.add('visible');
 
-   $loginPage.querySelector('#email').value = "";
-   $loginPage.querySelector('#password').value = "";
+    $loginPage.querySelector('#email').value = "";
+    $loginPage.querySelector('#password').value = "";
 });
 
 // 회원가입 모달에서 회원가입 클릭 시
@@ -216,6 +247,14 @@ $updateForm.addEventListener('submit', (e) => {
     // 저장
     localStorage.setItem(`email${currentUser}`, JSON.stringify(userData));
 
-    dialogHandler.showSimpleOk('정보가 수정되었습니다.');
+    dialogHandler.showSimpleOk('정보가 수정되었습니다.', {
+        onclick: () => {
+            // 기록 탭에 있다면 닉네임 업데이트를 위해 새로고침
+            const recordContainer = document.getElementById('record-container');
+            if (recordContainer && recordContainer.style.display === 'block') {
+                loadRecords();
+            }
+        }
+    });
     closeUpdatePanel();
 });

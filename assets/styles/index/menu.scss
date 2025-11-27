@@ -103,94 +103,95 @@
   max-width: 30rem;
   margin: 0 auto;
   padding: 2rem;
+
+  > .panel-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .panel-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212121;
+    margin: 0;
+  }
 }
 
-.update-content .panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.update-content .panel-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #212121;
-  margin: 0;
-}
 
 .update-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
 
-.update-form .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-.update-form .form-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #374151;
-}
+  .update-form .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+  }
 
-.update-form .form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 0.0625rem solid #d1d5db;
-  border-radius: 0.3rem;
-  font-size: 0.9rem;
-  transition: border-color 0.2s;
-}
+  .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 0.0625rem solid #d1d5db;
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+  }
 
-.update-form .form-input:focus {
-  border-color: #3498db;
-  outline: none;
-}
+  .form-input:focus {
+    border-color: #3498db;
+    outline: none;
+  }
 
-.update-form .current-info {
-  font-size: 0.85rem;
-  color: #6b7280;
-  padding: 0.5rem;
-  background-color: #f9fafb;
-  border-radius: 0.2rem;
-}
+  .current-info {
+    font-size: 0.85rem;
+    color: #6b7280;
+    padding: 0.5rem;
+    background-color: #f9fafb;
+    border-radius: 0.2rem;
+  }
 
-.update-form .button-group {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
+  .button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
 
-.update-form .submit-btn,
-.update-form .cancel-btn {
-  flex: 1;
-  padding: 0.75rem;
-  border-radius: 0.3rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+  .submit-btn,
+  .cancel-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.3rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
 
-.update-form .submit-btn {
-  background-color: #3498db;
-  color: #ffffff;
-}
+  .submit-btn {
+    background-color: #3498db;
+    color: #ffffff;
+  }
 
-.update-form .submit-btn:hover {
-  background-color: #2980b9;
-}
+  .submit-btn:hover {
+    background-color: #2980b9;
+  }
 
-.update-form .cancel-btn {
-  background-color: #6b7280;
-  color: #ffffff;
-}
+  .cancel-btn {
+    background-color: #6b7280;
+    color: #ffffff;
+  }
 
-.update-form .cancel-btn:hover {
-  background-color: #4b5563;
+  .cancel-btn:hover {
+    background-color: #4b5563;
+  }
 }
 
 #update-overlay.visible {

@@ -297,8 +297,11 @@ export function createCardElement(data, type) {
     like.type = 'checkbox';
     like.classList.add('like-checkbox');
 
-    // 즐겨찾기 key
-    const favKey = `favorite_movie_${data.id}`;
+    // 즐겨찾기 key - 사용자별로 저장
+    const currentUser = localStorage.getItem('currentUser');
+    const favKey = currentUser
+        ? `favorite_${currentUser}_${data.id}`
+        : `favorite_movie_${data.id}`;
 
     // 즐겨찾기 localStorage
     if (localStorage.getItem(favKey)) {
@@ -410,53 +413,51 @@ export function createCardElement(data, type) {
         const reviewData = localStorage.getItem(reviewKey);
         const existingReview = reviewData ? JSON.parse(reviewData) : null;
 
+        // 리뷰가 있으면 수정/삭제, 없으면 등록만
         const reviewButtons = existingReview
-            ? `<button id="review-edit">수정</button>
-               <button id="review-delete">삭제</button>`
+            ? `<button id="review-edit" class="disabled" disabled>수정</button>
+           <button id="review-delete">삭제</button>`
             : `<button id="review-submit">등록</button>`;
 
         const $modal = dialogHandler.show({
             title: '',
             content: `
-            <div class="modal-content">
-                <div class="modal-poster">
-                    <img src="${data.image}" alt="${data.title}">
-                </div>
-                <div class="modal-info">
-                    <div class="title-wrapper">
-                        <div class="title">${data.title}</div>
-                        <div class="info-row">
-                            <div class="subtitle">개봉일 ${data.subtitle ?? ''}</div>                                            
-                            <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
-                        </div>
+        <div class="modal-content">
+            <div class="modal-poster">
+                <img src="${data.image}" alt="${data.title}">
+            </div>
+            <div class="modal-info">
+                <div class="title-wrapper">
+                    <div class="title">${data.title}</div>
+                    <div class="info-row">
+                        <div class="subtitle">개봉일 ${data.subtitle ?? ''}</div>                                            
+                        <div class="grade">평점: ${data.score ?? '–'}${data.scoreUnit ?? ''}</div>
                     </div>
-                    <div class="description">${data.fullDescription ?? ''}</div>
-                    <div class="review-section">
-                        <label class="review-wrapper">
-                            <div class="rating-wrapper">
-                                <div class="stars" id="review-stars">
-                                    <span class="star-caption">내가 준 점수</span>
-                                    <!-- 0.5점 단위 = 10칸 -->
-                                    <span class="star" data-index="0"></span>
-                                    <span class="star" data-index="1"></span>
-                                    <span class="star" data-index="2"></span>
-                                    <span class="star" data-index="3"></span>
-                                    <span class="star" data-index="4"></span>
-                                </div>
+                </div>
+                <div class="description">${data.fullDescription ?? ''}</div>
+                <div class="review-section">
+                    <label class="review-wrapper">
+                        <div class="rating-wrapper">
+                            <div class="stars" id="review-stars">
+                                <span class="star-caption">내가 준 점수</span>
+                                <span class="star" data-index="0"></span>
+                                <span class="star" data-index="1"></span>
+                                <span class="star" data-index="2"></span>
+                                <span class="star" data-index="3"></span>
+                                <span class="star" data-index="4"></span>
                             </div>
-                            <textarea id="review-input" class="review-input"
-                            placeholder="메모 및 한줄평을 기록해주세요."
-                            ${existingReview ? 'readonly' : ''} 
-                            style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}"
-                            >${existingReview?.text ?? ''}</textarea>
-                        </label>
-                        <div class="button-wrapper">
-                            ${reviewButtons}
                         </div>
+                        <textarea id="review-input" class="review-input"
+                        placeholder="메모 및 한줄평을 기록해주세요."
+                        >${existingReview?.text ?? ''}</textarea>
+                    </label>
+                    <div class="button-wrapper">
+                        ${reviewButtons}
                     </div>
                 </div>
             </div>
-            `,
+        </div>
+        `,
             isContentHtml: true,
             buttons: [
                 {
@@ -466,16 +467,18 @@ export function createCardElement(data, type) {
             ]
         })
 
-        // =================별점 기능==================== //
+        // 별점 기능
         const starsWrap = $modal.querySelector('#review-stars');
         const stars = $modal.querySelectorAll('.star');
         let state = [0, 0, 0, 0, 0];
-        // 0 = empty, 0.5 = half, 1 = full
         let selectedRating = 0;
+
+        // 원본 데이터 저장
+        const originalText = existingReview?.text ?? '';
+        const originalRating = existingReview?.star ?? 0;
 
         function renderStars() {
             selectedRating = 0;
-            // star : 반복 중인 현재 값 i: 반복 횟수(현재 index)
             stars.forEach((star, i) => {
                 star.classList.remove('full', 'half');
 
@@ -486,6 +489,7 @@ export function createCardElement(data, type) {
             });
         }
 
+        // 기존 리뷰가 있으면 별점 불러오기
         if (existingReview) {
             const savedRating = existingReview.star ?? 0;
 
@@ -496,14 +500,36 @@ export function createCardElement(data, type) {
                 state[full] = 0.5;
             }
 
-            renderStars();                       // 별 모양 반영
-            starsWrap.classList.add('disabled'); // 수정 누르기 전까지 잠금
+            renderStars();
         }
 
+        // 변경사항 확인 함수
+        const reviewInput = $modal.querySelector('#review-input');
+        const submitBtn = $modal.querySelector('#review-submit');
+        const editBtn = $modal.querySelector('#review-edit');
+
+        const actionBtn = submitBtn || editBtn; // 등록 또는 수정 버튼
+
+        function checkChanges() {
+            if (!editBtn) return; // 수정 버튼이 있을 때만 체크
+
+            const currentText = reviewInput.value.trim();
+            const hasChanges = currentText !== originalText || selectedRating !== originalRating;
+
+            if (hasChanges) {
+                editBtn.classList.remove('disabled');
+                editBtn.disabled = false;
+            } else {
+                editBtn.classList.add('disabled');
+                editBtn.disabled = true;
+            }
+        }
+
+        // 별 클릭 이벤트
         stars.forEach(star => {
             star.addEventListener('click', () => {
                 const index = Number(star.dataset.index);
-                // 현재 상태에 따라 변환
+
                 if (state[index] === 0) {
                     state[index] = 0.5;
                 } else if (state[index] === 0.5) {
@@ -512,24 +538,24 @@ export function createCardElement(data, type) {
                     state[index] = 0;
                 }
 
-                // 왼쪽 별들은 항상 full
                 for (let i = 0; i < index; i++) {
                     state[i] = 1;
                 }
 
-                // 오른쪽 별들은 항상 empty
                 for (let i = index + 1; i < 5; i++) {
                     state[i] = 0;
                 }
+
                 renderStars();
+                checkChanges();
             });
         });
 
-        const reviewInput = $modal.querySelector('#review-input');
+        // 텍스트 변경 감지
+        reviewInput.addEventListener('input', checkChanges);
 
-        //리뷰 등록 (리뷰 없을때)
-        const submitBtn = $modal.querySelector('#review-submit');
-        if (submitBtn){
+        // 리뷰 등록 (신규)
+        if (submitBtn) {
             submitBtn.addEventListener('click', () => {
                 const reviewText = reviewInput.value.trim();
 
@@ -543,9 +569,8 @@ export function createCardElement(data, type) {
                     return;
                 }
 
-                starsWrap.classList.add('disabled');   // ★ 등록 후 별점 잠금
                 const reviewData = {
-                    star : selectedRating,
+                    star: selectedRating,
                     text: reviewText,
                     author: currentUser,
                     timestamp: new Date().toISOString(),
@@ -556,62 +581,48 @@ export function createCardElement(data, type) {
                 localStorage.setItem(reviewKey, JSON.stringify(reviewData));
                 dialogHandler.showSimpleOk('리뷰가 등록되었습니다.', {
                     onclick: () => {
-                        // 모달 닫고 다시 열기
                         dialogHandler.hide($modal);
                         setTimeout(() => card.click(), 100);
                     }
                 });
             });
         }
-        //수정 버튼
-        const editBtn = $modal.querySelector('#review-edit');
+
+        // 리뷰 수정
         if (editBtn) {
-            let isEditing = false;
-
             editBtn.addEventListener('click', () => {
-                if (!isEditing) {
-                    // 수정 모드 활성화
-                    starsWrap.classList.remove('disabled');
-                    reviewInput.removeAttribute('readonly');
-                    reviewInput.style.backgroundColor = '';
-                    reviewInput.style.cursor = '';
-                    reviewInput.focus();
-                    editBtn.textContent = '완료';
-                    isEditing = true;
-                } else {
-                    // 수정 완료
-                    const reviewText = reviewInput.value.trim();
+                const reviewText = reviewInput.value.trim();
 
-                    if (selectedRating === 0) {
-                        dialogHandler.showSimpleOk('별점을 선택해주세요.');
-                        return;
-                    }
-
-                    if (!reviewText) {
-                        dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');
-                        return;
-                    }
-
-                    starsWrap.classList.add('disabled');  // ★ 다시 잠금
-
-                    const reviewData = {
-                        star : selectedRating,
-                        text: reviewText,
-                        author: currentUser,
-                        timestamp: new Date().toISOString()
-                    };
-                    localStorage.setItem(reviewKey, JSON.stringify(reviewData));
-                    dialogHandler.showSimpleOk('리뷰가 수정되었습니다.', {
-                        onclick: () => {
-                            dialogHandler.hide($modal);
-                            setTimeout(() => card.click(), 100);
-                        }
-                    });
-                    isEditing = false;
+                if (selectedRating === 0) {
+                    dialogHandler.showSimpleOk('별점을 선택해주세요.');
+                    return;
                 }
+
+                if (!reviewText) {
+                    dialogHandler.showSimpleOk('리뷰 내용을 입력해주세요.');
+                    return;
+                }
+
+                const reviewData = {
+                    star: selectedRating,
+                    text: reviewText,
+                    author: currentUser,
+                    timestamp: new Date().toISOString(),
+                    contentImage: data.image,
+                    contentSubtitle: data.subtitle ?? '',
+                    rating: data.score ?? null
+                };
+                localStorage.setItem(reviewKey, JSON.stringify(reviewData));
+                dialogHandler.showSimpleOk('리뷰가 수정되었습니다.', {
+                    onclick: () => {
+                        dialogHandler.hide($modal);
+                        setTimeout(() => card.click(), 100);
+                    }
+                });
             });
         }
-        //리뷰 삭제 (리뷰 있을 때)
+
+        // 리뷰 삭제
         const deleteBtn = $modal.querySelector('#review-delete');
         if (deleteBtn) {
             deleteBtn.addEventListener('click', () => {
@@ -628,6 +639,11 @@ export function createCardElement(data, type) {
                     }
                 });
             });
+        }
+
+        // 초기 상태 체크 (수정 버튼만)
+        if (editBtn) {
+            checkChanges();
         }
     });
     return li;

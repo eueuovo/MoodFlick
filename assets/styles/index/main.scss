@@ -12,8 +12,6 @@
     @include flex(column, center, flex-start);
     flex: 1;
     min-width: 0;
-    //height: 100%;
-    //width: 100%;
     padding: $menu-height 2rem 2rem 2rem;
     margin-top: 1rem;
 
@@ -47,175 +45,267 @@
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
+  display: none;
 
-  > .record-header{
+  // 탭 버튼
+  > .tabs {
+    display: flex;
+    gap: 1rem;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 0.125rem solid #e5e7eb;
 
-    > .caption{
-      font-size: 1.3rem;
-    }
-  }
+    > button {
+      padding: 1rem 2rem;
+      background: none;
+      border: none;
+      border-bottom: 0.1875rem solid transparent;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #6b7280;
+      transition: all 0.3s;
 
-  > .record-list{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-  }
+      &:hover {
+        color: #374151;
+      }
 
-  .empty-state {
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    > .text {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    > .sub-text {
-      font-size: 0.95rem;
-      color: #9ca3af;
-    }
-  }
-
-  // 기록
-  .record-card {
-    display: flex;
-    gap: 1.5rem;
-    width: 100%;
-    height: 20rem;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    background: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.2s;
-    align-items: center;
-
-    &:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .record-poster {
-      flex-shrink: 0;
-      width: 7rem;
-      height: 11rem;
-      border-radius: 0.3rem;
-      overflow: hidden;
-      border: 0.0625rem solid #21212110;
-
-      > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      &.active {
+        color: #3b82f6;
+        border-bottom-color: #3b82f6;
       }
     }
+  }
 
-    .record-info {
-      flex: 1;
+  // 섹션 표시/숨김
+  > .record,
+  > .bookmark {
+    display: none;
+
+    > .record-list {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+    }
+
+    .empty-state {
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-direction: column;
 
-      .record-header {
-        .record-title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          margin-bottom: 0.25rem;
-          color: #212121;
+      > .text {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      > .sub-text {
+        font-size: 0.95rem;
+        color: #9ca3af;
+      }
+    }
+
+    // 기록 카드
+    .record-card {
+      display: flex;
+      gap: 1.5rem;
+      width: 100%;
+      height: 20rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.2s;
+      align-items: center;
+
+      &:hover {
+        box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+      }
+
+      .record-poster {
+        flex-shrink: 0;
+        width: 7rem;
+        height: 11rem;
+        border-radius: 0.3rem;
+        overflow: hidden;
+        border: 0.0625rem solid #21212110;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
 
-      .record-ratings {
+      .record-info {
+        flex: 1;
         display: flex;
-        gap: 1rem;
-        margin-bottom: 0.8rem;
+        flex-direction: column;
 
-        .rating-item {
-          display: flex;
-          flex-direction: row;
-          gap: 0.25rem;
-          justify-content: center;
-          align-items: center;
-
-          .rating-label {
-            font-size: 0.85rem;
-            color: #6b7280;
-          }
-
-          .rating-value {
-            font-size: 0.85rem;
+        .record-header {
+          .record-title {
+            font-size: 1.25rem;
             font-weight: 600;
-
-            &.my-rating {
-              color: #f59e0b;
-            }
-
-            &.avg-rating {
-              color: #3b82f6;
-            }
+            margin-bottom: 0.25rem;
+            color: #212121;
           }
         }
-      }
 
-      .record-review {
-        border-radius: 0.1rem;
-        border: 0.0625rem solid #21212130;
-        padding: 0.5rem;
-        height: 8em;
-        overflow-y: auto;
-
-        .review-text {
-          font-size: 0.95rem;
-          color: #374151;
-        }
-      }
-
-      .record-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 1rem;
-        border-top: 1px solid #e5e7eb;
-
-        .review-date {
-          font-size: 0.85rem;
-          color: #9ca3af;
-        }
-
-        .record-actions {
+        .record-ratings {
           display: flex;
-          gap: 0.5rem;
+          gap: 1rem;
+          margin-bottom: 0.8rem;
 
-          button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.375rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
+          .rating-item {
+            display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
+            justify-content: center;
+            align-items: center;
 
-            &.btn-edit {
-              background: #3b82f6;
-              color: white;
+            .rating-label {
+              font-size: 0.85rem;
+              color: #6b7280;
+            }
 
-              &:hover {
-                background: #2563eb;
+            .rating-value {
+              font-size: 0.85rem;
+              font-weight: 600;
+
+              &.my-rating {
+                color: #f59e0b;
+              }
+
+              &.avg-rating {
+                color: #3b82f6;
               }
             }
 
-            &.btn-delete {
-              background: #ef4444;
-              color: white;
+            // 별점 스타일
+            .rating-stars {
+              display: flex;
+              gap: 0.15rem;
 
-              &:hover {
-                background: #dc2626;
+              .star {
+                width: 1rem;
+                height: 1rem;
+                display: inline-block;
+                background-image: url('/assets/images/index/modal/star.png');
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                cursor: pointer;
+                user-select: none;
+
+                &.half {
+                  background-image: url('/assets/images/index/modal/half-star.png');
+                }
+
+                &.full {
+                  background-image: url('/assets/images/index/modal/fill-star.png');
+                }
+              }
+            }
+          }
+        }
+
+        .record-review {
+          border-radius: 0.1rem;
+          border: 0.0625rem solid #21212130;
+          padding: 0.5rem;
+          height: 8em;
+          overflow-y: auto;
+
+          .review-text {
+            font-size: 0.95rem;
+            color: #374151;
+          }
+
+          .review-text-edit {
+            width: 100%;
+            min-height: 7em;
+            padding: 0;
+            border: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: none;
+            color: #374151;
+            background: transparent;
+
+            &:focus {
+              outline: none;
+            }
+
+            &::placeholder {
+              color: #9ca3af;
+            }
+          }
+        }
+
+        .record-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 1rem;
+          border-top: 0.0625rem solid #e5e7eb;
+
+          .review-date {
+            font-size: 0.85rem;
+            color: #9ca3af;
+          }
+
+          .record-actions {
+            display: flex;
+            gap: 0.5rem;
+
+            button {
+              padding: 0.5rem 1rem;
+              border: none;
+              border-radius: 0.375rem;
+              font-size: 0.9rem;
+              cursor: pointer;
+              transition: all 0.2s;
+
+              &.btn-save {
+                background: #10b981;
+                color: white;
+
+                &:hover:not(.disabled) {
+                  background: #059669;
+                }
+
+                &.disabled {
+                  background: #d1d5db;
+                  color: #9ca3af;
+                  cursor: not-allowed;
+
+                  &:hover {
+                    background: #d1d5db;
+                  }
+                }
+              }
+
+              &.btn-edit {
+                background: #3b82f6;
+                color: white;
+
+                &:hover {
+                  background: #2563eb;
+                }
+              }
+
+              &.btn-delete {
+                background: #ef4444;
+                color: white;
+
+                &:hover {
+                  background: #dc2626;
+                }
               }
             }
           }
@@ -311,7 +401,7 @@
     width: 100%;
     min-height: 150px;
     padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    border: 0.0625rem solid #d1d5db;
     border-radius: 0.5rem;
     font-size: 0.95rem;
     font-family: inherit;
@@ -342,7 +432,7 @@
     > input[type="number"] {
       width: 120px;
       padding: 0.5rem;
-      border: 1px solid #d1d5db;
+      border: 0.0625rem solid #d1d5db;
       border-radius: 0.375rem;
       font-size: 0.95rem;
       transition: border-color 0.2s;
@@ -390,8 +480,8 @@
   transform: translateY(-50%);
   width: 1.2rem;
   height: 1.2rem;
-  background-image: url('/assets/images/index/main/search.png'); /* 돋보기 이미지 */
+  background-image: url('/assets/images/index/main/search.png');
   background-size: cover;
   background-position: center;
-  pointer-events: none; /* 클릭이 input으로 전달되도록 */
+  pointer-events: none;
 }

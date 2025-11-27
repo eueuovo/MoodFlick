@@ -30,15 +30,15 @@ body {
 }
 
 @font-face {
-  font-family: 'SchoolSafetyRoundedSmile';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Cafe24MeongiBlack';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Meongi-B-v1.0.woff2') format('woff2');
+  font-weight: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Cafe24MeongiBlack';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Meongi-B-v1.0.woff2') format('woff2');
+  font-family: 'Ria';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/RiaSans-ExtraBold.woff2') format('woff2');
   font-weight: normal;
   font-display: swap;
 }
@@ -187,7 +187,7 @@ input:-webkit-autofill{
         font-weight: 600;
       }
 
-      .info-row{
+      .info-row {
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -216,6 +216,7 @@ input:-webkit-autofill{
       line-height: 1.6;
       color: #4b5563;
       white-space: pre-wrap;
+      background-color: #21212110;
     }
 
     .review-section {
@@ -224,23 +225,24 @@ input:-webkit-autofill{
       flex-direction: column;
       gap: 0.5rem;
 
-      > .review-wrapper{
+      > .review-wrapper {
         > .rating-wrapper {
           padding-bottom: 0.2rem;
+
           #review-stars.disabled {
             pointer-events: none;
             cursor: default;
             opacity: 0.4;
           }
 
-          > .stars{
+          > .stars {
             padding: 0.5rem 0;
             position: relative;
             display: flex;
             flex-direction: row;
             gap: 0.15rem;
 
-            > .star-caption{
+            > .star-caption {
               display: flex;
               justify-content: center;
               align-items: center;
@@ -248,7 +250,7 @@ input:-webkit-autofill{
               padding: 0 0.2rem;
             }
 
-            > .star{
+            > .star {
               width: 1.2rem;
               height: 1.2rem;
               display: inline-block;
@@ -266,7 +268,8 @@ input:-webkit-autofill{
                 background-position: center;
                 background-repeat: no-repeat;
               }
-              &.full{
+
+              &.full {
                 background-image: url('/assets/images/index/modal/fill-star.png');
                 background-size: cover;
                 background-position: center;
@@ -307,7 +310,7 @@ input:-webkit-autofill{
           border-radius: 0.3rem;
           cursor: pointer;
           font-weight: 500;
-          transition: background-color 0.2s;
+          transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 
           &#review-submit {
             background-color: #3498db;
@@ -315,12 +318,32 @@ input:-webkit-autofill{
 
             &:hover {
               background-color: #2980b9;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
             }
           }
 
-          &#review-edit{
-            background-color: #3498db;
+          &#review-edit {
+            background-color: #10b981;
             color: #ffffff;
+
+            &:hover:not(.disabled) {
+              background-color: #059669;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+            }
+
+            &.disabled {
+              background-color: #d1d5db;
+              color: #9ca3af;
+              cursor: not-allowed;
+
+              &:hover {
+                background-color: #d1d5db;
+                transform: none;
+                box-shadow: none;
+              }
+            }
           }
 
           &#review-delete {
@@ -329,6 +352,8 @@ input:-webkit-autofill{
 
             &:hover {
               background-color: #dc2626;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
             }
           }
         }

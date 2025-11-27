@@ -24,13 +24,13 @@ body {
   font-weight: normal;
   font-display: swap; }
 @font-face {
-  font-family: 'SchoolSafetyRoundedSmile';
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
-  font-weight: 700;
-  font-display: swap; }
-@font-face {
   font-family: 'Cafe24MeongiBlack';
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Meongi-B-v1.0.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap; }
+@font-face {
+  font-family: 'Ria';
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/RiaSans-ExtraBold.woff2") format("woff2");
   font-weight: normal;
   font-display: swap; }
 img {
@@ -164,7 +164,8 @@ input:-webkit-autofill {
       padding: 0.5rem;
       line-height: 1.6;
       color: #4b5563;
-      white-space: pre-wrap; }
+      white-space: pre-wrap;
+      background-color: #21212110; }
     .modal-content .modal-info .review-section {
       padding-top: 1rem;
       display: flex;
@@ -232,19 +233,35 @@ input:-webkit-autofill {
           border-radius: 0.3rem;
           cursor: pointer;
           font-weight: 500;
-          transition: background-color 0.2s; }
+          transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; }
           .modal-content .modal-info .review-section .button-wrapper button#review-submit {
             background-color: #3498db;
             color: #ffffff; }
             .modal-content .modal-info .review-section .button-wrapper button#review-submit:hover {
-              background-color: #2980b9; }
+              background-color: #2980b9;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3); }
           .modal-content .modal-info .review-section .button-wrapper button#review-edit {
-            background-color: #3498db;
+            background-color: #10b981;
             color: #ffffff; }
+            .modal-content .modal-info .review-section .button-wrapper button#review-edit:hover:not(.disabled) {
+              background-color: #059669;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3); }
+            .modal-content .modal-info .review-section .button-wrapper button#review-edit.disabled {
+              background-color: #d1d5db;
+              color: #9ca3af;
+              cursor: not-allowed; }
+              .modal-content .modal-info .review-section .button-wrapper button#review-edit.disabled:hover {
+                background-color: #d1d5db;
+                transform: none;
+                box-shadow: none; }
           .modal-content .modal-info .review-section .button-wrapper button#review-delete {
             background-color: #ef4444;
             color: #ffffff; }
             .modal-content .modal-info .review-section .button-wrapper button#review-delete:hover {
-              background-color: #dc2626; }
+              background-color: #dc2626;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3); }
 
 /*# sourceMappingURL=common.css.map */
