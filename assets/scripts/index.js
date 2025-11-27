@@ -111,10 +111,9 @@ export const dialogHandler = {
 // 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterSections = document.querySelectorAll('.filter-section');
-const mainContainers = document.querySelectorAll('#poster-container.-stretch');
+const mainContainer = document.querySelector('#poster-container');
 const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
-const pageBtn = document.getElementById('page-container')//페이지 버튼
 const search = document.getElementById('search')
 const wrapper = document.querySelector('.wrapper');
 const filterSearchBtn = document.querySelector('.filter-search-btn');
@@ -171,11 +170,7 @@ categoryInputs.forEach(input => {
         }
 
         //메인 컨테니어 전환
-        mainContainers.forEach(container => container.style.display = 'none');
-        const posterContainerActive = document.querySelector(`#poster-container[data-tab="${category}"]`);
-        if (posterContainerActive) {
-            posterContainerActive.style.display = 'block';
-        }
+        mainContainer.style.display = category === '기록' ? 'none' : 'block';
 
         //카테고리별 함수 호출
         if (category === '영화') {
@@ -297,22 +292,24 @@ export function createCardElement(data, type) {
     like.type = 'checkbox';
     like.classList.add('like-checkbox');
 
-    // 즐겨찾기 key
-    const favKey = `favorite_movie_${data.id}`;
 
-    // 즐겨찾기 localStorage
-    if (localStorage.getItem(favKey)) {
+    if (isLiked({ id: data.id, type })) {
         like.checked = true;
     }
-
-    // 즐겨찾기 추가 클릭
-    like.addEventListener('change', (e) => {
-        e.stopPropagation();
+    like.addEventListener('change', () => {
+        const favItem = {
+            id: data.id,
+            type,
+            title: data.title,
+            image: data.image,
+            subtitle: data.subtitle ?? '',
+            score: data.score ?? null
+        };
 
         if (like.checked) {
-            localStorage.setItem(favKey, JSON.stringify(data));
+            addLike(favItem);
         } else {
-            localStorage.removeItem(favKey);
+            removeLike(favItem);
         }
     });
 
@@ -633,9 +630,30 @@ export function createCardElement(data, type) {
     return li;
 }
 
+// =================즐겨찾기 기능====================//
+// 즐겨찾기 추가
+function addLike(item) {
+    const likes = JSON.parse(localStorage.getItem('likes')) || [];
+    const exists = likes.some(l => l.id === item.id && l.type === item.type);
+    if (!exists) {
+        likes.push(item);
+        localStorage.setItem('likes', JSON.stringify(likes));
+    }
+}
+// 즐겨찾기 삭제
+function removeLike(item) {
+    let likes = JSON.parse(localStorage.getItem('likes')) || [];
+    likes = likes.filter(l => !(l.id === item.id && l.type === item.type));
+    localStorage.setItem('likes', JSON.stringify(likes));
+}
+// 즐겨찾기 조회
+function isLiked(item) {
+    const likes = JSON.parse(localStorage.getItem('likes')) || [];
+    return likes.some(l => l.id === item.id && l.type === item.type);
+}
+
 // =================필터 기능==================== //
 document.querySelector(".filter-search-btn").addEventListener("click", loadMovies);
-
 // =================스플래시 크기 변경================= //
 function updateSplashHeight() {
     const splashContainer = document.querySelector('#splash-container');

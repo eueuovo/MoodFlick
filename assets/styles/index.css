@@ -680,7 +680,7 @@
 }
 #poster-list > .item {
   height: 22rem;
-  width: 14rem;
+  width: auto;
   position: relative;
   display: flex;
   flex-direction: column;
