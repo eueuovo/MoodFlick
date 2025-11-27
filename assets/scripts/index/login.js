@@ -16,6 +16,14 @@ const $updateBtn = $menuContainer.querySelector('.button.update');
 //로그인 모달 창 띄우기
 document.addEventListener('DOMContentLoaded', () => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    const rememberCheckbox = document.getElementById('remember-email');
+    const emailInput = document.getElementById('email');
+
+    if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberCheckbox.checked = true;
+    }
 
     if (isLoggedIn){
         //이미 로그인 된 상태
@@ -34,6 +42,7 @@ $loginForm.addEventListener('submit', (e) => {
     const email = $loginForm.querySelector('#email').value.trim();
     const password = $loginForm.querySelector('#password').value.trim();
     const storedUser = localStorage.getItem(`email${email}`);
+    const rememberEmail = document.getElementById('remember-email').checked;
 
     if (!storedUser){
         dialogHandler.showSimpleOk('이메일을 다시 확인해주세요.');
@@ -44,22 +53,32 @@ $loginForm.addEventListener('submit', (e) => {
     const userDate = JSON.parse(storedUser);
 
     if (userDate.password === password){
+        if (rememberEmail) {
+            localStorage.setItem('rememberedEmail', email);
+        } else {
+            localStorage.removeItem('rememberedEmail');
+        }
+
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', email);
-        $loginContainer.classList.remove('visible');
-        $loginPage.classList.remove('visible');
+        $loginPage.classList.add('slide-out');
 
-        // 현재 기록 탭에 있다면 새로고침
-        const recordContainer = document.getElementById('record-container');
-        if (recordContainer && recordContainer.style.display === 'block') {
-            loadRecords();
-        } else {
-            loadMovies();
-        }
+        setTimeout(() => {
+            $loginContainer.classList.remove('visible');
+            $loginPage.classList.remove('visible', 'slide-out');
+
+            // 현재 기록 탭에 있다면 새로고침
+            const recordContainer = document.getElementById('record-container');
+            if (recordContainer && recordContainer.style.display === 'block') {
+                loadRecords();
+            } else {
+                loadMovies();
+            }
+        }, 500); // 애니메이션 시간과 동일
+
     } else{
         dialogHandler.showSimpleOk('이메일 및 비밀번호를 잘못 입력하셨습니다.');
     }
-    $loginPage.querySelector('#email').value = "";
     $loginPage.querySelector('#password').value = "";
 });
 
@@ -98,7 +117,26 @@ function logout() {
 
     //로그인 페이지로 이동
     $loginContainer.classList.add('visible');
-    $loginPage.classList.add('visible');
+    $loginPage.classList.add('visible', 'slide-up');
+
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    const emailInput = document.getElementById('email');
+    const rememberCheckbox = document.getElementById('remember-email');
+
+    if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberCheckbox.checked = true;
+    } else {
+        emailInput.value = "";
+        rememberCheckbox.checked = false;
+    }
+
+    // 비밀번호 초기화
+    $loginPage.querySelector('#password').value = "";
+
+    setTimeout(() => {
+        $loginPage.classList.remove('slide-up');
+    }, 500);
 }
 
 $logoutBtn.addEventListener('click', () => {
@@ -112,18 +150,26 @@ $signupBtn.addEventListener('click', (e) => {
     $signupPage.querySelector('#signup-email').value = "";
     $signupPage.querySelector('#signup-password').value = "";
     $signupPage.querySelector('#signup-nickname').value = "";
+    $signupPage.classList.add('visible', 'slide-up');
 
-    $loginPage.classList.remove('visible');
-    $signupPage.classList.add('visible');
+    setTimeout(() => {
+        $signupPage.classList.remove('slide-up');
+        $loginPage.classList.remove('visible');
+    }, 500);
 });
 
 // 회원가입 모달에서 닫기 누르면 로그인 모달 띄우기
 $closeButton.addEventListener('click', () => {
-    $signupPage.classList.remove('visible');
     $loginPage.classList.add('visible');
 
-    $loginPage.querySelector('#email').value = "";
-    $loginPage.querySelector('#password').value = "";
+    $signupPage.classList.add('slide-down');
+
+    setTimeout(() => {
+        $signupPage.classList.remove('visible', 'slide-down');
+
+        $loginPage.querySelector('#email').value = "";
+        $loginPage.querySelector('#password').value = "";
+    }, 500);
 });
 
 // 회원가입 모달에서 회원가입 클릭 시
@@ -145,18 +191,20 @@ $signupForm.addEventListener('submit', (e) => {
         return;
     }
 
-    //회원정보 저장 (JSON형태로 저장)
+    //회원정보 저장
     const userDate = {email, password, nickname};
     localStorage.setItem(`email${email}`, JSON.stringify(userDate));
-
     dialogHandler.showSimpleOk('회원가입이 완료되었습니다! 로그인 해주세요!');
-    $signupPage.classList.remove('visible');
     $loginPage.classList.add('visible');
+    $signupPage.classList.add('slide-down');
 
-    $loginPage.querySelector('#email').value = "";
-    $loginPage.querySelector('#password').value = "";
+    setTimeout(() => {
+        $signupPage.classList.remove('visible', 'slide-down');
+
+        $loginPage.querySelector('#email').value = "";
+        $loginPage.querySelector('#password').value = "";
+    }, 500);
 });
-
 
 // auth.js 파일에 추가할 코드
 

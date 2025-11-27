@@ -172,9 +172,11 @@ if (!searchBtn.dataset.listenerAdded) {
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
-
         currentCategory = category; // 현재 카테고리 업데이트
-        /*searchInput.value = '';*/
+        window.scrollTo({ top: 0, behavior: 'auto' });
+
+        // 검색창 초기화
+        searchInput.value = '';
 
         // 기록 컨테이너 숨기기
         const recordContainer = document.getElementById('record-container');

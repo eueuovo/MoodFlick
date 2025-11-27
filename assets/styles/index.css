@@ -1016,9 +1016,16 @@
     height: 100%;
     display: none;
     grid-template-rows: repeat(3, 1fr);
-    position: relative; }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
     #login-container > .login-page.visible {
       display: grid; }
+    #login-container > .login-page.slide-out {
+      animation: slideDown 0.5s ease-in-out forwards; }
+    #login-container > .login-page.slide-up {
+      animation: slideUp 0.5s ease-in-out forwards; }
     #login-container > .login-page > .dsc {
       background-color: #212121; }
       #login-container > .login-page > .dsc > .image-wrapper {
@@ -1142,6 +1149,21 @@
               #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .label > .input:focus {
                 border: 0.0625rem solid #FF5C5C;
                 outline: none; }
+          #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .remember-label {
+            display: flex;
+            align-items: center;
+            align-self: flex-start;
+            gap: 0.5rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin: -0.5rem 0 -0.5rem 0.5rem; }
+            #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .remember-label > .remember-checkbox {
+              cursor: pointer;
+              width: 1rem;
+              height: 1rem; }
+            #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .remember-label > .remember-text {
+              cursor: pointer; }
           #login-container > .login-page > .login-warrap > .login-form > .input-wrapper > .login-button {
             display: flex;
             align-self: center;
@@ -1181,9 +1203,18 @@
     background-color: #212121;
     justify-content: center;
     align-items: center;
-    flex-direction: column; }
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; }
     #login-container > .signup-page.visible {
       display: flex; }
+    #login-container > .signup-page.slide-up {
+      animation: slideUp 0.5s ease-in-out forwards; }
+    #login-container > .signup-page.slide-down {
+      animation: slideDown 0.5s ease-in-out forwards; }
     #login-container > .signup-page > .signup-form {
       display: flex;
       justify-content: center;
@@ -1257,6 +1288,13 @@
           #login-container > .signup-page > .signup-form > .input-wrapper > .close-button:hover {
             background-color: #747474; }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0; }
+  to {
+    transform: translateY(0);
+    opacity: 1; } }
 @media (max-width: 1400px) {
   #login-container .login-page .dsc .image-wrapper .book1 {
     transform: scale(0.9);
@@ -1321,6 +1359,13 @@
 @media (max-width: 800px) {
   .login-page .dsc .content .main-text {
     font-size: 2.5rem; } }
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1; }
+  to {
+    transform: translateY(100%);
+    opacity: 0; } }
 #splash-container {
   height: 100%;
   width: 100%;
