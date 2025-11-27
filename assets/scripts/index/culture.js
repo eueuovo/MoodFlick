@@ -81,12 +81,16 @@ export async function loadExpo(page = 1) {
     }
 
     items.forEach(expo => {
+        // 랜덤 점수 생성 (3.0 ~ 5.0)
+        const randomScore = (Math.random() * 2 + 3).toFixed(1);
+
         const cardData = {
             id: expo.id,
             image: expo.thumbnail || 'assets/images/index/main/no-poster.png',
             title: expo.title,
             subtitle: `${expo.place || ''} / ${expo.area || ''}`,
-            score: expo.realm,
+            score: randomScore,
+            scoreUnit: '',
             description: '클릭하여 전시/공연 상세 보기',
             fullDescription: expo.title,
             type: "expo"
@@ -101,7 +105,73 @@ export async function loadExpo(page = 1) {
 }
 
 /* ===========================================================
-   3. 페이지네이션
+   3. TOP5 전시/공연 기능
+=========================================================== */
+
+// top5 전시/공연 로드
+export async function loadTop5Expo() {
+    try {
+        // 첫 페이지에서 20개 가져오기
+        const { items } = await fetchExpo(1, 20);
+
+        if (!items || items.length === 0) {
+            console.log("Top5 전시/공연 데이터 없음");
+            return;
+        }
+
+        // 각 전시/공연에 랜덤 점수를 부여하고 점수 기준으로 정렬
+        const expoWithScore = items.map(expo => ({
+            ...expo,
+            randomScore: parseFloat((Math.random() * 2 + 3).toFixed(1)) // 3.0 ~ 5.0
+        }));
+
+        // 점수 높은 순으로 정렬하여 상위 5개 선택
+        const top5 = expoWithScore
+            .sort((a, b) => b.randomScore - a.randomScore)
+            .slice(0, 5);
+
+        renderTop5Expo(top5);
+
+    } catch (err) {
+        console.error("전시/공연 Top5 오류:", err);
+    }
+}
+
+// top5 전시/공연 렌더링
+function renderTop5Expo(expos) {
+    if (!expos || expos.length === 0) return;
+
+    // 전시/공연 탭의 top5만 선택
+    const topElements = document.querySelectorAll('.--splash[data-tab="전시/공연"] .top-five .top');
+
+    expos.forEach((expo, index) => {
+        if (index < topElements.length) {
+            const topEl = topElements[index];
+            const img = topEl.querySelector('.img');
+            const title = topEl.querySelector('.title');
+            const score = topEl.querySelector('.score');
+
+            if (img) {
+                img.src = expo.thumbnail || 'assets/images/index/main/no-poster.png';
+            }
+
+            if (title) {
+                const expoTitle = expo.title;
+                title.textContent = expoTitle.length > 15
+                    ? expoTitle.slice(0, 15) + '...'
+                    : expoTitle;
+            }
+
+            if (score) {
+                // 랜덤 점수 사용
+                score.textContent = `★ ${expo.randomScore}`;
+            }
+        }
+    });
+}
+
+/* ===========================================================
+   4. 페이지네이션
 =========================================================== */
 
 function renderExpoPagination(current, totalCount) {
@@ -162,6 +232,3 @@ function renderExpoPagination(current, totalCount) {
     lastBtn.onclick = () => loadExpo(totalPages);
     container.appendChild(lastBtn);
 }
-
-
-
