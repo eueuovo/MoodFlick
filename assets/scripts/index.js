@@ -1,7 +1,7 @@
 import "./index/login.js";
 import { loadGoogleBooksPage} from "./index/book.js";
 import { loadExpo } from "./index/culture.js";
-import {loadMovies, loadTop5Movies} from "./index/movie.js";
+import {loadMovies, loadTop5Movies,TMDB} from "./index/movie.js";
 import "./index/filter.js";
 import { loadRecords } from "./index/storage.js";
 
@@ -49,12 +49,6 @@ export const dialogHandler = {
 
         const $modal = document.createElement('div');
         $modal.classList.add('modal');
-/*
-        const $title = document.createElement('div');
-        $title.classList.add('title');
-        $title.innerText = args.title;
-        $modal.append($title);
-*/
 
         const $content = document.createElement('div');
         $content.classList.add('content');
@@ -108,61 +102,85 @@ export const dialogHandler = {
         }),
 };
 
-// 탭 전환(포스터 및 필터)
 const categoryInputs = document.querySelectorAll('input[name="categoryTab"]');
 const filterSections = document.querySelectorAll('.filter-section');
 const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
-const pageBtn = document.getElementById('page-container')//페이지 버튼
-const search = document.getElementById('book-search')
-const wrapper = document.getElementById('wrapper');
+const pageBtn = document.getElementById('page-container'); // 페이지 버튼
+const searchInput = document.getElementById('search-input'); // 서치 인풋
+const searchBtn = document.querySelector('.search-icon'); // 서치 버튼
+
+let currentCategory = ''; // 전역 변수
+let currentKeyword = ''; // 페이지가 넘어가도 키워드 고정====??
+let currentPage = 1;
 
 
+// 공통 검색 함수 (영화, 도서)
+function searchContent() {
+    const keyword = searchInput.value.trim();
+    if (!keyword) return; // 검색어 없으면 실행 안 함
 
-posterList.innerHTML = ''; // 포스터 초기화
+    currentKeyword = keyword;// 전역 변수에 저장
+    currentPage = 1;
+    TMDB.PAGE= currentPage;
+    if (currentCategory === '영화') {
+        TMDB.PAGE = 1; // 영화 검색 시 페이지 초기화
+        loadMovies(currentKeyword,1); // 영화 검색
 
+    } else if(currentCategory === '도서') {
+        loadGoogleBooksPage(1, currentKeyword); // 도서 검색
+    } else if(currentCategory === '전시/공연'){
+        loadExpo(1,keyword);
+    }
+}
 
+// 이벤트 등록 (한 번만 등록)
+if (!searchInput.dataset.listenerAdded) {
+    searchInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') searchContent();
+    });
+    searchInput.dataset.listenerAdded = true;
+}
+
+if (!searchBtn.dataset.listenerAdded) {
+    searchBtn.addEventListener('click', searchContent);
+    searchBtn.dataset.listenerAdded = true;
+}
+
+// 탭 전환
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+        currentCategory = category; // 현재 카테고리 업데이트
 
         // 기록 컨테이너 숨기기
         const recordContainer = document.getElementById('record-container');
         if (recordContainer) recordContainer.style.display = 'none';
 
-        // 필터랑 스플래시 기록 탭 아닐때 보이게
+        // 필터/스플래시 표시
         const filterWrapper = document.querySelector('#filter-wrapper');
         const splashContainer = document.querySelector('#splash-container');
-
         if (category === '기록') {
-            // 기록 탭: 필터와 스플래시 숨기기
             if (filterWrapper) filterWrapper.style.display = 'none';
             if (splashContainer) splashContainer.style.display = 'none';
         } else {
-            // 다른 탭: 필터와 스플래시 보이기
             if (filterWrapper) filterWrapper.style.display = 'block';
             if (splashContainer) splashContainer.style.display = 'block';
         }
 
         // 필터 전환
         filterSections.forEach(section => section.style.display = 'none');
-        const active = document.querySelector(`.filter-section[data-tab="${input.value}"]`);
+        const active = document.querySelector(`.filter-section[data-tab="${category}"]`);
         if (active) active.style.display = 'block';
 
-        //포스터 초기화
-        const list = document.querySelector('#poster-container .list')
-        list.innerHTML = ''
+        // 포스터 초기화
+        const list = document.querySelector('#poster-container .list');
+        list.innerHTML = '';
 
-        /*const expoList = document.querySelector('#expo-list');
-        if (expoList) expoList.innerHTML = '';*/
         const poster = document.getElementById('poster-container');
-        /*const expo = document.getElementById('expo-container');*/
-        /*poster.style.display = 'none';*/
-     /*   expo.style.display = 'none';
-        expo.classList.remove('active');*/
 
-        //스플래시
+        // 스플래시
         const splashSections = document.querySelectorAll('.movie-main');
         splashSections.forEach(s => s.classList.remove('active'));
         const activeSplash = document.querySelector(`.movie-main[data-tab="${category}"]`);
@@ -171,39 +189,44 @@ categoryInputs.forEach(input => {
             updateSplashHeight();
         }
 
-        //메인 컨테니어 전환
+        // 메인 컨테이너 전환
         mainContainers.forEach(container => container.style.display = 'none');
         const posterContainerActive = document.querySelector(`#poster-container[data-tab="${category}"]`);
-        if (posterContainerActive) {
-            posterContainerActive.style.display = 'block';
-        }
+        if (posterContainerActive) posterContainerActive.style.display = 'block';
 
-        //카테고리별 함수 호출
+        // 카테고리별 함수 호출
         if (category === '영화') {
+            currentPage = 1 // 초기화
+            TMDB.PAGE = currentPage;
             poster.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
             if (posterList) posterList.style.transform = 'translateX(0)';
             if (pageBtn) pageBtn.style.transform = 'translateX(0)';
-            if (search) search.style.display = 'none'; // null 체크
-            loadMovies();
+            searchInput.value='';
+            loadMovies( currentKeyword, currentPage);
             loadTop5Movies();
-        } if (category === '도서') {
-            if (filterContainer) filterContainer.style.display = 'none';
-            if (posterList) posterList.style.transform = 'translateX(-5rem)';
-            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
+        }
+
+        if (category === '도서') {
             poster.style.display = 'block';
-            loadGoogleBooksPage();
-        } if (category === "전시/공연") {
             if (filterContainer) filterContainer.style.display = 'none';
             if (posterList) posterList.style.transform = 'translateX(-5rem)';
             if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            if (search) search.style.display = 'block'; // null 체크
-            poster.style.display = "block";
-            loadExpo();
-        } if (category === "기록"){
+            searchInput.value='';
+            loadGoogleBooksPage(1,  '');
+        }
+
+        if (category === '전시/공연') {
+            poster.style.display = 'block';
+            if (filterContainer) filterContainer.style.display = 'none';
+            if (posterList) posterList.style.transform = 'translateX(-5rem)';
+            if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
+            searchInput.value='';
+            loadExpo(1, '');
+        }
+
+        if (category === '기록') {
             poster.style.display = 'none';
-            if (search) search.style.display = 'none'; // null 체크
             loadRecords();
         }
     });
@@ -254,7 +277,6 @@ function initSplashAutoSlide() {
         }, 3000);
     });
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     initSplashAutoSlide();
 });

@@ -305,8 +305,9 @@
   transform: translateY(-50%);
   width: 1.2rem;
   height: 1.2rem;
+  cursor: pointer;
   background-image: url('/assets/images/index/main/search.png'); /* 돋보기 이미지 */
   background-size: cover;
   background-position: center;
-  pointer-events: none; /* 클릭이 input으로 전달되도록 */
+
 }
