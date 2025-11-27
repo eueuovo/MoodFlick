@@ -107,31 +107,49 @@ const filterSections = document.querySelectorAll('.filter-section');
 const mainContainers = document.querySelectorAll('#poster-container.-stretch');
 const filterContainer = document.querySelector('#filter-container');
 const posterList = document.getElementById('poster-list'); // poster-list 선택
-const pageBtn = document.getElementById('page-container'); // 페이지 버튼
+const pageBtn = document.getElementById('page-container')//페이지 버튼
+const search = document.getElementById('search')
+const wrapper = document.querySelector('.wrapper');
+const filterSearchBtn = document.querySelector('.filter-search-btn');
 const searchInput = document.getElementById('search-input'); // 서치 인풋
 const searchBtn = document.querySelector('.search-icon'); // 서치 버튼
 
-let currentCategory = ''; // 전역 변수
-let currentKeyword = ''; // 페이지가 넘어가도 키워드 고정====??
-let currentPage = 1;
+let currentCategory = ''; // 현재 선택된 탭
+
+// 카테고리별 상태 변수
+let currentMovieKeyword = '';
+let currentMoviePage = 1;
 
 
-// 공통 검색 함수 (영화, 도서)
+let currentBookKeyword = '';
+let currentBookPage = 1;
+
+
+let currentExpoKeyword = '';
+let currentExpoPage = 1;
+
+
+// ------------------- 검색 -------------------
 function searchContent() {
     const keyword = searchInput.value.trim();
-    if (!keyword) return; // 검색어 없으면 실행 안 함
+    if (!keyword) return;
 
-    currentKeyword = keyword;// 전역 변수에 저장
-    currentPage = 1;
-    TMDB.PAGE= currentPage;
+
+    if (!currentCategory) currentCategory = '영화';
+
     if (currentCategory === '영화') {
-        TMDB.PAGE = 1; // 영화 검색 시 페이지 초기화
-        loadMovies(currentKeyword,1); // 영화 검색
-
-    } else if(currentCategory === '도서') {
-        loadGoogleBooksPage(1, currentKeyword); // 도서 검색
-    } else if(currentCategory === '전시/공연'){
-        loadExpo(1,keyword);
+        currentMovieKeyword = keyword;
+        currentMoviePage = 1;
+        TMDB.PAGE = currentMoviePage;
+        loadMovies(currentMovieKeyword, currentMoviePage);
+    } else if (currentCategory === '도서') {
+        currentBookKeyword = keyword;
+        currentBookPage = 1;
+        loadGoogleBooksPage(currentBookPage, currentBookKeyword);
+    } else if (currentCategory === '전시/공연') {
+        currentExpoKeyword = keyword;
+        currentExpoPage = 1;
+        loadExpo(currentExpoPage, currentExpoKeyword);
     }
 }
 
@@ -152,7 +170,9 @@ if (!searchBtn.dataset.listenerAdded) {
 categoryInputs.forEach(input => {
     input.addEventListener('change', () => {
         const category = input.value;
+
         currentCategory = category; // 현재 카테고리 업데이트
+        /*searchInput.value = '';*/
 
         // 기록 컨테이너 숨기기
         const recordContainer = document.getElementById('record-container');
@@ -196,37 +216,51 @@ categoryInputs.forEach(input => {
 
         // 카테고리별 함수 호출
         if (category === '영화') {
-            currentPage = 1 // 초기화
-            TMDB.PAGE = currentPage;
-            poster.style.display = 'block';
+            currentMoviePage = 1 // 초기화
+            TMDB.PAGE = currentMoviePage
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'block';
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'block';
+            if (filterWrapper) filterWrapper.style.display = 'block';
             if (posterList) posterList.style.transform = 'translateX(0)';
             if (pageBtn) pageBtn.style.transform = 'translateX(0)';
-            searchInput.value='';
-            loadMovies( currentKeyword, currentPage);
+            searchInput.value= currentMovieKeyword
+            poster.style.display = 'block';
+            loadMovies( currentMovieKeyword, currentMoviePage);
             loadTop5Movies();
-        }
-
-        if (category === '도서') {
-            poster.style.display = 'block';
+        } if (category === '도서') {
+            if (wrapper) wrapper.style.display = 'block';
             if (filterContainer) filterContainer.style.display = 'none';
+            if (search) search.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
             if (posterList) posterList.style.transform = 'translateX(-5rem)';
             if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            searchInput.value='';
-            loadGoogleBooksPage(1,  '');
-        }
-
-        if (category === '전시/공연') {
-            poster.style.display = 'block';
+            poster.style.display = "block";
+            searchInput.value= currentBookKeyword;
+            loadGoogleBooksPage(1,  currentBookKeyword);
+        } if (category === "전시/공연") {
+            if (wrapper) wrapper.style.display = 'block';
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
             if (filterContainer) filterContainer.style.display = 'none';
+            if (search) search.style.display = 'block';
+            if (wrapper) wrapper.classList.add('centered');
+            if (filterWrapper) filterWrapper.style.display = 'none';
             if (posterList) posterList.style.transform = 'translateX(-5rem)';
             if (pageBtn) pageBtn.style.transform = 'translateX(-7rem)';
-            searchInput.value='';
-            loadExpo(1, '');
-        }
+            poster.style.display = "block";
+            searchInput.value=currentExpoKeyword;
+            loadExpo(1, currentExpoKeyword);
 
-        if (category === '기록') {
-            poster.style.display = 'none';
+        } if (category === "기록") {
+            if (wrapper) wrapper.style.display = 'none';
+            if (poster) poster.style.display = 'none';
+            if (search) search.style.display = 'none'; // 검색창 숨기기
+            if (recordContainer) recordContainer.style.display = 'block'; // 기록 컨테이너 보이기
+            if (filterSearchBtn) filterSearchBtn.style.display = 'none';
+            if (filterWrapper) filterWrapper.style.display = 'none';
             loadRecords();
         }
     });
@@ -459,7 +493,7 @@ export function createCardElement(data, type) {
                                 </div>
                             </div>
                             <textarea id="review-input" class="review-input"
-                            placeholder="리뷰를 입력하세요"
+                            placeholder="메모 및 한줄평을 기록해주세요."
                             ${existingReview ? 'readonly' : ''} 
                             style="${existingReview ? 'background-color: #f3f4f6; cursor: default;' : ''}"
                             >${existingReview?.text ?? ''}</textarea>

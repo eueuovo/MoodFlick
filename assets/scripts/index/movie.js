@@ -92,9 +92,32 @@ function renderMovies(results) {
     const list = document.querySelector('#poster-container .list');
     list.innerHTML = '';
 
+    if (!results || results.length === 0) {
+        list.innerHTML = `
+            <div class="no-results" style="display:flex; flex-direction: column; align-items:center; justify-content:center; padding:2rem;">
+                <img src="assets/images/index/main/search.png" alt="검색 결과 없음" style="width:2rem; height:2rem;">
+                <p>검색어 "${currentKeyword}"에 해당하는 영화를 찾을 수 없습니다.<br>다른 키워드로 검색해 보세요.</p>
+            </div>
+        `;
+
+        const pageContainer = document.querySelector('#page-container');
+        if (pageContainer) {
+            pageContainer.style.paddingLeft = '4rem';
+            pageContainer.innerHTML = `
+                <button class="page-btn first" disabled>«</button>
+                <button class="page-btn prev" disabled><</button>
+                <span class="page-number active">1</span>
+                <button class="page-btn next" disabled>></button>
+                <button class="page-btn last" disabled>»</button>
+            `;
+        }
+        return;
+    }
+
     const frag = document.createDocumentFragment();
 
     results.slice(0,10).forEach(m => {
+        const fivePointScore = (m.vote_average / 2).toFixed(1);
         const cardData = {
             id: m.id,
             description: '클릭하여 영화 상세 보기',
@@ -104,7 +127,7 @@ function renderMovies(results) {
                 : 'assets/images/index/main/no-poster.png',
             title: m.title || m.name,
             subtitle: m.release_date || '',
-            score: Math.round(m.vote_average * 10),
+            score: fivePointScore,
             scoreUnit: '%',
         };
         frag.appendChild(createCardElement(cardData, 'movie'));
@@ -157,8 +180,13 @@ function renderTop5(movies) {
             if (img) img.src = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : 'assets/images/index/main/no-poster.png';
-            if (title) title.textContent = movie.title || movie.name;
-            if (score) score.textContent = `★ ${movie.vote_average.toFixed(1)}`;
+            if (title){
+                const movieTitle = movie.title || movie.name;
+                title.textContent = movieTitle.length > 15
+                ? movieTitle.slice(0, 15) + '...'
+                : movieTitle;
+            }
+            if (score) score.textContent = `★ ${(movie.vote_average / 2).toFixed(1)}`;
         }
     });
 }

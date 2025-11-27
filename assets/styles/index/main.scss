@@ -2,19 +2,42 @@
 @import "../def";
 
 #main-container {
-  @include flex(row, flex-start, flex-start, 2rem);
+  @include flex(row, flex-start, flex-start);
   width: 100%;
   min-height: 100vh;
-  padding: 0 7rem;
+  padding: 0 9rem;
   box-sizing: border-box;
 
   > .wrapper {
-    @include flex(column, center, flex-start, 1.5rem);
+    @include flex(column, center, flex-start);
     flex: 1;
     min-width: 0;
     //height: 100%;
     //width: 100%;
-    padding-top: $menu-height;
+    padding: $menu-height 2rem 2rem 2rem;
+    margin-top: 1rem;
+
+    &.centered{
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+
+      #poster-list{
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        padding: 0 1rem;
+      }
+
+      #page-container{
+        transform: none;
+      }
+
+      #search {
+        max-width: 100%;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
   }
 }
 
@@ -202,7 +225,26 @@
   }
 }
 
-// 수정
+@media (max-width: 650px) {
+  .record-card .record-info {
+    display: none !important;
+  }
+
+  .record-card {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .record-card .record-poster {
+    width: 8rem;
+    height: 12rem;
+    margin-bottom: 0;
+  }
+}
+
 .edit-review-modal {
   display: flex;
   flex-direction: column;
@@ -215,6 +257,48 @@
     font-weight: 600;
     color: #111827;
     margin: 0;
+  }
+
+  > .stars{
+    padding: 0.5rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 0.15rem;
+
+    > .star-caption{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #21212190;
+      padding: 0 0.2rem;
+    }
+
+    > .star{
+      width: 1.2rem;
+      height: 1.2rem;
+      display: inline-block;
+      background-image: url('/assets/images/index/modal/star.png');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+
+      &.half {
+        background-image: url('/assets/images/index/modal/half-star.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      &.full{
+        background-image: url('/assets/images/index/modal/fill-star.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
   }
 
   > .subtitle {
@@ -280,12 +364,13 @@
   width: 100%;
   max-width: 70rem;
   box-sizing: border-box;
+  padding: 0 1rem;
   margin-bottom: 0.5rem;
 }
 
 #search-input {
   width: 100%;
-  padding: 1rem 2.5rem 1rem 0.75rem; /* 오른쪽 여백 확보 */
+  padding: 1rem 1.5rem;
   border: 0.0625rem solid #ccc;
   border-radius: 1.5rem;
   font-size: 0.9rem;
@@ -295,13 +380,13 @@
 }
 
 #search-input:focus {
-  border-color: #16a34a; /* 초록 포커스 */
+  border-color: #16a34a;
 }
 
 .search-icon {
   position: absolute;
   top: 50%;
-  right: 0.75rem;
+  right: 2rem;
   transform: translateY(-50%);
   width: 1.2rem;
   height: 1.2rem;

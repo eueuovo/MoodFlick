@@ -1,8 +1,6 @@
 // expo.js
 import { createCardElement, dialogHandler } from '../index.js';
 
-
-
 /* ===========================================================
    1. EXPO API 요청 (XML → JSON)
 =========================================================== */
@@ -75,7 +73,7 @@ export async function fetchExpo(page = 1, rows = 12, keyword ='') {
 
 export async function loadExpo(page = 1, keyword='') {
     const list = document.querySelector('#poster-container .list');
-
+    if(list) list.innerHTML = '';
     const { items, totalCount } = await fetchExpo(page, 12, keyword);
 
     if (!items.length) {
@@ -101,9 +99,6 @@ export async function loadExpo(page = 1, keyword='') {
         return;
     }
 
-
-    // 카드 렌더링
-    list.innerHTML = '';
     items.forEach(expo => {
         const imageUrl = expo.thumbnail?.trim() || 'assets/images/index/main/no-poster.png';
         const cardData = {

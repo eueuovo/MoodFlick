@@ -143,7 +143,7 @@ function createRecordCard(record) {
                 <p class="review-text">${reviewData.text}</p>
             </div>
             <div class="record-footer">
-                <span class="review-date">${formattedDate}에 작성한 리뷰</span>
+                <span class="review-date">${formattedDate}에 작성한 기록</span>
                 <div class="record-actions">
                     <button class="btn-edit" data-key="${record.key}">수정</button>
                     <button class="btn-delete" data-key="${record.key}">삭제</button>
@@ -174,7 +174,7 @@ function editReview(reviewKey, title, reviewData) {
             
                 <h3>${title}</h3>
                 <div class="stars" id="edit-review-stars">
-                    <span class="star-caption">내가 준 점수</span>
+                    <span class="star-caption">내 평점</span>
                     <span class="star" data-index="0"></span>
                     <span class="star" data-index="1"></span>
                     <span class="star" data-index="2"></span>

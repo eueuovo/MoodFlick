@@ -5,8 +5,8 @@ const itemsPerPage = 12;
 let totalItems = 0; // API에서 받은 전체 결과 수
 let totalPages = 1;
 
-// ⭐ 전체 도서 데이터를 한 번에 가져오는 loadAllBooks 함수는 제거됩니다.
-// ⭐ loadGoogleBooksPage 함수가 API를 직접 호출하도록 수정됩니다.
+// 전체 도서 데이터를 한 번에 가져오는 loadAllBooks 함수는 제거됩니다.
+// loadGoogleBooksPage 함수가 API를 직접 호출하도록 수정됩니다.
 // export function loadAllBooks() { ... } // 이 함수는 이제 필요 없습니다.
 
 // 특정 페이지 로드 (페이지 이동 시마다 API를 호출)
@@ -20,9 +20,6 @@ export async function loadGoogleBooksPage(page = 1,keyword =currentKeyword) {
     if (list) {
         list.innerHTML = `<p>데이터를 불러오는 중...</p>`;
     }
-
-
-
     // keyword가 있으면 제목 필드로 제한, 없으면 기본 subject:fiction
     const query = encodeURIComponent(
         keyword ? `intitle:"${keyword}"` : 'subject:fiction');
@@ -55,6 +52,7 @@ export async function loadGoogleBooksPage(page = 1,keyword =currentKeyword) {
         `;
             totalItems = 0;
             totalPages = 1;
+
 
 
             const pageContainer = document.querySelector('#page-container');
@@ -95,6 +93,7 @@ function renderGoogleBooks(items) {
         const volumeInfo = b.volumeInfo;
         const fullDesc = volumeInfo.description || '도서 설명이 없습니다.';
         const cardData = {
+            id: b.id,
             image: volumeInfo.imageLinks?.thumbnail || 'assets/images/index/main/no-poster.png',
             title: volumeInfo.title,
             subtitle: `${volumeInfo.authors?.join(", ") || ""} · ${volumeInfo.publishedDate || ""}`,
@@ -110,56 +109,49 @@ function renderGoogleBooks(items) {
 let currentKeyword;
 // 페이지네이션 렌더링 (변경 없음)
 function renderPagination() {
-    const numbersBox = document.querySelector('#page-container > .page-numbers');
-    const firstBtn = document.querySelector('#page-container > .first');
-    const prevBtn = document.querySelector('#page-container > .prev');
-    const nextBtn = document.querySelector('#page-container > .next');
-    const lastBtn = document.querySelector('#page-container > .last');
+    const container = document.querySelector('#page-container');
+    if (!container) return;
 
+    container.innerHTML = `
+        <button class="page-btn first">«</button>
+        <button class="page-btn prev"><</button>
+        <div class="page-numbers"></div>
+        <button class="page-btn next">></button>
+        <button class="page-btn last">»</button>
+    `;
 
-    const pageContainer = document.querySelector('#page-container');
+    const numbersBox = container.querySelector('.page-numbers');
+    const firstBtn = container.querySelector('.first');
+    const prevBtn = container.querySelector('.prev');
+    const nextBtn = container.querySelector('.next');
+    const lastBtn = container.querySelector('.last');
 
-
-
-    if (!numbersBox) {
-        console.error('페이지네이션 컨테이너를 찾을 수 없습니다.');
-        return;
-    }
-
-    numbersBox.innerHTML = '';
-
+    // 숫자 페이지 버튼
     const maxVisible = 5;
     let start = currentPage - Math.floor(maxVisible / 2);
     let end = currentPage + Math.floor(maxVisible / 2);
-
-    if (start < 1) {
-        end += (1 - start);
-        start = 1;
-    }
-    if (end > totalPages) {
-        start -= (end - totalPages);
-        end = totalPages;
-    }
+    if (start < 1) { end += 1 - start; start = 1; }
+    if (end > totalPages) { start -= (end - totalPages); end = totalPages; }
     if (start < 1) start = 1;
 
     for (let i = start; i <= end; i++) {
         const btn = document.createElement('button');
         btn.textContent = i;
         btn.classList.add('page-number');
-        if (i === currentPage) {
-            btn.classList.add('active');
-        }
-        btn.addEventListener('click', () => {
-            loadGoogleBooksPage(i,currentKeyword);
-        });
+        if (i === currentPage) btn.classList.add('active');
+        btn.addEventListener('click', () => loadGoogleBooksPage(i, currentKeyword));
         numbersBox.appendChild(btn);
     }
 
-    // 버튼 활성화/비활성화
-    if (firstBtn) firstBtn.disabled = currentPage === 1;
-    if (prevBtn) prevBtn.disabled = currentPage === 1;
-    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
-    if (lastBtn) lastBtn.disabled = currentPage === totalPages;
+    // <<, <, >, >> 버튼 이벤트
+    firstBtn.addEventListener('click', () => { if (currentPage > 1) loadGoogleBooksPage(1, currentKeyword); });
+    prevBtn.addEventListener('click', () => { if (currentPage > 1) loadGoogleBooksPage(currentPage - 1, currentKeyword); });
+    nextBtn.addEventListener('click', () => { if (currentPage < totalPages) loadGoogleBooksPage(currentPage + 1, currentKeyword); });
+    lastBtn.addEventListener('click', () => { if (currentPage < totalPages) loadGoogleBooksPage(totalPages, currentKeyword); });
+
+    // 버튼 활성/비활성
+    firstBtn.disabled = prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = lastBtn.disabled = currentPage === totalPages;
 }
 
 // 버튼 이벤트 리스너 (DOMContentLoaded 시 loadGoogleBooksPage(1) 호출로 수정)

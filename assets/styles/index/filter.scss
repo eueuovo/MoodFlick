@@ -7,25 +7,28 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: calc(#{$menu-height} + 1rem);
-  height: calc(100vh - #{$menu-height} - 1rem);
+  padding-top: $filter-padding-area;
   margin-bottom: 4.5rem;
+  border-radius: 0.5rem;
 
   #filter-container {
     flex: 1;
     width: 100%;
-    margin-top: calc($menu-height + 1.5rem);
     overflow-y: auto;
     overflow-x: hidden;
-    border-top-left-radius: 0.75rem;
-    border-top-right-radius: 0.75rem;
-    box-shadow: 0 0.625rem 2rem #0F172A1E;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    box-shadow: 0 0.8rem 2.5rem #A0A0A066;
+    min-height: 76vh;
+    background-color: #F5F5F5;
+    border: 1px solid rgba(160, 160, 160, 0.4);
+
 
     .filter-section {
       min-height: 100%;
       display: none;
       padding: 0 1.5rem;
-      background-color: #ffffff;
+      background-color: #F5F5F5;
       flex-direction: column;
 
       &[data-tab="영화"] {
@@ -36,27 +39,51 @@
         font-size: 1.5rem;
         font-weight: 700;
         padding: 2rem 0 0.5rem;
-        color: #111827;
-        border-bottom: 2px solid #e5e7eb;
+        color: #333333;
+        border-bottom: 3px dashed #DEDEDE;
         margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.3rem;
+
+        > .img{
+          width: 2rem;
+          height: 2rem;
+        }
       }
 
       .filter-title {
         font-size: 1.5rem;
         font-weight: 700;
-        padding: 4rem 0 0.5rem;
-        color: #111827;
-        border-bottom: 2px solid #e5e7eb;
+        padding: 3rem 0 0.5rem;
+        color: #333333;
+        border-bottom: 3px dashed #DEDEDE;
         margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.3rem;
+
+        > .img{
+          width: 2rem;
+          height: 2rem;
+        }
       }
 
       select {
         width: 11.3rem;
         padding: 0.5rem;
-        border-radius: 0.3rem;
+        border-radius: 0.5rem;
         font-size: 1rem;
-        border: 0.0625rem solid #21212130;
-
+        border: 2px solid #DEDEDE;
+        background-color: #FFFFFF;
+        color: #333333;
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23A0A0A0" d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.5em;
       }
 
       .filter-block {
@@ -69,7 +96,7 @@
         .label {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #333;
+          color: #333333;
           padding: 0.7rem 0;
         }
 
@@ -78,13 +105,15 @@
           display: flex;
           align-items: center;
           cursor: pointer;
+          color: #333333;
 
           input {
             transform: scale(1.2);
+            accent-color: #A0A0A0;
+            border-color: #DEDEDE;
           }
         }
 
-        /* 날짜 범위 */
         .date-range {
           display: flex;
           gap: 0.8rem;
@@ -104,14 +133,18 @@
             width: 9.3rem;
             height: 2rem;
             padding: 0.5rem;
-            border-radius: 0.3rem;
-            border: 0.0625px solid #21212130;
+            border-radius: 0.5rem;
+            border: 2px solid #DEDEDE;
             font-size: 0.85rem;
             line-height: 2rem;
+            background-color: #FFFFFF;
+            color: #333333;
+            &::-webkit-calendar-picker-indicator {
+              filter: invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(100%);
+            }
           }
         }
 
-        /* 장르 */
         .genre {
           display: flex;
           flex-wrap: wrap;
@@ -120,38 +153,42 @@
 
           li {
             padding: 0.2rem 0.5rem;
-            background: #f5f5f7;
-            border-radius: 0.5rem;
+            background: #F0F0F0;
+            border-radius: 1rem;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s;
+            border: 1px solid #DEDEDE;
+            color: #333333;
 
             &:hover {
-              background: #e7e7ea;
+              background: #E0E0E0;
             }
 
             &.active {
-              background: #4b7bec;
+              background: #A0A0A0;
               color: #fff;
+              font-weight: 600;
+              border-color: #A0A0A0;
             }
           }
         }
       }
     }
 
-    /* 행사/전시 영역 */
     .filter-block {
       padding-bottom: 1rem;
 
       .event {
         font-size: 1.3rem;
         font-weight: 700;
+        color: #333333;
       }
 
       > .sub-label {
         font-size: 1.2rem;
         font-weight: 600;
-        color: #333;
+        color: #333333;
         padding: 0.7rem 0;
       }
 
@@ -162,65 +199,72 @@
 
         li {
           padding: 0.2rem 0.5rem;
-          background: #f5f5f7;
-          border-radius: 0.5rem;
+          background: #F0F0F0;
+          border-radius: 1rem;
           font-size: 1rem;
           cursor: pointer;
           transition: all 0.2s;
+          border: 1px solid #DEDEDE;
+          color: #333333;
 
           &:hover {
-            background: #e3e4e8;
+            background: #E0E0E0;
           }
 
           &.selected {
-            background: #4b7bec;
+            background: #A0A0A0;
             color: #fff;
+            font-weight: 600;
+            border-color: #A0A0A0;
           }
         }
       }
 
-      /* 체크박스 라벨 */
       label {
         display: flex;
         align-items: center;
         gap: 0.5rem;
         margin-right: 0.8rem;
         cursor: pointer;
+        color: #333333;
 
         input {
           transform: scale(1.2);
+          accent-color: #A0A0A0;
+          border-color: #DEDEDE;
         }
       }
     }
 
     @media (max-width: 48rem) {
       #filter-container .filter-section .filter-block .date-range {
-        flex-direction: column !important;
-        display: flex !important;
+        flex-direction: column;
+        display: flex;
         gap: 0.8rem;
       }
     }
   }
 
-  /*검색 버튼*/
   .filter-search-btn {
     z-index: 10;
     width: 15rem;
     padding: 0.7rem 1.4rem;
-    background: #4b7bec;
+    background: #A0A0A0;
     color: #fff;
     font-size: 1.2rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
-    border-bottom-left-radius: 0.75rem;
-    border-bottom-right-radius: 0.75rem;
-    box-shadow: 0 0.625rem 2rem #0F172A1E;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    box-shadow: 0 0.8rem 2.5rem #A0A0A066;
     transition: background 0.2s;
+    &::before {
+      content: "🔍 ";
+    }
 
     &:hover {
-      background: #3c6bd0;
+      background: #777777;
     }
   }
 }
-
