@@ -157,7 +157,12 @@ function renderTop5(movies) {
             if (img) img.src = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : 'assets/images/index/main/no-poster.png';
-            if (title) title.textContent = movie.title || movie.name;
+            if (title){
+                const movieTitle = movie.title || movie.name;
+                title.textContent = movieTitle.length > 15
+                ? movieTitle.slice(0, 15) + '...'
+                : movieTitle;
+            }
             if (score) score.textContent = `★ ${(movie.vote_average / 2).toFixed(1)}`;
         }
     });
