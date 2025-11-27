@@ -34,6 +34,7 @@
     </div>
     <div class="logo">Culture Log</div>
     <div class="my-nav">
+        <button class="button update" type="button">정보수정</button>
         <button class="button logout" type="button">로그아웃</button>
     </div>
 </div>
@@ -166,8 +167,8 @@
             <!-- 영화 정렬 -->
             <div class="filter-section filter-movie" data-tab="영화">
                 <div class="array-title">
-                    정렬
-                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    <img class="img" src="assets/images/index/filter/array.png" alt="">
+                    <span class="text">정렬</span>
                 </div>
                 <select class="sort-select">
                     <option value="screening-desc">출시일 ↓ (최신)</option>
@@ -177,13 +178,12 @@
                 </select>
                 <!-- 볼 수 있는 곳(필터) -->
                 <div class="filter-title">
-                    필터
-                    <i class="fa-solid fa-filter"></i>
+                    <img class="img" src="assets/images/index/filter/filter.png" alt="">
+                    <span class="text">필터</span>
                 </div>
                 <!-- 개봉일 선택 -->
                 <div class="filter-block">
                     <div class="label">
-                        <i class="fa-solid fa-calendar-days"></i>
                         기간
                     </div>
                     <div class="date-range">
@@ -193,7 +193,6 @@
                 </div>
                 <div class="filter-block">
                     <div class="label">
-                        <i class="fa-solid fa-layer-group"></i>
                         영화 장르
                     </div>
                     <ul class="genre">
@@ -400,11 +399,66 @@
                            placeholder="비밀번호를 입력해 주세요.">
                 </label>
                 <label class="label">
-                    <input required class="input" id="signup-nickname" type="text" minlength="5" maxlength="50"
+                    <input required class="input" id="signup-nickname" type="text" minlength="2" maxlength="50"
                            placeholder="닉네임을 입력해 주세요.">
                 </label>
                 <button type="submit" class="signup-submit-button">회원 가입</button>
                 <button type="button" class="close-button">닫기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="update-panel">
+    <div class="update-content">
+        <div class="panel-header">
+            <h2>정보수정</h2>
+        </div>
+        <form class="update-form">
+            <div class="form-group">
+                <label class="form-label">현재 이메일</label>
+                <div class="current-info" id="current-email">user@example.com</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">새 비밀번호</label>
+                <input
+                        type="password"
+                        class="form-input"
+                        id="new-password"
+                        placeholder="변경할 비밀번호를 입력하세요 (선택사항)"
+                        minlength="5"
+                        maxlength="50"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input
+                        type="password"
+                        class="form-input"
+                        id="confirm-password"
+                        placeholder="비밀번호를 다시 입력하세요"
+                        minlength="5"
+                        maxlength="50"
+                >
+            </div>
+            <div class="form-group">
+                <label class="form-label">닉네임</label>
+                <input
+                        type="text"
+                        class="form-input"
+                        id="new-nickname"
+                        placeholder="새 닉네임을 입력하세요"
+                        minlength="2"
+                        maxlength="50"
+                        required
+                >
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">수정 완료</button>
+                <button type="button" class="cancel-btn">취소</button>
             </div>
         </form>
     </div>

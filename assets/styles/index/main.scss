@@ -225,7 +225,26 @@
   }
 }
 
-// 수정
+@media (max-width: 650px) {
+  .record-card .record-info {
+    display: none !important;
+  }
+
+  .record-card {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .record-card .record-poster {
+    width: 8rem;
+    height: 12rem;
+    margin-bottom: 0;
+  }
+}
+
 .edit-review-modal {
   display: flex;
   flex-direction: column;
@@ -351,7 +370,7 @@
 
 #search-input {
   width: 100%;
-  padding: 1rem 2.5rem 1rem 0.75rem; /* 오른쪽 여백 확보 */
+  padding: 1rem 1.5rem;
   border: 0.0625rem solid #ccc;
   border-radius: 1.5rem;
   font-size: 0.9rem;
@@ -361,7 +380,7 @@
 }
 
 #search-input:focus {
-  border-color: #16a34a; /* 초록 포커스 */
+  border-color: #16a34a;
 }
 
 .search-icon {
