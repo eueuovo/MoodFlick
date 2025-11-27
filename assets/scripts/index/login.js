@@ -4,15 +4,13 @@ import { loadMovies } from './movie.js';
 const $loginContainer = document.getElementById("login-container");
 const $loginPage = $loginContainer.querySelector('.login-page');
 const $loginForm = $loginContainer.querySelector('.login-form');
-const $loginBtn = $loginContainer.querySelector('.login-button');
 const $signupBtn = $loginContainer.querySelector('.signup-button');
 const $signupPage = $loginContainer.querySelector('.signup-page');
 const $signupForm = $loginContainer.querySelector('.signup-form');
-const $signupSubmitBtn = $loginContainer.querySelector('.signup-submit-button');
 const $closeButton = $loginContainer.querySelector('.close-button');
 const $menuContainer = document.getElementById("menu-container");
 const $logoutBtn = $menuContainer.querySelector('.button.logout');
-const $myPageBtn = $menuContainer.querySelector('.button.my-page');
+const $updateBtn = $menuContainer.querySelector('.button.update');
 
 //로그인 모달 창 띄우기
 document.addEventListener('DOMContentLoaded', () => {
@@ -126,4 +124,98 @@ $signupForm.addEventListener('submit', (e) => {
 
     $loginPage.querySelector('#email').value = "";
     $loginPage.querySelector('#password').value = "";
+});
+
+
+// auth.js 파일에 추가할 코드
+
+const $updatePanel = document.getElementById('update-panel');
+const $updateForm = $updatePanel.querySelector('.update-form');
+const $cancelBtn = $updatePanel.querySelector('.cancel-btn');
+
+// 정보수정 패널 열기
+$updateBtn.addEventListener('click', () => {
+    const currentUser = localStorage.getItem('currentUser');
+
+    if (!currentUser) {
+        dialogHandler.showSimpleOk('로그인이 필요합니다.');
+        return;
+    }
+
+    const storedUser = localStorage.getItem(`email${currentUser}`);
+    if (!storedUser) {
+        dialogHandler.showSimpleOk('사용자 정보를 찾을 수 없습니다.');
+        return;
+    }
+
+    const userData = JSON.parse(storedUser);
+
+    // 현재 정보 표시
+    $updatePanel.querySelector('#current-email').textContent = userData.email;
+    $updatePanel.querySelector('#new-nickname').value = userData.nickname;
+    $updatePanel.querySelector('#new-password').value = '';
+    $updatePanel.querySelector('#confirm-password').value = '';
+
+    // 패널 표시
+    $updatePanel.classList.add('visible');
+});
+
+// 패널 닫기
+function closeUpdatePanel() {
+    $updatePanel.classList.remove('visible');
+}
+
+$cancelBtn.addEventListener('click', closeUpdatePanel);
+
+// 정보수정 제출
+$updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const currentUser = localStorage.getItem('currentUser');
+    const storedUser = localStorage.getItem(`email${currentUser}`);
+    const userData = JSON.parse(storedUser);
+
+    const newPassword = $updatePanel.querySelector('#new-password').value.trim();
+    const confirmPassword = $updatePanel.querySelector('#confirm-password').value.trim();
+    const newNickname = $updatePanel.querySelector('#new-nickname').value.trim();
+
+    // 닉네임 필수 체크
+    if (!newNickname) {
+        dialogHandler.showSimpleOk('닉네임을 입력해주세요.');
+        return;
+    }
+
+    // 수정된 내용이 있는지 확인
+    const isPasswordChanged = newPassword.length > 0 || confirmPassword.length > 0;
+    const isNicknameChanged = newNickname !== userData.nickname;
+
+    if (!isPasswordChanged && !isNicknameChanged) {
+        dialogHandler.showSimpleOk('수정 할 정보가 없습니다.');
+        return;
+    }
+
+    // 비밀번호 변경 시 확인
+    if (isPasswordChanged) {
+        if (newPassword !== confirmPassword) {
+            dialogHandler.showSimpleOk('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        if (newPassword.length < 5) {
+            dialogHandler.showSimpleOk('비밀번호는 최소 5자 이상이어야 합니다.');
+            return;
+        }
+
+        // 비밀번호 업데이트
+        userData.password = newPassword;
+    }
+
+    // 닉네임 업데이트
+    userData.nickname = newNickname;
+
+    // 저장
+    localStorage.setItem(`email${currentUser}`, JSON.stringify(userData));
+
+    dialogHandler.showSimpleOk('정보가 수정되었습니다.');
+    closeUpdatePanel();
 });

@@ -96,6 +96,7 @@ function renderMovies(results) {
     const frag = document.createDocumentFragment();
 
     results.slice(0,10).forEach(m => {
+        const fivePointScore = (m.vote_average / 2).toFixed(1);
         const cardData = {
             id: m.id,
             description: '클릭하여 영화 상세 보기',
@@ -105,7 +106,7 @@ function renderMovies(results) {
                 : 'assets/images/index/main/no-poster.png',
             title: m.title || m.name,
             subtitle: m.release_date || '',
-            score: Math.round(m.vote_average * 10),
+            score: fivePointScore,
             scoreUnit: '%',
         };
         frag.appendChild(createCardElement(cardData, 'movie'));
@@ -158,8 +159,13 @@ function renderTop5(movies) {
             if (img) img.src = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : 'assets/images/index/main/no-poster.png';
-            if (title) title.textContent = movie.title || movie.name;
-            if (score) score.textContent = `★ ${movie.vote_average.toFixed(1)}`;
+            if (title){
+                const movieTitle = movie.title || movie.name;
+                title.textContent = movieTitle.length > 15
+                ? movieTitle.slice(0, 15) + '...'
+                : movieTitle;
+            }
+            if (score) score.textContent = `★ ${(movie.vote_average / 2).toFixed(1)}`;
         }
     });
 }
